@@ -1,7 +1,7 @@
 /* ============================================================
    Responsible AI — Design Tokens
-   Version: 1.0 | March 2026
-   Style: Forest & Moss — Warm Editorial Minimalism
+   Version: 1.1 | March 2026
+   Style: Deep Teal — Warm Editorial Minimalism
    Import this file into any page stylesheet.
    ============================================================ */
 
@@ -18,19 +18,19 @@
   /* ── Colors ────────────────────────────── */
 
   /* Core */
-  --color-primary:      #2B4A35;   /* Deep Forest — hero bg, headings, icon strokes */
-  --color-secondary:    #7A9E6E;   /* Warm Moss — CTA buttons, callout borders */
-  --color-bg:           #F9F6F1;   /* Warm White — page background */
-  --color-surface:      #EDE8DF;   /* Soft Cream — cards, section backgrounds */
-  --color-text:         #1E2A23;   /* Deep Slate — all body text */
-  --color-text-muted:   #6B7B6E;   /* Warm Gray — captions, labels, metadata */
+  --color-primary:      #014D44;   /* Deep Teal — hero bg, headings, icon strokes */
+  --color-secondary:    #6B9E5E;   /* Warm Moss — CTA buttons, callout borders */
+  --color-bg:           #F7F5F0;   /* Warm Ivory — page background */
+  --color-surface:      #EDE8DE;   /* Soft Cream — cards, section backgrounds */
+  --color-text:         #0F2420;   /* Teal Black — all body text */
+  --color-text-muted:   #5E7872;   /* Teal Gray — captions, labels, metadata */
   --color-accent:       #C4623A;   /* Terracotta — high-impact stats, warnings */
-  --color-success:      #3D7A73;   /* Muted Teal — habits, tips, positive content */
+  --color-success:      #5B9994;   /* Soft Teal — habits, tips, positive content */
 
   /* Functional */
-  --color-border:       rgba(30, 42, 35, 0.08);
-  --color-overlay:      rgba(43, 74, 53, 0.09);
-  --color-callout-bg:   rgba(122, 158, 110, 0.08);
+  --color-border:       rgba(1, 77, 68, 0.08);
+  --color-overlay:      rgba(1, 77, 68, 0.09);
+  --color-callout-bg:   rgba(107, 158, 94, 0.08);
   --color-accent-bg:    rgba(196, 98, 58, 0.08);
 
   /* White (for text on dark backgrounds) */
@@ -234,7 +234,7 @@ p { line-height: var(--leading-relaxed); }
 }
 
 .btn-secondary:hover {
-  background: var(--color-overlay);
+  background: rgba(1, 77, 68, 0.06);
   opacity: 1;
 }
 

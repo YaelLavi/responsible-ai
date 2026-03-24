@@ -237,5 +237,5 @@ padding: 0 24px;
 
 ---
 
-*Design system locked March 2026. Based on Option A (Forest & Moss) from design-preview.html.*
+*Design system locked March 2026. Based on Option B (Deep Teal) from design-preview.html.*
 *Primary campaign document: summary.md*
