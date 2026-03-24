@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Responsible AI — Every request costs something. Use it wisely.</title>
+  <meta name="description" content="A public awareness campaign about the hidden environmental and ethical costs of AI. Learn to use AI more responsibly." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400;1,9..144,600&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="design-system/tokens.css" />
+
+  <style>
+    /* ── Smooth scroll ── */
+    html { scroll-behavior: smooth; }
+
+    /* ── Page fade-in ── */
+    body {
+      opacity: 0;
+      animation: pageIn 0.5s ease-out 0.1s forwards;
+    }
+    @keyframes pageIn {
+      to { opacity: 1; }
+    }
+
+    /* ════════════════════════════════════
+       NAVIGATION
+    ════════════════════════════════════ */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--color-bg);
+      border-bottom: 1px solid var(--color-border);
+      backdrop-filter: blur(8px);
+    }
+    .nav__inner {
+      max-width: var(--container-max);
+      margin-inline: auto;
+      padding-inline: var(--container-gutter);
+      height: 64px;
+      display: flex;
+      align-items: center;
+      gap: var(--space-7);
+    }
+    .nav__logo {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--color-primary);
+      text-decoration: none;
+      letter-spacing: -0.02em;
+      flex-shrink: 0;
+    }
+    .nav__logo span {
+      color: var(--color-secondary);
+    }
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: var(--space-5);
+      list-style: none;
+      margin-left: auto;
+    }
+    .nav__links a {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+      white-space: nowrap;
+    }
+    .nav__links a:hover { color: var(--color-primary); }
+    .nav__links a.active { color: var(--color-primary); }
+    .nav__links a.active::after {
+      content: '';
+      display: block;
+      height: 2px;
+      background: var(--color-secondary);
+      border-radius: 2px;
+      margin-top: 2px;
+    }
+
+    /* Hamburger */
+    .nav__hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      margin-left: auto;
+    }
+    .nav__hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--color-primary);
+      border-radius: 2px;
+      transition: transform var(--transition-base), opacity var(--transition-fast);
+    }
+    .nav__hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav__hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav__hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .nav__mobile {
+      display: none;
+      flex-direction: column;
+      gap: 0;
+      background: var(--color-bg);
+      border-top: 1px solid var(--color-border);
+      padding: var(--space-4) var(--container-gutter);
+    }
+    .nav__mobile.open { display: flex; }
+    .nav__mobile a {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      text-decoration: none;
+      padding: var(--space-3) 0;
+      border-bottom: 1px solid var(--color-border);
+      transition: color var(--transition-fast);
+    }
+    .nav__mobile a:last-child { border-bottom: none; }
+    .nav__mobile a:hover, .nav__mobile a.active { color: var(--color-primary); }
+
+    /* ════════════════════════════════════
+       HERO
+    ════════════════════════════════════ */
+    .hero {
+      background: var(--color-primary);
+      position: relative;
+      overflow: hidden;
+      padding: var(--space-10) var(--container-gutter);
+    }
+
+    /* Grain texture overlay */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 200px 200px;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+
+    /* Subtle radial glow */
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(107,158,94,0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero__inner {
+      max-width: var(--container-max);
+      margin-inline: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero .eyebrow {
+      color: rgba(255,255,255,0.55);
+      margin-bottom: var(--space-5);
+      animation: fadeUp 0.6s ease-out 0.3s both;
+    }
+
+    .hero h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(36px, 5.5vw, 64px);
+      font-weight: 400;
+      line-height: 1.1;
+      color: var(--color-white);
+      max-width: 720px;
+      margin-bottom: var(--space-5);
+      letter-spacing: -0.02em;
+      animation: fadeUp 0.6s ease-out 0.45s both;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: rgba(255,255,255,0.75);
+    }
+
+    .hero__sub {
+      font-size: clamp(16px, 1.6vw, 19px);
+      color: rgba(255,255,255,0.72);
+      max-width: 560px;
+      line-height: 1.7;
+      margin-bottom: var(--space-7);
+      animation: fadeUp 0.6s ease-out 0.6s both;
+    }
+
+    .hero__ctas {
+      display: flex;
+      gap: var(--space-4);
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s ease-out 0.75s both;
+    }
+
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: 13px 28px;
+      border-radius: var(--radius-md);
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all var(--transition-base);
+      background: rgba(255,255,255,0.12);
+      color: var(--color-white);
+      border: 2px solid rgba(255,255,255,0.35);
+    }
+    .btn-ghost:hover {
+      background: rgba(255,255,255,0.2);
+      border-color: rgba(255,255,255,0.6);
+    }
+    .btn-ghost-outline {
+      background: transparent;
+      color: rgba(255,255,255,0.85);
+      border: 2px solid rgba(255,255,255,0.25);
+    }
+    .btn-ghost-outline:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.45);
+      color: var(--color-white);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ════════════════════════════════════
+       STATS STRIP
+    ════════════════════════════════════ */
+    .stats-strip {
+      background: var(--color-surface);
+      padding: var(--space-7) var(--container-gutter);
+    }
+    .stats-strip__grid {
+      max-width: var(--container-max);
+      margin-inline: auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-5);
+    }
+    .stat-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 18px;
+      padding: 24px 28px;
+      background: var(--color-bg);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      transition: transform var(--transition-base), box-shadow var(--transition-base);
+    }
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    .stat-card__icon {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: var(--color-overlay);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .stat-card__icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--color-primary);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .stat-card__body {}
+    .stat-card__label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 4px;
+    }
+    .stat-card__value {
+      font-family: var(--font-heading);
+      font-size: clamp(28px, 3vw, 40px);
+      font-weight: 700;
+      line-height: 1;
+      color: var(--color-accent);
+      margin-bottom: 6px;
+      font-variant-numeric: tabular-nums;
+    }
+    .stat-card__value.primary { color: var(--color-primary); }
+    .stat-card__desc {
+      font-size: 14px;
+      color: var(--color-text-muted);
+      line-height: 1.5;
+    }
+
+    /* ════════════════════════════════════
+       MISSION BLOCK
+    ════════════════════════════════════ */
+    .mission {
+      padding: var(--space-10) var(--container-gutter);
+      background: var(--color-bg);
+    }
+    .mission__inner {
+      max-width: 720px;
+      margin-inline: auto;
+      text-align: center;
+    }
+    .mission h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(26px, 3.5vw, 42px);
+      font-weight: 400;
+      color: var(--color-text);
+      line-height: 1.2;
+      margin-bottom: var(--space-6);
+      letter-spacing: -0.01em;
+    }
+    .mission h2 em {
+      font-style: italic;
+      color: var(--color-primary);
+    }
+    .mission p {
+      font-size: 17px;
+      color: var(--color-text-muted);
+      line-height: 1.75;
+      margin-bottom: var(--space-5);
+      max-width: 620px;
+      margin-inline: auto;
+    }
+    .mission p:last-child { margin-bottom: 0; }
+
+    /* ════════════════════════════════════
+       ROTATING STAT CARDS
+    ════════════════════════════════════ */
+    .rotating-section {
+      background: var(--color-surface);
+      padding: var(--space-10) var(--container-gutter);
+    }
+    .rotating-section__inner {
+      max-width: var(--container-max);
+      margin-inline: auto;
+    }
+    .rotating-section__header {
+      text-align: center;
+      margin-bottom: var(--space-7);
+    }
+    .rotating-section__header h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(22px, 2.8vw, 34px);
+      font-weight: 600;
+      color: var(--color-text);
+      margin-top: var(--space-3);
+    }
+
+    .rotator {
+      position: relative;
+      max-width: 660px;
+      margin-inline: auto;
+    }
+    .rotator__cards {
+      position: relative;
+      min-height: 220px;
+    }
+    .rotator__card {
+      position: absolute;
+      inset: 0;
+      background: var(--color-bg);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-md);
+      padding: var(--space-7) var(--space-8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      opacity: 0;
+      transform: translateX(24px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+      pointer-events: none;
+    }
+    .rotator__card.active {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+      position: relative;
+    }
+    .rotator__stat {
+      font-family: var(--font-heading);
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 700;
+      color: var(--color-accent);
+      line-height: 1;
+      margin-bottom: var(--space-4);
+      font-variant-numeric: tabular-nums;
+    }
+    .rotator__desc {
+      font-size: 17px;
+      color: var(--color-text);
+      line-height: 1.6;
+      max-width: 480px;
+    }
+    .rotator__note {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      margin-top: var(--space-3);
+      font-style: italic;
+    }
+
+    .rotator__controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-5);
+      margin-top: var(--space-6);
+    }
+    .rotator__btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid var(--color-border);
+      background: var(--color-bg);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--transition-fast);
+      color: var(--color-primary);
+    }
+    .rotator__btn:hover {
+      border-color: var(--color-primary);
+      background: var(--color-primary);
+      color: white;
+    }
+    .rotator__btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .rotator__dots {
+      display: flex;
+      gap: var(--space-2);
+    }
+    .rotator__dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-border);
+      cursor: pointer;
+      transition: background var(--transition-fast), transform var(--transition-fast);
+      border: none;
+    }
+    .rotator__dot.active {
+      background: var(--color-primary);
+      transform: scale(1.25);
+    }
+
+    /* ════════════════════════════════════
+       THREE PILLARS
+    ════════════════════════════════════ */
+    .pillars {
+      padding: var(--space-10) var(--container-gutter);
+      background: var(--color-bg);
+    }
+    .pillars__inner {
+      max-width: var(--container-max);
+      margin-inline: auto;
+    }
+    .pillars__header {
+      text-align: center;
+      margin-bottom: var(--space-7);
+    }
+    .pillars__header h2 {
+      font-family: var(--font-heading);
+      font-size: clamp(22px, 2.8vw, 34px);
+      font-weight: 600;
+      color: var(--color-text);
+      margin-top: var(--space-3);
+    }
+    .pillars__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-5);
+    }
+    .pillar-card {
+      background: var(--color-surface);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      padding: var(--space-7) 28px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      text-decoration: none;
+      transition: transform var(--transition-base), box-shadow var(--transition-base);
+      border: 1px solid transparent;
+    }
+    .pillar-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--color-border);
+    }
+    .pillar-card__icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: var(--color-overlay);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pillar-card__icon svg {
+      width: 26px;
+      height: 26px;
+      stroke: var(--color-primary);
+      fill: none;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .pillar-card h3 {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--color-text);
+      line-height: 1.25;
+    }
+    .pillar-card p {
+      font-size: 15px;
+      color: var(--color-text-muted);
+      line-height: 1.65;
+      flex-grow: 1;
+    }
+    .pillar-card__link {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--color-secondary);
+      letter-spacing: 0.04em;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: auto;
+    }
+    .pillar-card__link::after {
+      content: '→';
+      transition: transform var(--transition-fast);
+    }
+    .pillar-card:hover .pillar-card__link::after {
+      transform: translateX(4px);
+    }
+
+    /* ════════════════════════════════════
+       PULL QUOTE BANNER
+    ════════════════════════════════════ */
+    .quote-banner {
+      background: var(--color-secondary);
+      padding: var(--space-9) var(--container-gutter);
+      position: relative;
+      overflow: hidden;
+    }
+    .quote-banner::before {
+      content: '"';
+      position: absolute;
+      top: -40px;
+      left: 40px;
+      font-family: var(--font-heading);
+      font-size: 320px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.06);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+    .quote-banner__inner {
+      max-width: 760px;
+      margin-inline: auto;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .quote-banner blockquote {
+      font-family: var(--font-heading);
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--color-white);
+      line-height: 1.2;
+      margin-bottom: var(--space-5);
+      letter-spacing: -0.01em;
+    }
+    .quote-banner p {
+      font-size: 17px;
+      color: rgba(255,255,255,0.78);
+      line-height: 1.65;
+      max-width: 580px;
+      margin-inline: auto;
+    }
+
+    /* ════════════════════════════════════
+       FOOTER
+    ════════════════════════════════════ */
+    .footer {
+      background: var(--color-primary);
+      color: var(--color-white-70);
+      padding: var(--space-9) var(--container-gutter) var(--space-6);
+    }
+    .footer__main {
+      max-width: var(--container-max);
+      margin-inline: auto;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: var(--space-8);
+      align-items: start;
+      padding-bottom: var(--space-7);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: var(--space-6);
+    }
+    .footer__brand {}
+    .footer__logo {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--color-white);
+      text-decoration: none;
+      display: block;
+      margin-bottom: var(--space-3);
+    }
+    .footer__tagline {
+      font-size: 14px;
+      color: var(--color-white-70);
+      line-height: 1.5;
+      max-width: 220px;
+    }
+    .footer__nav {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      align-items: center;
+    }
+    .footer__nav a {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-white-70);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: color var(--transition-fast);
+    }
+    .footer__nav a:hover { color: var(--color-white); }
+    .footer__social {
+      display: flex;
+      gap: var(--space-4);
+      justify-content: flex-end;
+      align-items: flex-start;
+    }
+    .footer__social a {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-white-70);
+      text-decoration: none;
+      transition: all var(--transition-fast);
+    }
+    .footer__social a:hover {
+      border-color: rgba(255,255,255,0.6);
+      color: var(--color-white);
+      background: rgba(255,255,255,0.08);
+    }
+    .footer__social svg {
+      width: 17px;
+      height: 17px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 1.75;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .footer__bottom {
+      max-width: var(--container-max);
+      margin-inline: auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    .footer__disclaimer {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      line-height: 1.6;
+    }
+    .footer__copyright {
+      font-size: 12px;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ════════════════════════════════════
+       SCROLL REVEAL
+    ════════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ════════════════════════════════════
+       RESPONSIVE
+    ════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .stats-strip__grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-4);
+      }
+      .pillars__grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-4);
+      }
+      .footer__main {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+      }
+      .footer__nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: flex-start;
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 768px) {
+      /* Nav */
+      .nav__links { display: none; }
+      .nav__hamburger { display: flex; }
+
+      /* Hero */
+      .hero { padding: var(--space-8) var(--container-gutter); }
+      .hero h1 { font-size: clamp(28px, 8vw, 42px); }
+      .hero__sub { font-size: 16px; margin-bottom: var(--space-6); }
+
+      /* Sections — reduce vertical padding */
+      .stats-strip  { padding: var(--space-7) var(--container-gutter); }
+      .mission      { padding: var(--space-8) var(--container-gutter); }
+      .rotating-section { padding: var(--space-8) var(--container-gutter); }
+      .pillars      { padding: var(--space-8) var(--container-gutter); }
+      .quote-banner { padding: var(--space-7) var(--container-gutter); }
+
+      /* Stats strip */
+      .stats-strip__grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+      }
+      .stat-card { flex-direction: row; }
+
+      /* Mission */
+      .mission h2 { font-size: clamp(22px, 6vw, 34px); }
+      .mission p  { font-size: 16px; }
+
+      /* Rotator */
+      .rotator__card {
+        padding: var(--space-6) var(--space-5);
+        min-height: unset;
+      }
+      .rotator__cards { min-height: unset; }
+      .rotator__stat  { font-size: clamp(30px, 9vw, 44px); }
+      .rotator__desc  { font-size: 15px; }
+
+      /* Pillars */
+      .pillars__grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+      }
+      .pillars__header h2 { font-size: clamp(20px, 5vw, 28px); }
+
+      /* Quote banner */
+      .quote-banner blockquote { font-size: clamp(22px, 6vw, 36px); }
+      .quote-banner p { font-size: 15px; }
+
+      /* Footer */
+      .footer {
+        padding: var(--space-7) var(--container-gutter) var(--space-5);
+      }
+      .footer__main {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+      }
+      .footer__nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: var(--space-3) var(--space-5);
+        grid-column: unset;
+      }
+      .footer__social { justify-content: flex-start; }
+    }
+
+    @media (max-width: 480px) {
+      /* Hero CTAs stack */
+      .hero__ctas { flex-direction: column; }
+      .hero__ctas .btn-ghost {
+        text-align: center;
+        justify-content: center;
+        width: 100%;
+      }
+
+      /* Stat card — keep row but shrink icon */
+      .stat-card__icon { width: 36px; height: 36px; }
+      .stat-card__icon svg { width: 18px; height: 18px; }
+      .stat-card__value { font-size: clamp(24px, 7vw, 32px); }
+
+      /* Rotator controls */
+      .rotator__btn { width: 36px; height: 36px; }
+
+      /* Footer nav — compact */
+      .footer__nav { gap: var(--space-2) var(--space-4); }
+      .footer__nav a { font-size: 12px; }
+
+      /* Pillar card spacing */
+      .pillar-card { padding: var(--space-5) var(--space-5); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     NAVIGATION
+══════════════════════════════════════ -->
+<header>
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">Responsible<span>AI</span></a>
+      <ul class="nav__links" role="list">
+        <li><a href="index.html" class="active" aria-current="page">Home</a></li>
+        <li><a href="cost.html">The Cost of AI</a></li>
+        <li><a href="ethics.html">Ethics</a></li>
+        <li><a href="law.html">AI &amp; The Law</a></li>
+        <li><a href="action.html">Take Action</a></li>
+        <li><a href="resources.html">Resources</a></li>
+      </ul>
+      <button class="nav__hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav__mobile" role="navigation" aria-label="Mobile navigation">
+      <a href="index.html" class="active">Home</a>
+      <a href="cost.html">The Cost of AI</a>
+      <a href="ethics.html">Ethics</a>
+      <a href="law.html">AI &amp; The Law</a>
+      <a href="action.html">Take Action</a>
+      <a href="resources.html">Resources</a>
+    </div>
+  </nav>
+</header>
+
+<!-- ══════════════════════════════════════
+     HERO
+══════════════════════════════════════ -->
+<main>
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero__inner">
+      <span class="eyebrow">A Public Awareness Campaign</span>
+      <h1 id="hero-heading">Every AI request<br><em>costs something.</em><br>Use it wisely.</h1>
+      <p class="hero__sub">AI is transforming the world — but its environmental and ethical costs are invisible. We're here to change that.</p>
+      <div class="hero__ctas">
+        <a href="cost.html" class="btn-ghost">Explore the Cost</a>
+        <a href="action.html" class="btn-ghost btn-ghost-outline">Take Action</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       STATS STRIP
+  ══════════════════════════════════════ -->
+  <section class="stats-strip" aria-label="Key statistics">
+    <div class="stats-strip__grid">
+
+      <div class="stat-card reveal">
+        <div class="stat-card__icon" aria-hidden="true">
+          <!-- Bolt / Lightning icon -->
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+        </div>
+        <div class="stat-card__body">
+          <div class="stat-card__label">Energy — per text prompt</div>
+          <div class="stat-card__value" aria-label="10 times">10×</div>
+          <div class="stat-card__desc">More energy than a Google search — for a single AI text prompt.</div>
+        </div>
+      </div>
+
+      <div class="stat-card reveal reveal-delay-1">
+        <div class="stat-card__icon" aria-hidden="true">
+          <!-- Image / Photo icon -->
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+        </div>
+        <div class="stat-card__body">
+          <div class="stat-card__label">Energy — per AI image</div>
+          <div class="stat-card__value" aria-label="2.9 watt-hours">2.9 Wh</div>
+          <div class="stat-card__desc">To generate one AI image — equivalent to fully charging your smartphone.</div>
+        </div>
+      </div>
+
+      <div class="stat-card reveal reveal-delay-2">
+        <div class="stat-card__icon" aria-hidden="true">
+          <!-- Globe icon -->
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <div class="stat-card__body">
+          <div class="stat-card__label">Global scale — 2025</div>
+          <div class="stat-card__value primary" aria-label="450 terawatt-hours">450 TWh</div>
+          <div class="stat-card__desc">AI's estimated global electricity use in 2025 — projected to double by 2030.</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       MISSION BLOCK
+  ══════════════════════════════════════ -->
+  <section class="mission" aria-labelledby="mission-heading">
+    <div class="mission__inner">
+      <span class="eyebrow reveal">Why This Matters</span>
+      <h2 id="mission-heading" class="reveal">AI doesn't erase the cost.<br><em>It just makes it invisible.</em></h2>
+      <p class="reveal">Every time you generate an image, write a prompt, or run an AI search, energy is consumed — in data centers you'll never see, drawing on grids powered partly by fossil fuels. Most users never know this is happening, because the interface is frictionless by design.</p>
+      <p class="reveal reveal-delay-1">Responsibility doesn't stop at the environmental footprint. The systems we build and use carry ethical weight too — in the biases they encode, the privacy they may erode, and the decisions they influence. This campaign is about making those costs visible, and giving you tools to act on them.</p>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       ROTATING STAT CARDS
+  ══════════════════════════════════════ -->
+  <section class="rotating-section" aria-labelledby="rotator-heading">
+    <div class="rotating-section__inner">
+      <div class="rotating-section__header reveal">
+        <span class="eyebrow">Did You Know?</span>
+        <h2 id="rotator-heading">The numbers behind the invisible cost</h2>
+      </div>
+
+      <div class="rotator reveal" id="rotator" aria-live="polite" aria-atomic="true">
+        <div class="rotator__cards" id="rotatorCards">
+
+          <div class="rotator__card active" role="group" aria-label="Fact 1 of 5">
+            <div class="rotator__stat" aria-label="2.9 watt-hours">2.9 Wh</div>
+            <p class="rotator__desc">1 AI image ≈ fully charging a smartphone. That's the energy cost of a single generation — before you see the result.</p>
+            <p class="rotator__note">~2.91 Wh per image generation. Source: MIT Technology Review</p>
+          </div>
+
+          <div class="rotator__card" role="group" aria-label="Fact 2 of 5">
+            <div class="rotator__stat" aria-label="944 watt-hours">944 Wh</div>
+            <p class="rotator__desc">A 5-second AI video uses enough energy to run a microwave for over an hour. AI video is premium — not casual.</p>
+            <p class="rotator__note">~944 Wh per 5-second clip. Source: UC Riverside research</p>
+          </div>
+
+          <div class="rotator__card" role="group" aria-label="Fact 3 of 5">
+            <div class="rotator__stat" aria-label="10 times more">10×</div>
+            <p class="rotator__desc">Each text prompt uses ~0.34 Wh — ten times more energy than a Google search. Multiply that by billions of queries per day.</p>
+            <p class="rotator__note">~0.34 Wh per text prompt vs ~0.03 Wh per search. Source: Goldman Sachs Research</p>
+          </div>
+
+          <div class="rotator__card" role="group" aria-label="Fact 4 of 5">
+            <div class="rotator__stat" aria-label="945 terawatt-hours by 2030">945 TWh</div>
+            <p class="rotator__desc">AI's projected global electricity use by 2030 — double the 450 TWh consumed in 2025. That's larger than many nations' entire energy use.</p>
+            <p class="rotator__note">Source: Goldman Sachs Global Investment Research, 2024</p>
+          </div>
+
+          <div class="rotator__card" role="group" aria-label="Fact 5 of 5">
+            <div class="rotator__stat" aria-label="80 to 90 percent less">80–90%</div>
+            <p class="rotator__desc">Energy saved when you plan your prompt before generating. 20 iterations = hours of fridge runtime. 2–3 iterations = a few minutes.</p>
+            <p class="rotator__note">The Prompt-First Principle. Learn more on the Cost of AI page.</p>
+          </div>
+
+        </div>
+
+        <div class="rotator__controls">
+          <button class="rotator__btn" id="rotatorPrev" aria-label="Previous fact">
+            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <div class="rotator__dots" role="tablist" aria-label="Fact indicators" id="rotatorDots"></div>
+          <button class="rotator__btn" id="rotatorNext" aria-label="Next fact">
+            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       THREE PILLARS
+  ══════════════════════════════════════ -->
+  <section class="pillars" aria-labelledby="pillars-heading">
+    <div class="pillars__inner">
+      <div class="pillars__header reveal">
+        <span class="eyebrow">Explore the Campaign</span>
+        <h2 id="pillars-heading">Three pillars of responsible AI</h2>
+      </div>
+
+      <div class="pillars__grid">
+
+        <a href="cost.html" class="pillar-card reveal" aria-label="Explore Environmental Impact">
+          <div class="pillar-card__icon" aria-hidden="true">
+            <!-- Leaf / plant icon -->
+            <svg viewBox="0 0 24 24">
+              <path d="M17 8C8 10 5.9 16.17 3.82 19.04L5.1 20c.16-.26.32-.53.47-.8C7.42 16.06 10.3 12.26 18 10"/>
+              <path d="M21 3a23.47 23.47 0 0 0-7 4.47C11.28 10 9.07 14 8 18c-.31 1.25-.35 2.52-.15 3.76"/>
+            </svg>
+          </div>
+          <h3>Environmental Impact</h3>
+          <p>Energy, water, carbon. Every prompt leaves a footprint — most users never see it. Here's what the data actually shows.</p>
+          <span class="pillar-card__link" aria-hidden="true">Explore</span>
+        </a>
+
+        <a href="ethics.html" class="pillar-card reveal reveal-delay-1" aria-label="Explore Ethics and Responsibility">
+          <div class="pillar-card__icon" aria-hidden="true">
+            <!-- Balance scale icon -->
+            <svg viewBox="0 0 24 24">
+              <line x1="12" y1="3" x2="12" y2="21"/>
+              <path d="M5 21h14"/>
+              <path d="M3 6l9-3 9 3"/>
+              <path d="M3 6c0 2.21 2.01 4 4.5 4S12 8.21 12 6"/>
+              <path d="M12 6c0 2.21 2.01 4 4.5 4S21 8.21 21 6"/>
+            </svg>
+          </div>
+          <h3>Ethics &amp; Responsibility</h3>
+          <p>Bias, privacy, autonomy. You built it. You own what it does. Five dimensions every builder and user needs to understand.</p>
+          <span class="pillar-card__link" aria-hidden="true">Explore</span>
+        </a>
+
+        <a href="law.html" class="pillar-card reveal reveal-delay-2" aria-label="Explore AI and The Law">
+          <div class="pillar-card__icon" aria-hidden="true">
+            <!-- Document / law icon -->
+            <svg viewBox="0 0 24 24">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+          </div>
+          <h3>AI &amp; The Law</h3>
+          <p>Global regulations are catching up. From the EU AI Act to UNESCO, eight major frameworks explained — and what they mean for you.</p>
+          <span class="pillar-card__link" aria-hidden="true">Explore</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════
+       PULL QUOTE BANNER
+  ══════════════════════════════════════ -->
+  <section class="quote-banner" aria-label="Campaign principle">
+    <div class="quote-banner__inner">
+      <blockquote>"Prompt first.<br>Generate second."</blockquote>
+      <p>A well-written prompt reduces image iterations from 15–20 down to 2–3. That's 80–90% less energy — with better results. The best output isn't the 15th one. It's the one you planned for.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ══════════════════════════════════════
+     FOOTER
+══════════════════════════════════════ -->
+<footer class="footer" aria-label="Site footer">
+  <div class="footer__main">
+
+    <div class="footer__brand">
+      <a href="index.html" class="footer__logo">ResponsibleAI</a>
+      <p class="footer__tagline">Every AI request costs something. Use it wisely.</p>
+    </div>
+
+    <nav class="footer__nav" aria-label="Footer navigation">
+      <a href="index.html">Home</a>
+      <a href="cost.html">Cost of AI</a>
+      <a href="ethics.html">Ethics</a>
+      <a href="law.html">The Law</a>
+      <a href="action.html">Take Action</a>
+      <a href="resources.html">Resources</a>
+    </nav>
+
+    <div class="footer__social" aria-label="Social media links">
+      <!-- LinkedIn -->
+      <a href="#" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+          <rect x="2" y="9" width="4" height="12"/>
+          <circle cx="4" cy="4" r="2"/>
+        </svg>
+      </a>
+      <!-- Instagram -->
+      <a href="#" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+      </a>
+      <!-- Twitter/X -->
+      <a href="#" aria-label="Twitter / X">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 4l16 16M4 20L20 4" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </a>
+    </div>
+
+  </div>
+
+  <div class="footer__bottom">
+    <p class="footer__disclaimer">Numbers are approximate and model-dependent. Sources: MIT Technology Review, Goldman Sachs Research, University of California Riverside, University of Massachusetts Amherst, AI Now Institute, and others. Always verify statistics before publication.</p>
+    <p class="footer__copyright">© 2026 Responsible AI Campaign. Built with intention.</p>
+  </div>
+</footer>
+
+
+<script>
+  // ── Hamburger menu ──
+  const hamburger = document.querySelector('.nav__hamburger');
+  const mobileNav = document.querySelector('.nav__mobile');
+  hamburger.addEventListener('click', () => {
+    const open = hamburger.classList.toggle('open');
+    mobileNav.classList.toggle('open', open);
+    hamburger.setAttribute('aria-expanded', open);
+  });
+
+  // ── Scroll reveal ──
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => observer.observe(el));
+
+  // ── Rotating stat cards ──
+  const cards = Array.from(document.querySelectorAll('.rotator__card'));
+  const dotsContainer = document.getElementById('rotatorDots');
+  const prevBtn = document.getElementById('rotatorPrev');
+  const nextBtn = document.getElementById('rotatorNext');
+  const rotatorEl = document.getElementById('rotator');
+  let current = 0;
+  let timer = null;
+
+  // Build dots
+  cards.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'rotator__dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', `Fact ${i + 1}`);
+    dot.setAttribute('role', 'tab');
+    dot.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+    dot.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(dot);
+  });
+
+  function goTo(index) {
+    cards[current].classList.remove('active');
+    dotsContainer.children[current].classList.remove('active');
+    dotsContainer.children[current].setAttribute('aria-selected', 'false');
+    current = (index + cards.length) % cards.length;
+    cards[current].classList.add('active');
+    dotsContainer.children[current].classList.add('active');
+    dotsContainer.children[current].setAttribute('aria-selected', 'true');
+    resetTimer();
+  }
+
+  function resetTimer() {
+    clearInterval(timer);
+    timer = setInterval(() => goTo(current + 1), 5000);
+  }
+
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => goTo(current + 1));
+
+  // Pause on hover
+  rotatorEl.addEventListener('mouseenter', () => clearInterval(timer));
+  rotatorEl.addEventListener('mouseleave', resetTimer);
+
+  // Keyboard support
+  rotatorEl.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') goTo(current - 1);
+    if (e.key === 'ArrowRight') goTo(current + 1);
+  });
+
+  // Touch / swipe support
+  let touchStartX = 0;
+  let touchStartY = 0;
+  rotatorEl.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    clearInterval(timer);
+  }, { passive: true });
+  rotatorEl.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    // Only treat as horizontal swipe if horizontal movement dominates
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      dx < 0 ? goTo(current + 1) : goTo(current - 1);
+    } else {
+      resetTimer();
+    }
+  }, { passive: true });
+
+  resetTimer();
+</script>
+
+</body>
+</html>

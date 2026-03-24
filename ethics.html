@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ethics & Responsibility — Responsible AI</title>
+  <meta name="description" content="The systems we build and use carry real weight. Understanding the risks is the first step to building something worth standing behind." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400;1,9..144,600&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="design-system/tokens.css" />
+  <style>
+    html { scroll-behavior: smooth; }
+    body { opacity: 0; animation: pageIn 0.5s ease-out 0.1s forwards; }
+    @keyframes pageIn { to { opacity: 1; } }
+
+    /* NAV */
+    .nav { position: sticky; top: 0; z-index: 100; background: var(--color-bg); border-bottom: 1px solid var(--color-border); }
+    .nav__inner { max-width: var(--container-max); margin-inline: auto; padding-inline: var(--container-gutter); height: 64px; display: flex; align-items: center; gap: var(--space-7); }
+    .nav__logo { font-family: var(--font-heading); font-size: 18px; font-weight: 600; color: var(--color-primary); text-decoration: none; letter-spacing: -0.02em; flex-shrink: 0; }
+    .nav__logo span { color: var(--color-secondary); }
+    .nav__links { display: flex; align-items: center; gap: var(--space-5); list-style: none; margin-left: auto; }
+    .nav__links a { font-size: 14px; font-weight: 600; color: var(--color-text-muted); text-decoration: none; transition: color var(--transition-fast); white-space: nowrap; }
+    .nav__links a:hover { color: var(--color-primary); }
+    .nav__links a.active { color: var(--color-primary); }
+    .nav__links a.active::after { content: ''; display: block; height: 2px; background: var(--color-secondary); border-radius: 2px; margin-top: 2px; }
+    .nav__hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; margin-left: auto; }
+    .nav__hamburger span { display: block; width: 22px; height: 2px; background: var(--color-primary); border-radius: 2px; transition: transform var(--transition-base), opacity var(--transition-fast); }
+    .nav__hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav__hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav__hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .nav__mobile { display: none; flex-direction: column; background: var(--color-bg); border-top: 1px solid var(--color-border); padding: var(--space-4) var(--container-gutter); }
+    .nav__mobile.open { display: flex; }
+    .nav__mobile a { font-size: 15px; font-weight: 600; color: var(--color-text-muted); text-decoration: none; padding: var(--space-3) 0; border-bottom: 1px solid var(--color-border); transition: color var(--transition-fast); }
+    .nav__mobile a:last-child { border-bottom: none; }
+    .nav__mobile a:hover, .nav__mobile a.active { color: var(--color-primary); }
+
+    /* HERO */
+    .hero { background: var(--color-primary); position: relative; overflow: hidden; padding: var(--space-10) var(--container-gutter); }
+    .hero::after { content: ''; position: absolute; top: -20%; right: -10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(196,98,58,0.1) 0%, transparent 65%); pointer-events: none; }
+    .hero__inner { max-width: var(--container-max); margin-inline: auto; position: relative; z-index: 1; }
+    .hero .eyebrow { color: rgba(255,255,255,0.55); margin-bottom: var(--space-5); }
+    .hero h1 { font-family: var(--font-heading); font-size: clamp(34px, 5vw, 60px); font-weight: 400; line-height: 1.1; color: var(--color-white); max-width: 680px; margin-bottom: var(--space-5); letter-spacing: -0.02em; }
+    .hero__sub { font-size: clamp(16px, 1.6vw, 19px); color: rgba(255,255,255,0.72); max-width: 560px; line-height: 1.7; }
+
+    /* SECTIONS */
+    .section { padding: var(--space-10) var(--container-gutter); }
+    .section--surface { background: var(--color-surface); }
+    .section--bg { background: var(--color-bg); }
+    .section__inner { max-width: var(--container-max); margin-inline: auto; }
+    .section__header { margin-bottom: var(--space-7); }
+    .section__header h2 { font-family: var(--font-heading); font-size: clamp(24px, 3vw, 38px); font-weight: 400; color: var(--color-text); line-height: 1.2; margin-top: var(--space-3); letter-spacing: -0.01em; }
+    .section__header p { font-size: 17px; color: var(--color-text-muted); line-height: 1.75; margin-top: var(--space-4); max-width: 680px; }
+
+    /* ETHICS DIMENSIONS */
+    .dimensions { display: flex; flex-direction: column; gap: var(--space-5); }
+    .dimension { display: grid; grid-template-columns: 1fr 2fr; gap: var(--space-8); align-items: start; padding: var(--space-6) var(--space-7); background: var(--color-bg); border-radius: var(--radius-lg); box-shadow: var(--shadow-card); border-left: 4px solid var(--color-accent); }
+    .dimension__meta { }
+    .dimension__num { font-family: var(--font-heading); font-size: 48px; font-weight: 700; color: rgba(196,98,58,0.15); line-height: 1; margin-bottom: var(--space-2); }
+    .dimension__tag { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent); }
+    .dimension h3 { font-family: var(--font-heading); font-size: clamp(18px, 2vw, 24px); font-weight: 400; color: var(--color-text); line-height: 1.3; margin-top: var(--space-3); }
+    .dimension__body p { font-size: 16px; color: var(--color-text); line-height: 1.75; margin-bottom: var(--space-4); }
+    .dimension__example { border-left: 3px solid var(--color-border); padding-left: var(--space-4); margin-top: var(--space-4); }
+    .dimension__example .example-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: var(--space-2); }
+    .dimension__example p { font-size: 14px; color: var(--color-text-muted); line-height: 1.65; font-style: italic; margin: 0; }
+
+    /* CHECKLIST */
+    .checklist-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-8); align-items: start; }
+    .checklist-intro p { font-size: 17px; color: var(--color-text-muted); line-height: 1.75; margin-bottom: var(--space-5); }
+    .checklist { display: flex; flex-direction: column; gap: var(--space-3); }
+    .checklist-item { display: flex; align-items: flex-start; gap: var(--space-4); padding: var(--space-4) var(--space-5); background: var(--color-surface); border-radius: var(--radius-md); cursor: pointer; transition: background var(--transition-fast); }
+    .checklist-item:hover { background: var(--color-bg); }
+    .checklist-item.checked { background: rgba(91,153,148,0.08); }
+    .checklist-box { width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--color-border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; transition: all var(--transition-fast); }
+    .checklist-item.checked .checklist-box { background: var(--color-success); border-color: var(--color-success); }
+    .checklist-box svg { width: 12px; height: 12px; stroke: #fff; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; display: none; }
+    .checklist-item.checked .checklist-box svg { display: block; }
+    .checklist-item p { font-size: 15px; color: var(--color-text); line-height: 1.5; margin: 0; font-weight: 600; }
+    .checklist-item.checked p { color: var(--color-text-muted); }
+    .checklist-actions { display: flex; gap: var(--space-3); margin-top: var(--space-5); flex-wrap: wrap; }
+    .btn-primary { display: inline-flex; align-items: center; gap: var(--space-2); padding: 13px 28px; border-radius: var(--radius-md); font-family: var(--font-body); font-size: 15px; font-weight: 600; cursor: pointer; border: none; background: var(--color-secondary); color: #fff; text-decoration: none; transition: opacity var(--transition-fast); }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-outline { display: inline-flex; align-items: center; gap: var(--space-2); padding: 13px 28px; border-radius: var(--radius-md); font-family: var(--font-body); font-size: 15px; font-weight: 600; cursor: pointer; border: 2px solid var(--color-primary); background: transparent; color: var(--color-primary); text-decoration: none; transition: background var(--transition-fast); }
+    .btn-outline:hover { background: rgba(1,77,68,0.06); }
+
+    /* SCENARIO QUIZ */
+    .quiz-cta { background: var(--color-primary); border-radius: var(--radius-xl); padding: var(--space-8) var(--space-9); display: grid; grid-template-columns: 1fr auto; gap: var(--space-8); align-items: center; }
+    .quiz-cta h2 { font-family: var(--font-heading); font-size: clamp(22px, 2.8vw, 34px); font-weight: 400; color: #fff; line-height: 1.2; margin-bottom: var(--space-4); }
+    .quiz-cta p { font-size: 16px; color: rgba(255,255,255,0.72); line-height: 1.7; }
+    .btn-ghost { display: inline-flex; align-items: center; gap: var(--space-2); padding: 14px 30px; border-radius: var(--radius-md); font-family: var(--font-body); font-size: 15px; font-weight: 600; cursor: pointer; text-decoration: none; background: rgba(255,255,255,0.12); color: #fff; border: 2px solid rgba(255,255,255,0.35); transition: all var(--transition-fast); white-space: nowrap; }
+    .btn-ghost:hover { background: rgba(255,255,255,0.2); border-color: rgba(255,255,255,0.6); }
+
+    /* FOOTER */
+    .footer { background: var(--color-primary); color: rgba(255,255,255,0.7); padding: var(--space-9) var(--container-gutter) var(--space-6); }
+    .footer__main { max-width: var(--container-max); margin-inline: auto; display: grid; grid-template-columns: 1fr auto 1fr; gap: var(--space-8); align-items: start; padding-bottom: var(--space-7); border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: var(--space-6); }
+    .footer__logo { font-family: var(--font-heading); font-size: 20px; font-weight: 600; color: #fff; text-decoration: none; display: block; margin-bottom: var(--space-3); }
+    .footer__tagline { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.5; max-width: 220px; }
+    .footer__nav { display: flex; flex-direction: column; gap: var(--space-3); align-items: center; }
+    .footer__nav a { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.7); text-decoration: none; letter-spacing: 0.04em; transition: color var(--transition-fast); }
+    .footer__nav a:hover { color: #fff; }
+    .footer__social { display: flex; gap: var(--space-4); justify-content: flex-end; }
+    .footer__social a { width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.7); text-decoration: none; transition: all var(--transition-fast); }
+    .footer__social a:hover { border-color: rgba(255,255,255,0.6); color: #fff; }
+    .footer__social svg { width: 17px; height: 17px; stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+    .footer__bottom { max-width: var(--container-max); margin-inline: auto; }
+    .footer__disclaimer { font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.6; margin-bottom: var(--space-2); }
+    .footer__copyright { font-size: 12px; color: rgba(255,255,255,0.3); }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .nav__links { display: none; }
+      .nav__hamburger { display: flex; }
+      .hero { padding: var(--space-8) var(--container-gutter); }
+      .section { padding: var(--space-8) var(--container-gutter); }
+      .dimension { grid-template-columns: 1fr; gap: var(--space-4); padding: var(--space-5); }
+      .dimension__num { font-size: 36px; }
+      .checklist-grid { grid-template-columns: 1fr; gap: var(--space-6); }
+      .quiz-cta { grid-template-columns: 1fr; gap: var(--space-5); padding: var(--space-6); }
+      .footer__main { grid-template-columns: 1fr; gap: var(--space-6); }
+      .footer__nav { flex-direction: row; flex-wrap: wrap; gap: var(--space-3) var(--space-5); }
+      .footer__social { justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">Responsible<span>AI</span></a>
+      <ul class="nav__links" role="list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cost.html">The Cost of AI</a></li>
+        <li><a href="ethics.html" class="active" aria-current="page">Ethics</a></li>
+        <li><a href="law.html">AI &amp; The Law</a></li>
+        <li><a href="action.html">Take Action</a></li>
+        <li><a href="resources.html">Resources</a></li>
+      </ul>
+      <button class="nav__hamburger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+    <div class="nav__mobile" role="navigation">
+      <a href="index.html">Home</a>
+      <a href="cost.html">The Cost of AI</a>
+      <a href="ethics.html" class="active">Ethics</a>
+      <a href="law.html">AI &amp; The Law</a>
+      <a href="action.html">Take Action</a>
+      <a href="resources.html">Resources</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero__inner">
+      <span class="eyebrow">Ethics &amp; Responsibility</span>
+      <h1>What AI does — and who it does it to.</h1>
+      <p class="hero__sub">The systems we build and use carry real weight. Understanding the risks is the first step to building something worth standing behind.</p>
+    </div>
+  </section>
+
+  <!-- 5 ETHICS DIMENSIONS -->
+  <section class="section section--surface" id="dimensions">
+    <div class="section__inner">
+      <div class="section__header reveal">
+        <span class="eyebrow">Five Dimensions</span>
+        <h2>The ethical weight of AI, broken down.</h2>
+      </div>
+      <div class="dimensions">
+
+        <div class="dimension reveal">
+          <div class="dimension__meta">
+            <div class="dimension__num">01</div>
+            <span class="dimension__tag">Bias &amp; Discrimination</span>
+            <h3>When AI inherits our blind spots.</h3>
+          </div>
+          <div class="dimension__body">
+            <p>AI learns from human-generated data — which means it can learn human prejudices too. These biases don't stay contained to training sets. They surface in hiring, lending, healthcare access, and law enforcement, often at scale, often invisibly.</p>
+            <p>The system doesn't intend to discriminate. It just reflects the patterns it was trained on — including the ones we'd rather not see.</p>
+            <div class="dimension__example">
+              <div class="example-label">Real-world example</div>
+              <p>Amazon scrapped an AI hiring tool after discovering it systematically downgraded résumés from women. A 2018 MIT Media Lab study found facial recognition systems had a 37% higher error rate for darker-skinned women compared to lighter-skinned men.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="dimension reveal">
+          <div class="dimension__meta">
+            <div class="dimension__num">02</div>
+            <span class="dimension__tag">Privacy</span>
+            <h3>Data collected is data at risk.</h3>
+          </div>
+          <div class="dimension__body">
+            <p>AI systems often collect far more data than users realise — and can infer sensitive attributes (health status, political views, financial situation) from data that seems entirely innocuous. Once data is collected, "anonymised" datasets have repeatedly been re-identified.</p>
+            <p>The collection itself is often undisclosed. The inferences drawn from it almost always are.</p>
+            <div class="dimension__example">
+              <div class="example-label">Real-world example</div>
+              <p>Research has demonstrated that location data alone, even when stripped of names, is enough to uniquely identify individuals in most datasets. What feels anonymous rarely is.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="dimension reveal">
+          <div class="dimension__meta">
+            <div class="dimension__num">03</div>
+            <span class="dimension__tag">Misinformation &amp; Deepfakes</span>
+            <h3>Confident doesn't mean correct.</h3>
+          </div>
+          <div class="dimension__body">
+            <p>AI systems generate outputs with the same tone and confidence whether they're accurate or fabricated. Deepfakes, AI-written fake reviews, and synthetic news articles are now cheap and fast to produce — and difficult to detect at scale.</p>
+            <p>The damage isn't just misinformation spreading. It's the erosion of trust in real information.</p>
+            <div class="dimension__example">
+              <div class="example-label">Real-world example</div>
+              <p>AI language models routinely "hallucinate" — presenting invented facts, fake citations, and non-existent events as stated truth. This is not a bug to be fixed; it is a fundamental property of how these systems work.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="dimension reveal">
+          <div class="dimension__meta">
+            <div class="dimension__num">04</div>
+            <span class="dimension__tag">Autonomy &amp; Over-Reliance</span>
+            <h3>The risk of trusting too much.</h3>
+          </div>
+          <div class="dimension__body">
+            <p>When people consistently defer to AI-generated answers, their own critical judgment atrophies. Researchers call this "automation bias" — the tendency to trust automated systems even when they're wrong. In medicine, law, and finance, this has direct consequences for real people.</p>
+            <p>The AI isn't making the decision — but it is shaping it. That distinction matters less than we'd like to think.</p>
+            <div class="dimension__example">
+              <div class="example-label">Real-world example</div>
+              <p>Studies show that doctors and judges who receive AI recommendations tend to follow them even when contradicting evidence is present. The AI isn't making the decision — but it is shaping it.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="dimension reveal">
+          <div class="dimension__meta">
+            <div class="dimension__num">05</div>
+            <span class="dimension__tag">Harassment &amp; Harm</span>
+            <h3>Misuse is not an edge case.</h3>
+          </div>
+          <div class="dimension__body">
+            <p>AI tools have been used to generate non-consensual intimate images, fabricate incriminating statements, and run coordinated harassment campaigns at a scale impossible for a single person. The technology doesn't discriminate between use cases.</p>
+            <p>Good AI starts with one question: who could this hurt?</p>
+            <div class="dimension__example">
+              <div class="example-label">Real-world example</div>
+              <p>Reports of AI-generated non-consensual imagery involving real people — including minors and public figures — have increased dramatically since image generation became widely accessible. The harm is direct, personal, and lasting.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- BUILDER CHECKLIST -->
+  <section class="section section--bg" id="checklist">
+    <div class="section__inner">
+      <div class="section__header reveal">
+        <span class="eyebrow">Builder Ethics Checklist</span>
+        <h2>If you're building with AI, this is your responsibility.</h2>
+      </div>
+      <div class="checklist-grid">
+        <div class="checklist-intro reveal">
+          <p>Every product built on AI is also a product of the choices made before launch. These five questions won't catch everything — but they'll catch most of what matters.</p>
+          <p style="font-size:15px; color: var(--color-text-muted); line-height:1.7;">Check each question as you work through it. Download the PDF to use with your team.</p>
+          <div class="checklist-actions">
+            <button class="btn-primary" id="downloadBtn">Download PDF checklist</button>
+            <button class="btn-outline" id="resetBtn">Reset</button>
+          </div>
+        </div>
+        <div class="checklist reveal" id="checklist" role="list">
+          <div class="checklist-item" role="listitem" tabindex="0">
+            <div class="checklist-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <p>Who could be harmed by this — and how?</p>
+          </div>
+          <div class="checklist-item" role="listitem" tabindex="0">
+            <div class="checklist-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <p>What data am I collecting, and have I been honest with users about it?</p>
+          </div>
+          <div class="checklist-item" role="listitem" tabindex="0">
+            <div class="checklist-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <p>Could this system produce or amplify false, discriminatory, or harmful content?</p>
+          </div>
+          <div class="checklist-item" role="listitem" tabindex="0">
+            <div class="checklist-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <p>Am I reinforcing existing biases — or creating new ones?</p>
+          </div>
+          <div class="checklist-item" role="listitem" tabindex="0">
+            <div class="checklist-box"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+            <p>Does this respect the autonomy and informed consent of the people using it?</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCENARIO QUIZ -->
+  <section class="section section--surface" id="scenarios">
+    <div class="section__inner">
+      <div class="quiz-cta reveal">
+        <div>
+          <h2>What would you do?</h2>
+          <p>These are real situations that real builders and users have faced. Six scenarios, no perfect answers — just better and worse choices, and the reasoning behind them. Work through them and see where your instincts take you.</p>
+        </div>
+        <a href="#scenarios" class="btn-ghost">Start the Scenarios →</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer__main">
+    <div>
+      <a href="index.html" class="footer__logo">ResponsibleAI</a>
+      <p class="footer__tagline">Every AI request costs something. Use it wisely.</p>
+    </div>
+    <nav class="footer__nav" aria-label="Footer navigation">
+      <a href="index.html">Home</a>
+      <a href="cost.html">Cost of AI</a>
+      <a href="ethics.html">Ethics</a>
+      <a href="law.html">The Law</a>
+      <a href="action.html">Take Action</a>
+      <a href="resources.html">Resources</a>
+    </nav>
+    <div class="footer__social">
+      <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+      <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+      <a href="#" aria-label="Twitter/X"><svg viewBox="0 0 24 24"><path d="M4 4l16 16M4 20L20 4"/></svg></a>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <p class="footer__disclaimer">Sources: MIT Media Lab Gender Shades study, AI Now Institute, ACM FAccT Conference, Partnership on AI, IEEE Ethically Aligned Design.</p>
+    <p class="footer__copyright">© 2026 Responsible AI Campaign.</p>
+  </div>
+</footer>
+
+<script>
+  const hamburger = document.querySelector('.nav__hamburger');
+  const mobileNav = document.querySelector('.nav__mobile');
+  hamburger.addEventListener('click', () => {
+    const open = hamburger.classList.toggle('open');
+    mobileNav.classList.toggle('open', open);
+    hamburger.setAttribute('aria-expanded', open);
+  });
+
+  document.querySelectorAll('.reveal').forEach(el => {
+    new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+    }, { threshold: 0.1 }).observe(el);
+  });
+
+  // Checklist interaction
+  document.querySelectorAll('.checklist-item').forEach(item => {
+    const toggle = () => item.classList.toggle('checked');
+    item.addEventListener('click', toggle);
+    item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+  });
+
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    document.querySelectorAll('.checklist-item').forEach(i => i.classList.remove('checked'));
+  });
+
+  document.getElementById('downloadBtn').addEventListener('click', () => {
+    alert('PDF checklist coming soon. Check back after the full site launch.');
+  });
+</script>
+</body>
+</html>

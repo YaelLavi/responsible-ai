@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI & The Law — Responsible AI</title>
+  <meta name="description" content="Eight major AI regulatory frameworks explained. The law is catching up to AI — here's where things stand globally." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400;1,9..144,600&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="design-system/tokens.css" />
+  <style>
+    html { scroll-behavior: smooth; }
+    body { opacity: 0; animation: pageIn 0.5s ease-out 0.1s forwards; }
+    @keyframes pageIn { to { opacity: 1; } }
+
+    .nav { position: sticky; top: 0; z-index: 100; background: var(--color-bg); border-bottom: 1px solid var(--color-border); }
+    .nav__inner { max-width: var(--container-max); margin-inline: auto; padding-inline: var(--container-gutter); height: 64px; display: flex; align-items: center; gap: var(--space-7); }
+    .nav__logo { font-family: var(--font-heading); font-size: 18px; font-weight: 600; color: var(--color-primary); text-decoration: none; letter-spacing: -0.02em; flex-shrink: 0; }
+    .nav__logo span { color: var(--color-secondary); }
+    .nav__links { display: flex; align-items: center; gap: var(--space-5); list-style: none; margin-left: auto; }
+    .nav__links a { font-size: 14px; font-weight: 600; color: var(--color-text-muted); text-decoration: none; transition: color var(--transition-fast); white-space: nowrap; }
+    .nav__links a:hover { color: var(--color-primary); }
+    .nav__links a.active { color: var(--color-primary); }
+    .nav__links a.active::after { content: ''; display: block; height: 2px; background: var(--color-secondary); border-radius: 2px; margin-top: 2px; }
+    .nav__hamburger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; margin-left: auto; }
+    .nav__hamburger span { display: block; width: 22px; height: 2px; background: var(--color-primary); border-radius: 2px; transition: transform var(--transition-base), opacity var(--transition-fast); }
+    .nav__hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav__hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav__hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .nav__mobile { display: none; flex-direction: column; background: var(--color-bg); border-top: 1px solid var(--color-border); padding: var(--space-4) var(--container-gutter); }
+    .nav__mobile.open { display: flex; }
+    .nav__mobile a { font-size: 15px; font-weight: 600; color: var(--color-text-muted); text-decoration: none; padding: var(--space-3) 0; border-bottom: 1px solid var(--color-border); transition: color var(--transition-fast); }
+    .nav__mobile a:last-child { border-bottom: none; }
+    .nav__mobile a:hover, .nav__mobile a.active { color: var(--color-primary); }
+
+    .hero { background: var(--color-primary); position: relative; overflow: hidden; padding: var(--space-10) var(--container-gutter); }
+    .hero::after { content: ''; position: absolute; top: -20%; right: -10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(107,158,94,0.12) 0%, transparent 65%); pointer-events: none; }
+    .hero__inner { max-width: var(--container-max); margin-inline: auto; position: relative; z-index: 1; }
+    .hero .eyebrow { color: rgba(255,255,255,0.55); margin-bottom: var(--space-5); }
+    .hero h1 { font-family: var(--font-heading); font-size: clamp(34px, 5vw, 60px); font-weight: 400; line-height: 1.1; color: #fff; max-width: 700px; margin-bottom: var(--space-5); letter-spacing: -0.02em; }
+    .hero__sub { font-size: clamp(16px, 1.6vw, 19px); color: rgba(255,255,255,0.72); max-width: 560px; line-height: 1.7; }
+
+    .section { padding: var(--space-10) var(--container-gutter); }
+    .section--surface { background: var(--color-surface); }
+    .section--bg { background: var(--color-bg); }
+    .section__inner { max-width: var(--container-max); margin-inline: auto; }
+    .section__header { margin-bottom: var(--space-7); }
+    .section__header h2 { font-family: var(--font-heading); font-size: clamp(24px, 3vw, 38px); font-weight: 400; color: var(--color-text); line-height: 1.2; margin-top: var(--space-3); letter-spacing: -0.01em; }
+    .section__header p { font-size: 17px; color: var(--color-text-muted); line-height: 1.75; margin-top: var(--space-4); max-width: 700px; }
+
+    /* FILTER PILLS */
+    .filter-bar { display: flex; gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-7); }
+    .filter-pill { padding: 7px 16px; border-radius: var(--radius-full); font-size: 13px; font-weight: 600; cursor: pointer; border: 2px solid var(--color-border); background: transparent; color: var(--color-text-muted); transition: all var(--transition-fast); }
+    .filter-pill:hover { border-color: var(--color-primary); color: var(--color-primary); }
+    .filter-pill.active { background: var(--color-primary); border-color: var(--color-primary); color: #fff; }
+
+    /* REGULATION CARDS */
+    .reg-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-5); }
+    .reg-card { background: var(--color-bg); border-radius: var(--radius-lg); padding: var(--space-6) var(--space-6); box-shadow: var(--shadow-card); border-top: 3px solid var(--color-primary); transition: transform var(--transition-base), box-shadow var(--transition-base), opacity var(--transition-base); }
+    .reg-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .reg-card.hidden { display: none; }
+    .reg-badge { display: inline-flex; align-items: center; gap: var(--space-2); font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: var(--space-4); }
+    .reg-badge::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--color-secondary); }
+    .reg-card h3 { font-family: var(--font-heading); font-size: clamp(18px, 2vw, 22px); font-weight: 600; color: var(--color-text); line-height: 1.3; margin-bottom: var(--space-4); }
+    .reg-card p { font-size: 15px; color: var(--color-text-muted); line-height: 1.7; margin-bottom: var(--space-4); }
+    .reg-implication { background: var(--color-surface); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); }
+    .reg-implication .label { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-secondary); margin-bottom: var(--space-1); }
+    .reg-implication p { font-size: 13px; color: var(--color-text); line-height: 1.55; margin: 0; font-weight: 600; }
+
+    /* IMPLICATIONS */
+    .implications-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); }
+    .implications-card { background: var(--color-bg); border-radius: var(--radius-lg); padding: var(--space-6) var(--space-7); box-shadow: var(--shadow-card); }
+    .implications-card h3 { font-family: var(--font-heading); font-size: 22px; font-weight: 600; color: var(--color-primary); margin-bottom: var(--space-5); }
+    .implications-card ul { list-style: none; display: flex; flex-direction: column; gap: var(--space-4); }
+    .implications-card li { font-size: 15px; color: var(--color-text); line-height: 1.65; padding-left: var(--space-5); position: relative; }
+    .implications-card li::before { content: '→'; position: absolute; left: 0; color: var(--color-secondary); font-weight: 700; }
+
+    /* FOOTER */
+    .footer { background: var(--color-primary); color: rgba(255,255,255,0.7); padding: var(--space-9) var(--container-gutter) var(--space-6); }
+    .footer__main { max-width: var(--container-max); margin-inline: auto; display: grid; grid-template-columns: 1fr auto 1fr; gap: var(--space-8); align-items: start; padding-bottom: var(--space-7); border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: var(--space-6); }
+    .footer__logo { font-family: var(--font-heading); font-size: 20px; font-weight: 600; color: #fff; text-decoration: none; display: block; margin-bottom: var(--space-3); }
+    .footer__tagline { font-size: 14px; color: rgba(255,255,255,0.7); line-height: 1.5; max-width: 220px; }
+    .footer__nav { display: flex; flex-direction: column; gap: var(--space-3); align-items: center; }
+    .footer__nav a { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.7); text-decoration: none; letter-spacing: 0.04em; transition: color var(--transition-fast); }
+    .footer__nav a:hover { color: #fff; }
+    .footer__social { display: flex; gap: var(--space-4); justify-content: flex-end; }
+    .footer__social a { width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.7); text-decoration: none; transition: all var(--transition-fast); }
+    .footer__social a:hover { border-color: rgba(255,255,255,0.6); color: #fff; }
+    .footer__social svg { width: 17px; height: 17px; stroke: currentColor; fill: none; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+    .footer__bottom { max-width: var(--container-max); margin-inline: auto; }
+    .footer__disclaimer { font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.6; margin-bottom: var(--space-2); }
+    .footer__copyright { font-size: 12px; color: rgba(255,255,255,0.3); }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      .nav__links { display: none; }
+      .nav__hamburger { display: flex; }
+      .hero { padding: var(--space-8) var(--container-gutter); }
+      .section { padding: var(--space-8) var(--container-gutter); }
+      .reg-grid { grid-template-columns: 1fr; }
+      .implications-grid { grid-template-columns: 1fr; }
+      .footer__main { grid-template-columns: 1fr; gap: var(--space-6); }
+      .footer__nav { flex-direction: row; flex-wrap: wrap; gap: var(--space-3) var(--space-5); }
+      .footer__social { justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo">Responsible<span>AI</span></a>
+      <ul class="nav__links" role="list">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="cost.html">The Cost of AI</a></li>
+        <li><a href="ethics.html">Ethics</a></li>
+        <li><a href="law.html" class="active" aria-current="page">AI &amp; The Law</a></li>
+        <li><a href="action.html">Take Action</a></li>
+        <li><a href="resources.html">Resources</a></li>
+      </ul>
+      <button class="nav__hamburger" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+    <div class="nav__mobile" role="navigation">
+      <a href="index.html">Home</a>
+      <a href="cost.html">The Cost of AI</a>
+      <a href="ethics.html">Ethics</a>
+      <a href="law.html" class="active">AI &amp; The Law</a>
+      <a href="action.html">Take Action</a>
+      <a href="resources.html">Resources</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="hero__inner">
+      <span class="eyebrow">Regulation &amp; Policy</span>
+      <h1>The law is catching up to AI. Here's where things stand.</h1>
+      <p class="hero__sub">Eight major frameworks. Dozens of countries. One clear direction: accountability is no longer optional.</p>
+    </div>
+  </section>
+
+  <!-- REGULATIONS -->
+  <section class="section section--bg" id="frameworks">
+    <div class="section__inner">
+      <div class="section__header reveal">
+        <span class="eyebrow">Global Frameworks</span>
+        <h2>From guidelines to binding law.</h2>
+        <p>AI regulation moved from theoretical to enforceable between 2021 and 2024. Governments and international bodies aren't waiting for the industry to self-regulate — they're writing binding rules, setting penalties, and establishing rights. Whether you use AI or build with it, this affects you.</p>
+      </div>
+
+      <div class="filter-bar reveal" role="group" aria-label="Filter regulations by region">
+        <button class="filter-pill active" data-filter="all">All</button>
+        <button class="filter-pill" data-filter="europe">Europe</button>
+        <button class="filter-pill" data-filter="international">International</button>
+        <button class="filter-pill" data-filter="americas">Americas</button>
+        <button class="filter-pill" data-filter="asia">Asia</button>
+        <button class="filter-pill" data-filter="israel">Israel</button>
+      </div>
+
+      <div class="reg-grid" id="regGrid">
+
+        <div class="reg-card reveal" data-region="europe">
+          <div class="reg-badge">Europe · 2024</div>
+          <h3>EU AI Act</h3>
+          <p>The world's most comprehensive AI law. The EU AI Act categorises AI systems by risk level — banning the highest-risk uses outright and imposing strict obligations on "high-risk" applications in areas like hiring, education, and law enforcement. Providers must be transparent about how their systems work.</p>
+          <div class="reg-implication">
+            <div class="label">Key implication</div>
+            <p>Any AI system made available in the EU — regardless of where it was built — must comply.</p>
+          </div>
+        </div>
+
+        <div class="reg-card reveal" data-region="international">
+          <div class="reg-badge">International · 2021</div>
+          <h3>UNESCO Recommendation on AI Ethics</h3>
+          <p>The first global standard on AI ethics, adopted by all 193 UNESCO member states. It covers fairness, transparency, accountability, and — uniquely — environmental sustainability. It recommends that governments require AI developers to disclose energy use and carbon emissions.</p>
+          <div class="reg-implication">
+            <div class="label">Key implication</div>
+            <p>Governments who signed are expected to put national AI ethics frameworks in place.</p>
+          </div>
+        </div>
+
+        <div class="reg-card reveal" data-region="international">
+          <div class="reg-badge">International · 2024</div>
+          <h3>UN General Assembly Resolution</h3>
+          <p>The first ever UN resolution on AI, passed in March 2024. It affirms that AI must be safe, trustworthy, and rights-respecting — and explicitly states that AI systems must not cause environmental harm.</p>
+          <div class="reg-implication">
+            <div class="label">Key implication</div>
+            <p>Sets a global normative baseline that national governments are expected to align with.</p>
+          </div>
+        </div>
+
+        <div class="reg-card reveal" data-region="europe">
+          <div class="reg-badge">Europe · 2024</div>
+          <h3>Council of Europe AI Treaty</h3>
+          <p>The first legally binding international treaty on AI. Signed by Council of Europe member states plus the US, UK, and others, it requires signatories to ensure AI systems respect human rights, democracy, and the rule of law — with enforceable obligations, not just guidelines.</p>
+          <div class="reg-implication">
+            <div class="label">Key implication</div>
+            <p>Unlike recommendations, this is a binding treaty — governments that sign must bring their laws into compliance.</p>
+          </div>
+        </div>
+
+        <div class="reg-card reveal" data-region="international">
+          <div class="reg-badge">40+ Countries · Updated 2024</div>
+          <h3>OECD AI Principles</h3>
+          <p>Adopted by over 40 countries, the OECD Principles define what "trustworthy AI" looks like in practice: transparent, explainable, robust, secure, and accountable. The 2024 update added explicit requirements around environmental sustainability.</p>
+          <div class="reg-implication">
+            <div class="label">Key implication</div>
+            <p>These principles shape national policy across most of the world's largest economies.</p>
+          </div>
+        </div>
+
+        <div class="reg-card reveal" data-region="americas">
+          <div class="reg-badge">United States · 2023</div>
+          <h3>US Executive Order on AI</h3>
+          <p>President Biden's Executive Order on "Safe, Secure, and Trustworthy AI" directed federal agencies to develop AI safety standards and required major AI companies to share safety testing results with the government before public release. It also prompted voluntary commitments from leading AI companies.</p>
+          <div class="reg-implication">
+            <div class="label">Key implication</div>
+            <p>Sets a federal benchmark for AI safety in the US, though enforcement depends on successive administrations.</p>
+          </div>
+        </div>
+
+        <div class="reg-card reveal" data-region="asia">
+          <div class="reg-badge">China · 2023</div>
+          <h3>China Generative AI Regulations</h3>
+          <p>China's rules for generative AI — effective August 2023 — require that AI-generated content be clearly labelled, that systems not produce discriminatory or false content, and that training data meet legal standards. Providers must register with regulators before launch.</p>
+          <div class="reg-implication">
+            <div class="label">Key implication</div>
+            <p>One of the first national frameworks specifically targeting generative AI products like chatbots and image generators.</p>
+          </div>
+        </div>
+
+        <div class="reg-card reveal" data-region="israel">
+          <div class="reg-badge">Israel · Ongoing</div>
+          <h3>Israel National AI Framework</h3>
+          <p>Israel's approach centres on a National AI Sandbox Program — allowing controlled testing of AI innovations under regulatory oversight — alongside sector-specific ethics frameworks for healthcare, legal, and financial applications. The goal is innovation with guardrails, rather than blanket regulation.</p>
+          <div class="reg-implication">
+            <div class="label">Key implication</div>
+            <p>Demonstrates a risk-proportionate regulatory model that other countries are watching closely.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT THIS MEANS FOR YOU -->
+  <section class="section section--surface" id="implications">
+    <div class="section__inner">
+      <div class="section__header reveal">
+        <span class="eyebrow">What This Means For You</span>
+        <h2>Regulation isn't abstract. It applies to you.</h2>
+      </div>
+      <div class="implications-grid">
+        <div class="implications-card reveal">
+          <h3>For Users</h3>
+          <ul>
+            <li>You have growing rights around AI decisions that affect you — including the right to know when AI was involved.</li>
+            <li>In the EU, you can challenge automated decisions made about you (hiring, credit, insurance) and request human review.</li>
+            <li>Labelling requirements mean AI-generated content should increasingly be disclosed — look for it.</li>
+          </ul>
+        </div>
+        <div class="implications-card reveal">
+          <h3>For Builders</h3>
+          <ul>
+            <li>If your product touches the EU market, the AI Act applies regardless of where you're based.</li>
+            <li>Transparency is no longer optional: document your training data, disclose AI involvement, and be ready to explain your system's decisions.</li>
+            <li>Environmental accountability is entering regulation — now is the time to measure and reduce your system's energy footprint, before it becomes mandatory.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="footer__main">
+    <div>
+      <a href="index.html" class="footer__logo">ResponsibleAI</a>
+      <p class="footer__tagline">Every AI request costs something. Use it wisely.</p>
+    </div>
+    <nav class="footer__nav" aria-label="Footer navigation">
+      <a href="index.html">Home</a>
+      <a href="cost.html">Cost of AI</a>
+      <a href="ethics.html">Ethics</a>
+      <a href="law.html">The Law</a>
+      <a href="action.html">Take Action</a>
+      <a href="resources.html">Resources</a>
+    </nav>
+    <div class="footer__social">
+      <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+      <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+      <a href="#" aria-label="Twitter/X"><svg viewBox="0 0 24 24"><path d="M4 4l16 16M4 20L20 4"/></svg></a>
+    </div>
+  </div>
+  <div class="footer__bottom">
+    <p class="footer__disclaimer">Sources: EU AI Act official documentation, UNESCO AI Ethics Recommendation, OECD AI Principles, Council of Europe Framework Convention on AI, UN General Assembly Resolution A/78/L.49.</p>
+    <p class="footer__copyright">© 2026 Responsible AI Campaign.</p>
+  </div>
+</footer>
+
+<script>
+  const hamburger = document.querySelector('.nav__hamburger');
+  const mobileNav = document.querySelector('.nav__mobile');
+  hamburger.addEventListener('click', () => {
+    const open = hamburger.classList.toggle('open');
+    mobileNav.classList.toggle('open', open);
+    hamburger.setAttribute('aria-expanded', open);
+  });
+
+  document.querySelectorAll('.reveal').forEach(el => {
+    new IntersectionObserver((e) => {
+      e.forEach(en => { if (en.isIntersecting) en.target.classList.add('visible'); });
+    }, { threshold: 0.08 }).observe(el);
+  });
+
+  // Filter pills
+  document.querySelectorAll('.filter-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      const filter = pill.dataset.filter;
+      document.querySelectorAll('.reg-card').forEach(card => {
+        card.classList.toggle('hidden', filter !== 'all' && card.dataset.region !== filter);
+      });
+    });
+  });
+</script>
+</body>
+</html>
