@@ -1,0 +1,398 @@
+/* ============================================================
+   Responsible AI — Design Tokens
+   Version: 1.0 | March 2026
+   Style: Forest & Moss — Warm Editorial Minimalism
+   Import this file into any page stylesheet.
+   ============================================================ */
+
+/* ── Google Fonts ──
+   Add this to your <head> before this stylesheet:
+
+   <link rel="preconnect" href="https://fonts.googleapis.com" />
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+*/
+
+:root {
+
+  /* ── Colors ────────────────────────────── */
+
+  /* Core */
+  --color-primary:      #2B4A35;   /* Deep Forest — hero bg, headings, icon strokes */
+  --color-secondary:    #7A9E6E;   /* Warm Moss — CTA buttons, callout borders */
+  --color-bg:           #F9F6F1;   /* Warm White — page background */
+  --color-surface:      #EDE8DF;   /* Soft Cream — cards, section backgrounds */
+  --color-text:         #1E2A23;   /* Deep Slate — all body text */
+  --color-text-muted:   #6B7B6E;   /* Warm Gray — captions, labels, metadata */
+  --color-accent:       #C4623A;   /* Terracotta — high-impact stats, warnings */
+  --color-success:      #3D7A73;   /* Muted Teal — habits, tips, positive content */
+
+  /* Functional */
+  --color-border:       rgba(30, 42, 35, 0.08);
+  --color-overlay:      rgba(43, 74, 53, 0.09);
+  --color-callout-bg:   rgba(122, 158, 110, 0.08);
+  --color-accent-bg:    rgba(196, 98, 58, 0.08);
+
+  /* White (for text on dark backgrounds) */
+  --color-white:        #ffffff;
+  --color-white-80:     rgba(255, 255, 255, 0.80);
+  --color-white-70:     rgba(255, 255, 255, 0.70);
+  --color-white-45:     rgba(255, 255, 255, 0.45);
+
+
+  /* ── Typography ────────────────────────── */
+
+  --font-heading:       'Fraunces', Georgia, serif;
+  --font-body:          'Nunito Sans', system-ui, sans-serif;
+
+  /* Scale */
+  --text-display:       clamp(48px, 6vw, 72px);
+  --text-h1:            clamp(32px, 4vw, 48px);
+  --text-h2:            clamp(22px, 2.5vw, 32px);
+  --text-h3:            clamp(18px, 2vw, 24px);
+  --text-lead:          clamp(17px, 1.5vw, 20px);
+  --text-body:          16px;
+  --text-label:         12px;
+  --text-caption:       13px;
+
+  /* Line heights */
+  --leading-tight:      1.18;
+  --leading-snug:       1.3;
+  --leading-normal:     1.5;
+  --leading-relaxed:    1.6;
+  --leading-loose:      1.7;
+
+  /* Letter spacing */
+  --tracking-wide:      0.08em;
+  --tracking-wider:     0.12em;
+  --tracking-widest:    0.16em;
+
+
+  /* ── Spacing (4pt grid) ─────────────────── */
+
+  --space-1:    4px;
+  --space-2:    8px;
+  --space-3:    12px;
+  --space-4:    16px;
+  --space-5:    24px;
+  --space-6:    32px;
+  --space-7:    48px;
+  --space-8:    64px;
+  --space-9:    96px;
+  --space-10:   128px;
+
+
+  /* ── Border Radius ──────────────────────── */
+
+  --radius-sm:    6px;
+  --radius-md:    8px;    /* buttons */
+  --radius-lg:    12px;   /* cards */
+  --radius-xl:    20px;   /* large containers */
+  --radius-full:  9999px; /* pills, tags */
+
+
+  /* ── Shadows ────────────────────────────── */
+
+  --shadow-card:   0 2px 12px rgba(0, 0, 0, 0.07);
+  --shadow-md:     0 4px 24px rgba(0, 0, 0, 0.10);
+  --shadow-lg:     0 8px 40px rgba(0, 0, 0, 0.12);
+
+
+  /* ── Layout ─────────────────────────────── */
+
+  --container-max:     1100px;
+  --container-gutter:  24px;
+
+
+  /* ── Transitions ────────────────────────── */
+
+  --transition-fast:   150ms ease-out;
+  --transition-base:   250ms ease-out;
+  --transition-slow:   350ms ease-out;
+
+}
+
+
+/* ── Base Reset ─────────────────────────────── */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-optical-sizing: auto;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  line-height: var(--leading-relaxed);
+}
+
+
+/* ── Typography Defaults ────────────────────── */
+
+h1, h2 {
+  font-family: var(--font-heading);
+  font-optical-sizing: auto;
+  color: var(--color-text);
+}
+
+h1 { font-size: var(--text-h1); font-weight: 400; line-height: var(--leading-tight); }
+h2 { font-size: var(--text-h2); font-weight: 600; line-height: var(--leading-snug); }
+h3 { font-family: var(--font-body); font-size: var(--text-h3); font-weight: 600; line-height: var(--leading-snug); }
+
+p { line-height: var(--leading-relaxed); }
+
+.text-lead {
+  font-size: var(--text-lead);
+  line-height: var(--leading-loose);
+}
+
+.text-caption {
+  font-size: var(--text-caption);
+  color: var(--color-text-muted);
+  line-height: var(--leading-normal);
+}
+
+.text-label {
+  font-family: var(--font-body);
+  font-size: var(--text-label);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.text-display {
+  font-family: var(--font-heading);
+  font-size: var(--text-display);
+  font-weight: 700;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Stat number colors */
+.stat-primary  { color: var(--color-primary); }
+.stat-accent   { color: var(--color-accent); }
+.stat-success  { color: var(--color-success); }
+
+
+/* ── Layout Utilities ───────────────────────── */
+
+.container {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-gutter);
+}
+
+
+/* ── Cards ──────────────────────────────────── */
+
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-5) 28px;
+}
+
+
+/* ── Buttons ────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 13px 28px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 2px solid transparent;
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
+}
+
+.btn:hover { opacity: 0.85; }
+
+.btn-primary {
+  background: var(--color-secondary);
+  color: var(--color-white);
+  border-color: var(--color-secondary);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-secondary:hover {
+  background: var(--color-overlay);
+  opacity: 1;
+}
+
+/* Button on dark/hero background */
+.btn-ghost {
+  background: transparent;
+  color: var(--color-white);
+  border-color: var(--color-white-45);
+}
+
+
+/* ── Callout Box ────────────────────────────── */
+
+.callout {
+  border-left: 4px solid var(--color-secondary);
+  background: var(--color-callout-bg);
+  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
+  padding: 18px 22px;
+}
+
+.callout p {
+  font-style: italic;
+  font-size: 15px;
+  line-height: var(--leading-relaxed);
+}
+
+.callout cite {
+  display: block;
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  margin-top: var(--space-2);
+}
+
+/* Warning/accent variant */
+.callout-accent {
+  border-color: var(--color-accent);
+  background: var(--color-accent-bg);
+}
+
+.callout-accent cite { color: var(--color-accent); }
+
+
+/* ── Section Label / Eyebrow ────────────────── */
+
+.eyebrow {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: var(--tracking-widest);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-5);
+}
+
+
+/* ── Stat Card ──────────────────────────────── */
+
+.stat-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 24px 28px;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.stat-card__icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--color-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stat-card__icon svg {
+  width: 22px;
+  height: 22px;
+  stroke: var(--color-primary);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.stat-card__label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 4px;
+}
+
+.stat-card__value {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text);
+  line-height: 1.35;
+}
+
+.stat-card__sub {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-top: 4px;
+}
+
+
+/* ── Hero Section ───────────────────────────── */
+
+.hero {
+  background: var(--color-primary);
+  color: var(--color-white);
+  padding: var(--space-10) var(--container-gutter);
+}
+
+.hero h1 {
+  color: var(--color-white);
+  max-width: 640px;
+}
+
+.hero p {
+  color: var(--color-white-80);
+  max-width: 580px;
+  font-size: var(--text-lead);
+  line-height: var(--leading-loose);
+}
+
+.hero .eyebrow { color: var(--color-white-70); }
+
+
+/* ── SVG Icon Defaults ──────────────────────── */
+
+svg {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+
+/* ── Accessibility ──────────────────────────── */
+
+:focus-visible {
+  outline: 3px solid var(--color-secondary);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Responsible AI — Wireframe Options</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: system-ui, sans-serif;
+    background: #f0f0f0;
+    color: #111;
+    font-size: 13px;
+  }
+
+  /* ── MASTER NAV ── */
+  .master-nav {
+    background: #111;
+    color: #fff;
+    padding: 12px 32px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    font-size: 12px;
+  }
+  .master-nav strong { font-size: 14px; margin-right: 8px; }
+  .master-nav a {
+    color: #ccc;
+    text-decoration: none;
+    padding: 4px 8px;
+    border-radius: 3px;
+    transition: background 0.15s;
+  }
+  .master-nav a:hover { background: #333; color: #fff; }
+
+  /* ── PAGE SECTIONS ── */
+  .page-section {
+    padding: 40px 32px;
+    border-bottom: 3px solid #999;
+  }
+  .page-section:nth-child(even) { background: #e8e8e8; }
+  .page-section:nth-child(odd) { background: #f4f4f4; }
+
+  .page-title {
+    font-size: 22px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+    border-bottom: 2px solid #111;
+    padding-bottom: 8px;
+  }
+  .page-subtitle {
+    font-size: 12px;
+    color: #555;
+    margin-bottom: 32px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  /* ── OPTIONS ROW ── */
+  .options-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+
+  .option {
+    background: #fff;
+    border: 2px solid #bbb;
+  }
+  .option-label {
+    background: #222;
+    color: #fff;
+    padding: 8px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .option-label span { font-weight: 400; color: #aaa; font-size: 10px; letter-spacing: 1px; }
+  .option-body { padding: 16px; }
+
+  /* ── WIREFRAME PRIMITIVES ── */
+  .wf-box {
+    background: #d0d0d0;
+    border: 1px solid #aaa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 10px;
+    text-align: center;
+    line-height: 1.4;
+  }
+  .wf-box.dark {
+    background: #888;
+    color: #eee;
+    border-color: #666;
+  }
+  .wf-box.medium {
+    background: #b8b8b8;
+    border-color: #999;
+  }
+  .wf-box.light {
+    background: #e8e8e8;
+    border-color: #ccc;
+    color: #777;
+  }
+  .wf-text-block {
+    background: #ececec;
+    border: 1px dashed #bbb;
+    padding: 8px;
+    color: #777;
+    font-size: 10px;
+    line-height: 1.6;
+    margin: 0;
+  }
+  .wf-btn {
+    display: inline-block;
+    border: 2px solid #555;
+    padding: 6px 14px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #333;
+    background: #ddd;
+    cursor: default;
+  }
+  .wf-btn.filled {
+    background: #555;
+    color: #fff;
+  }
+  .wf-label {
+    font-size: 10px;
+    color: #777;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+  .wf-divider { border: none; border-top: 1px dashed #ccc; margin: 12px 0; }
+
+  /* ── SHARED NAV WIREFRAME ── */
+  .wf-nav {
+    height: 44px;
+    border: 1px solid #aaa;
+    background: #d0d0d0;
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+    gap: 12px;
+    margin-bottom: 0;
+  }
+  .wf-nav-logo { width: 80px; height: 22px; background: #888; border: 1px solid #666; }
+  .wf-nav-links { display: flex; gap: 8px; margin-left: auto; }
+  .wf-nav-link { width: 60px; height: 16px; background: #bbb; border: 1px solid #aaa; }
+  .wf-nav-link.active { background: #555; }
+
+  /* ── FOOTER WIREFRAME ── */
+  .wf-footer {
+    height: 60px;
+    background: #888;
+    border: 1px solid #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #eee;
+    font-size: 10px;
+    margin-top: 0;
+  }
+
+  /* ── GRID HELPERS ── */
+  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .g3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  .g4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 8px; }
+  .g-60-40 { display: grid; grid-template-columns: 60fr 40fr; gap: 8px; }
+  .g-40-60 { display: grid; grid-template-columns: 40fr 60fr; gap: 8px; }
+  .g-30-70 { display: grid; grid-template-columns: 30fr 70fr; gap: 8px; }
+  .g-sidebar { display: grid; grid-template-columns: 200px 1fr; gap: 8px; }
+  .col { display: flex; flex-direction: column; gap: 8px; }
+  .row { display: flex; flex-direction: row; gap: 8px; }
+  .mb4 { margin-bottom: 4px; }
+  .mb8 { margin-bottom: 8px; }
+  .mb12 { margin-bottom: 12px; }
+  .mb16 { margin-bottom: 16px; }
+  .full-w { width: 100%; }
+  .flex-end { display: flex; justify-content: flex-end; }
+  .flex-center { display: flex; justify-content: center; }
+  .flex-gap { display: flex; gap: 8px; flex-wrap: wrap; }
+  .text-center { text-align: center; }
+
+  /* ── ANNOTATION ── */
+  .annotation {
+    font-size: 10px;
+    color: #e05500;
+    font-style: italic;
+    margin-top: 4px;
+  }
+  .section-spacer { height: 12px; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     MASTER NAVIGATION
+══════════════════════════════════════════ -->
+<nav class="master-nav">
+  <strong>Responsible AI — Wireframes</strong>
+  <a href="#home">Home</a>
+  <a href="#cost">The Cost of AI</a>
+  <a href="#ethics">Ethics</a>
+  <a href="#law">AI & The Law</a>
+  <a href="#action">Take Action</a>
+</nav>
+
+
+<!-- ══════════════════════════════════════════
+     1. HOME PAGE
+══════════════════════════════════════════ -->
+<section class="page-section" id="home">
+  <div class="page-title">1 — Home</div>
+  <div class="page-subtitle">Mission, 3 hero stats, CTAs — first impression page</div>
+
+  <div class="options-row">
+
+    <!-- OPTION A -->
+    <div class="option">
+      <div class="option-label">Option A <span>Centered single-column · stacked storytelling</span></div>
+      <div class="option-body">
+
+        <!-- Nav -->
+        <div class="wf-nav mb8">
+          <div class="wf-nav-logo"></div>
+          <div class="wf-nav-links">
+            <div class="wf-nav-link active"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+          </div>
+        </div>
+
+        <!-- Hero — full-width centered -->
+        <div class="wf-box dark mb8 text-center" style="height:160px; flex-direction:column; gap:8px; padding:16px;">
+          <div style="width:60%; height:18px; background:#aaa; margin:0 auto;"></div>
+          <div style="width:80%; height:12px; background:#999; margin:0 auto;"></div>
+          <div style="width:50%; height:10px; background:#888; margin:0 auto;"></div>
+          <div class="flex-center" style="gap:8px; margin-top:8px;">
+            <div class="wf-btn filled" style="background:#fff; color:#333;">Primary CTA</div>
+            <div class="wf-btn" style="border-color:#fff; color:#eee;">Learn More</div>
+          </div>
+        </div>
+        <div class="annotation">Hero: large tagline, sub-headline, 2 CTAs — full-width dark background</div>
+
+        <div class="section-spacer"></div>
+
+        <!-- 3 stat cards -->
+        <div class="wf-label mb4">Key Stats Strip</div>
+        <div class="g3 mb8">
+          <div class="wf-box" style="height:80px; flex-direction:column; gap:4px;">
+            <div style="width:40px; height:32px; background:#aaa;"></div>
+            <div style="font-size:9px;">Stat + label</div>
+          </div>
+          <div class="wf-box" style="height:80px; flex-direction:column; gap:4px;">
+            <div style="width:40px; height:32px; background:#aaa;"></div>
+            <div style="font-size:9px;">Stat + label</div>
+          </div>
+          <div class="wf-box" style="height:80px; flex-direction:column; gap:4px;">
+            <div style="width:40px; height:32px; background:#aaa;"></div>
+            <div style="font-size:9px;">Stat + label</div>
+          </div>
+        </div>
+        <div class="annotation">3 bold numbers: energy/water/scale — equal-weight cards</div>
+
+        <div class="section-spacer"></div>
+
+        <!-- Mission statement -->
+        <div class="wf-label mb4">Mission Block</div>
+        <div class="wf-box light full-w mb8" style="height:80px; flex-direction:column; gap:6px; padding:12px;">
+          <div style="width:70%; height:12px; background:#ccc;"></div>
+          <div style="width:85%; height:10px; background:#d0d0d0;"></div>
+          <div style="width:60%; height:10px; background:#d0d0d0;"></div>
+        </div>
+
+        <div class="section-spacer"></div>
+
+        <!-- "Did You Know" rotating cards -->
+        <div class="wf-label mb4">"Did You Know?" — Rotating cards</div>
+        <div class="wf-box medium full-w mb4" style="height:60px; gap:8px;">
+          <div style="width:32px; height:32px; background:#888; border-radius:50%;"></div>
+          <div class="col" style="align-items:flex-start; gap:4px;">
+            <div style="width:180px; height:10px; background:#999;"></div>
+            <div style="width:120px; height:8px; background:#bbb;"></div>
+          </div>
+          <div style="width:16px; height:16px; background:#888; margin-left:auto;"></div>
+        </div>
+        <div class="annotation">Auto-rotating stat card with prev/next controls</div>
+
+        <div class="section-spacer"></div>
+
+        <!-- 3-pillar intro -->
+        <div class="wf-label mb4">3-Pillar Overview</div>
+        <div class="g3 mb8">
+          <div class="wf-box light" style="height:100px; flex-direction:column; gap:4px; padding:8px; align-items:flex-start;">
+            <div style="width:30px; height:20px; background:#bbb;"></div>
+            <div style="width:80%; height:10px; background:#ccc;"></div>
+            <div style="width:100%; height:8px; background:#d8d8d8;"></div>
+            <div style="width:90%; height:8px; background:#d8d8d8;"></div>
+          </div>
+          <div class="wf-box light" style="height:100px; flex-direction:column; gap:4px; padding:8px; align-items:flex-start;">
+            <div style="width:30px; height:20px; background:#bbb;"></div>
+            <div style="width:80%; height:10px; background:#ccc;"></div>
+            <div style="width:100%; height:8px; background:#d8d8d8;"></div>
+            <div style="width:90%; height:8px; background:#d8d8d8;"></div>
+          </div>
+          <div class="wf-box light" style="height:100px; flex-direction:column; gap:4px; padding:8px; align-items:flex-start;">
+            <div style="width:30px; height:20px; background:#bbb;"></div>
+            <div style="width:80%; height:10px; background:#ccc;"></div>
+            <div style="width:100%; height:8px; background:#d8d8d8;"></div>
+            <div style="width:90%; height:8px; background:#d8d8d8;"></div>
+          </div>
+        </div>
+
+        <div class="wf-footer">Footer: logo · nav links · social icons · copyright</div>
+      </div>
+    </div>
+
+    <!-- OPTION B -->
+    <div class="option">
+      <div class="option-label">Option B <span>Split hero · asymmetric bento grid</span></div>
+      <div class="option-body">
+
+        <!-- Nav -->
+        <div class="wf-nav mb8">
+          <div class="wf-nav-logo"></div>
+          <div class="wf-nav-links">
+            <div class="wf-nav-link active"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+          </div>
+        </div>
+
+        <!-- Hero — split 60/40 -->
+        <div class="g-60-40 mb4" style="height:160px;">
+          <div class="wf-box dark" style="flex-direction:column; gap:8px; padding:16px; align-items:flex-start;">
+            <div style="width:80%; height:16px; background:#aaa;"></div>
+            <div style="width:90%; height:10px; background:#999;"></div>
+            <div style="width:70%; height:10px; background:#999;"></div>
+            <div class="flex-gap" style="margin-top:auto;">
+              <div class="wf-btn filled" style="background:#ccc; color:#333; font-size:9px;">Primary CTA</div>
+              <div class="wf-btn" style="border-color:#999; color:#ddd; font-size:9px;">Secondary</div>
+            </div>
+          </div>
+          <div class="wf-box medium" style="flex-direction:column; gap:4px;">
+            <div style="font-size:9px; color:#666;">[ Animated<br>stat visual ]</div>
+          </div>
+        </div>
+        <div class="annotation">Hero: copy left, animated stat visual right (e.g., energy counter)</div>
+
+        <div class="section-spacer"></div>
+
+        <!-- Bento grid stats -->
+        <div class="wf-label mb4">Bento Grid — Stats + Mission</div>
+        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; grid-template-rows: 70px 70px; gap:8px; margin-bottom:8px;">
+          <div class="wf-box dark" style="grid-column:span 2; flex-direction:column; gap:4px;">
+            <div style="font-size:28px; font-weight:700; color:#ddd;">2.9 Wh</div>
+            <div style="font-size:9px; color:#aaa;">per AI image generation</div>
+          </div>
+          <div class="wf-box medium" style="flex-direction:column; gap:4px;">
+            <div style="font-size:9px; color:#555;">[ Infographic ]</div>
+          </div>
+          <div class="wf-box light" style="flex-direction:column; gap:4px;">
+            <div style="font-size:9px; color:#666;">Stat card</div>
+          </div>
+          <div class="wf-box" style="grid-column:span 2; flex-direction:column; gap:4px; padding:8px; align-items:flex-start;">
+            <div style="width:70%; height:10px; background:#ccc;"></div>
+            <div style="width:90%; height:8px; background:#d8d8d8;"></div>
+            <div style="width:50%; height:8px; background:#d8d8d8;"></div>
+          </div>
+        </div>
+        <div class="annotation">Bento grid: large stat tiles, infographic cell, mission blurb — no uniform sizing</div>
+
+        <div class="section-spacer"></div>
+
+        <!-- Horizontal scroll pillar cards -->
+        <div class="wf-label mb4">Pillars — Horizontal Scroll Cards</div>
+        <div style="overflow:hidden; border:1px dashed #bbb; padding:8px; margin-bottom:8px;">
+          <div style="display:flex; gap:8px; width:max-content;">
+            <div class="wf-box light" style="width:140px; height:100px; flex-direction:column; gap:4px; padding:8px; align-items:flex-start; flex-shrink:0;">
+              <div style="width:30px; height:18px; background:#bbb;"></div>
+              <div style="width:80%; height:10px; background:#ccc;"></div>
+              <div style="width:100%; height:7px; background:#d8d8d8;"></div>
+              <div style="width:90%; height:7px; background:#d8d8d8;"></div>
+            </div>
+            <div class="wf-box light" style="width:140px; height:100px; flex-direction:column; gap:4px; padding:8px; align-items:flex-start; flex-shrink:0;">
+              <div style="width:30px; height:18px; background:#bbb;"></div>
+              <div style="width:80%; height:10px; background:#ccc;"></div>
+              <div style="width:100%; height:7px; background:#d8d8d8;"></div>
+              <div style="width:90%; height:7px; background:#d8d8d8;"></div>
+            </div>
+            <div class="wf-box light" style="width:140px; height:100px; flex-direction:column; gap:4px; padding:8px; align-items:flex-start; flex-shrink:0;">
+              <div style="width:30px; height:18px; background:#bbb;"></div>
+              <div style="width:80%; height:10px; background:#ccc;"></div>
+              <div style="width:100%; height:7px; background:#d8d8d8;"></div>
+              <div style="width:90%; height:7px; background:#d8d8d8;"></div>
+            </div>
+            <div class="wf-box light" style="width:140px; height:100px; opacity:0.5; flex-shrink:0; flex-direction:column; justify-content:center; align-items:center;">
+              <div style="font-size:9px; color:#aaa;">→ scroll</div>
+            </div>
+          </div>
+        </div>
+        <div class="annotation">Cards overflow horizontally, hinting at more content — encourages exploration</div>
+
+        <div class="section-spacer"></div>
+
+        <!-- "Did You Know" inline -->
+        <div class="wf-label mb4">Pull Quote / Rotating Fact</div>
+        <div class="wf-box medium full-w mb8" style="height:50px; padding:0 16px;">
+          <div style="font-size:10px; color:#555; font-style:italic; text-align:center;">"Every AI request costs something. Use it wisely."</div>
+        </div>
+
+        <div class="wf-footer">Footer: logo · nav links · social icons · copyright</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     2. THE COST OF AI
+══════════════════════════════════════════ -->
+<section class="page-section" id="cost">
+  <div class="page-title">2 — The Cost of AI</div>
+  <div class="page-subtitle">Environmental pillar · energy, water, habits, Prompt-First Principle</div>
+
+  <div class="options-row">
+
+    <!-- OPTION A -->
+    <div class="option">
+      <div class="option-label">Option A <span>Long-scroll narrative · infographic-forward</span></div>
+      <div class="option-body">
+
+        <div class="wf-nav mb8">
+          <div class="wf-nav-logo"></div>
+          <div class="wf-nav-links">
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link active"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+          </div>
+        </div>
+
+        <!-- Page hero -->
+        <div class="wf-box dark full-w mb8" style="height:80px; flex-direction:column; gap:6px;">
+          <div style="width:60%; height:14px; background:#aaa;"></div>
+          <div style="width:75%; height:9px; background:#999;"></div>
+        </div>
+
+        <!-- Full-width infographic -->
+        <div class="wf-label mb4">Infographic — Energy Comparison Table</div>
+        <div class="wf-box medium full-w mb4" style="height:100px;">
+          [ Energy comparison infographic: image vs video vs text prompt vs Google search ]
+        </div>
+        <div class="annotation">Full-width chart — biggest visual on page, sets the stakes</div>
+
+        <div class="section-spacer"></div>
+
+        <!-- Water section: text + chart -->
+        <div class="wf-label mb4">Water Usage Section</div>
+        <div class="g-60-40 mb4">
+          <div class="col">
+            <div class="wf-text-block">Section heading placeholder text goes here introducing water usage facts and why they matter for AI awareness.</div>
+            <div class="wf-text-block">Supporting paragraph: projections, per-prompt numbers, annual totals.</div>
+          </div>
+          <div class="wf-box medium" style="height:100px;">[ Water usage<br>projection chart ]</div>
+        </div>
+
+        <div class="section-spacer"></div>
+
+        <!-- Prompt-First Principle -->
+        <div class="wf-label mb4">Prompt-First Principle — Callout Block</div>
+        <div class="wf-box light full-w mb4" style="height:70px; flex-direction:column; gap:6px; border:2px solid #888; padding:12px; align-items:flex-start;">
+          <div style="width:50%; height:12px; background:#bbb;"></div>
+          <div style="width:90%; height:9px; background:#d0d0d0;"></div>
+          <div style="width:70%; height:9px; background:#d0d0d0;"></div>
+        </div>
+        <div class="annotation">Highlighted callout box: "Prompt first. Generate second." principle</div>
+
+        <div class="section-spacer"></div>
+
+        <!-- 6 habits — numbered list -->
+        <div class="wf-label mb4">6 Habits — Numbered List</div>
+        <div class="col mb8">
+          <div class="wf-box light full-w" style="height:36px; gap:8px; padding:0 12px; justify-content:flex-start;">
+            <div style="width:20px; height:20px; background:#888; border-radius:50%; font-size:9px; color:#fff; display:flex; align-items:center; justify-content:center; flex-shrink:0;">1</div>
+            <div class="col" style="gap:2px; align-items:flex-start;">
+              <div style="width:120px; height:9px; background:#ccc;"></div>
+              <div style="width:200px; height:7px; background:#d8d8d8;"></div>
+            </div>
+          </div>
+          <div class="wf-box light full-w" style="height:36px; gap:8px; padding:0 12px; justify-content:flex-start;">
+            <div style="width:20px; height:20px; background:#888; border-radius:50%; font-size:9px; color:#fff; display:flex; align-items:center; justify-content:center; flex-shrink:0;">2</div>
+            <div class="col" style="gap:2px; align-items:flex-start;">
+              <div style="width:140px; height:9px; background:#ccc;"></div>
+              <div style="width:180px; height:7px; background:#d8d8d8;"></div>
+            </div>
+          </div>
+          <div class="wf-box light full-w" style="height:36px; gap:8px; padding:0 12px; justify-content:flex-start; opacity:0.6;">
+            <div style="width:20px; height:20px; background:#999; border-radius:50%; font-size:9px; color:#fff; display:flex; align-items:center; justify-content:center; flex-shrink:0;">3–6</div>
+            <div style="font-size:9px; color:#aaa;">... 4 more habits</div>
+          </div>
+        </div>
+
+        <!-- Energy calculator -->
+        <div class="wf-label mb4">Interactive — Energy Calculator</div>
+        <div class="wf-box light full-w mb8" style="height:80px; flex-direction:column; gap:8px; padding:12px; border:1px dashed #999; align-items:flex-start;">
+          <div style="display:flex; gap:8px; align-items:center;">
+            <div style="width:80px; height:20px; background:#d0d0d0; border:1px solid #bbb;"></div>
+            <div style="font-size:9px; color:#888;">images per session</div>
+          </div>
+          <div style="display:flex; gap:8px; align-items:center;">
+            <div style="width:80px; height:20px; background:#d0d0d0; border:1px solid #bbb;"></div>
+            <div style="font-size:9px; color:#888;">text prompts per day</div>
+          </div>
+          <div style="display:flex; gap:8px; align-items:center;">
+            <div class="wf-btn filled" style="font-size:9px;">Calculate</div>
+            <div style="font-size:9px; color:#888;">= X hours of phone charging</div>
+          </div>
+        </div>
+        <div class="annotation">User inputs their usage; output in relatable analogies</div>
+
+        <div class="wf-footer">Footer</div>
+      </div>
+    </div>
+
+    <!-- OPTION B -->
+    <div class="option">
+      <div class="option-label">Option B <span>Tabbed sections · sidebar nav · dense but scannable</span></div>
+      <div class="option-body">
+
+        <div class="wf-nav mb8">
+          <div class="wf-nav-logo"></div>
+          <div class="wf-nav-links">
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link active"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+          </div>
+        </div>
+
+        <!-- Page hero -->
+        <div class="wf-box dark full-w mb8" style="height:60px; flex-direction:column; gap:6px;">
+          <div style="width:55%; height:14px; background:#aaa;"></div>
+          <div style="width:70%; height:9px; background:#999;"></div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="wf-label mb4">Section Tabs</div>
+        <div style="display:flex; gap:0; margin-bottom:8px; border-bottom:2px solid #888;">
+          <div style="padding:6px 12px; background:#555; color:#fff; font-size:10px; font-weight:700;">Energy</div>
+          <div style="padding:6px 12px; background:#d0d0d0; color:#666; font-size:10px;">Water</div>
+          <div style="padding:6px 12px; background:#d0d0d0; color:#666; font-size:10px;">Prompt-First</div>
+          <div style="padding:6px 12px; background:#d0d0d0; color:#666; font-size:10px;">6 Habits</div>
+          <div style="padding:6px 12px; background:#d0d0d0; color:#666; font-size:10px;">Calculator</div>
+        </div>
+        <div class="annotation">Tab navigation: jump directly to a sub-topic — content swaps in same area</div>
+
+        <!-- Active tab content: Energy -->
+        <div class="g-sidebar mb8">
+          <!-- Sidebar: mini navigation within section -->
+          <div class="col">
+            <div class="wf-box light" style="height:24px; font-size:9px; background:#888; color:#fff;">Energy Usage</div>
+            <div class="wf-box light" style="height:24px; font-size:9px;">→ Vs. Google</div>
+            <div class="wf-box light" style="height:24px; font-size:9px;">→ Images</div>
+            <div class="wf-box light" style="height:24px; font-size:9px;">→ Video</div>
+            <div class="wf-box light" style="height:24px; font-size:9px;">→ Scale</div>
+          </div>
+          <!-- Main content -->
+          <div class="col">
+            <div class="wf-box medium full-w" style="height:90px;">[ Energy comparison<br>infographic ]</div>
+            <div class="wf-text-block">Introductory paragraph explaining energy cost comparison. Lorem ipsum contextual text about AI energy usage at scale.</div>
+            <div class="g2">
+              <div class="wf-box light" style="height:60px; flex-direction:column; gap:4px;">
+                <div style="font-size:18px; font-weight:700; color:#666;">10x</div>
+                <div style="font-size:9px; color:#888;">vs. Google search</div>
+              </div>
+              <div class="wf-box light" style="height:60px; flex-direction:column; gap:4px;">
+                <div style="font-size:18px; font-weight:700; color:#666;">450 TWh</div>
+                <div style="font-size:9px; color:#888;">AI electricity 2025</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="annotation">Sidebar anchors + tabbed sections = highly scannable for returning visitors</div>
+
+        <div class="section-spacer"></div>
+
+        <!-- Prompt-First as a step-by-step -->
+        <div class="wf-label mb4">Prompt-First — Step Flow</div>
+        <div style="display:flex; align-items:center; gap:4px; margin-bottom:4px; overflow:hidden;">
+          <div class="wf-box light" style="height:44px; flex:1; flex-direction:column; gap:2px; font-size:9px;">Step 1<br>Subject</div>
+          <div style="font-size:12px; color:#888;">→</div>
+          <div class="wf-box light" style="height:44px; flex:1; flex-direction:column; gap:2px; font-size:9px;">Step 2<br>Style</div>
+          <div style="font-size:12px; color:#888;">→</div>
+          <div class="wf-box light" style="height:44px; flex:1; flex-direction:column; gap:2px; font-size:9px;">Step 3<br>Context</div>
+          <div style="font-size:12px; color:#888;">→</div>
+          <div class="wf-box light" style="height:44px; flex:1; flex-direction:column; gap:2px; font-size:9px;">Step 4<br>Exclude</div>
+          <div style="font-size:12px; color:#888;">→</div>
+          <div class="wf-box medium" style="height:44px; flex:1; flex-direction:column; gap:2px; font-size:9px;">Result:<br>2-3 tries</div>
+        </div>
+        <div class="annotation">5-step checklist shown as a linear flow — visual contrast before/after iterations</div>
+
+        <div class="section-spacer"></div>
+
+        <!-- 6 habits as bento tiles -->
+        <div class="wf-label mb4">6 Habits — Tile Grid</div>
+        <div class="g3 mb4">
+          <div class="wf-box light" style="height:60px; flex-direction:column; gap:4px; padding:6px; align-items:flex-start;">
+            <div style="width:16px; height:16px; background:#aaa;"></div>
+            <div style="width:90%; height:8px; background:#ccc;"></div>
+            <div style="width:75%; height:7px; background:#d8d8d8;"></div>
+          </div>
+          <div class="wf-box light" style="height:60px; flex-direction:column; gap:4px; padding:6px; align-items:flex-start;">
+            <div style="width:16px; height:16px; background:#aaa;"></div>
+            <div style="width:90%; height:8px; background:#ccc;"></div>
+            <div style="width:75%; height:7px; background:#d8d8d8;"></div>
+          </div>
+          <div class="wf-box light" style="height:60px; flex-direction:column; gap:4px; padding:6px; align-items:flex-start;">
+            <div style="width:16px; height:16px; background:#aaa;"></div>
+            <div style="width:90%; height:8px; background:#ccc;"></div>
+            <div style="width:75%; height:7px; background:#d8d8d8;"></div>
+          </div>
+          <div class="wf-box light" style="height:60px; flex-direction:column; gap:4px; padding:6px; align-items:flex-start;">
+            <div style="width:16px; height:16px; background:#aaa;"></div>
+            <div style="width:90%; height:8px; background:#ccc;"></div>
+            <div style="width:75%; height:7px; background:#d8d8d8;"></div>
+          </div>
+          <div class="wf-box light" style="height:60px; flex-direction:column; gap:4px; padding:6px; align-items:flex-start;">
+            <div style="width:16px; height:16px; background:#aaa;"></div>
+            <div style="width:90%; height:8px; background:#ccc;"></div>
+            <div style="width:75%; height:7px; background:#d8d8d8;"></div>
+          </div>
+          <div class="wf-box light" style="height:60px; flex-direction:column; gap:4px; padding:6px; align-items:flex-start;">
+            <div style="width:16px; height:16px; background:#aaa;"></div>
+            <div style="width:90%; height:8px; background:#ccc;"></div>
+            <div style="width:75%; height:7px; background:#d8d8d8;"></div>
+          </div>
+        </div>
+
+        <div class="wf-footer">Footer</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     3. ETHICS PAGE
+══════════════════════════════════════════ -->
+<section class="page-section" id="ethics">
+  <div class="page-title">3 — Ethics</div>
+  <div class="page-subtitle">5 ethical dimensions · builder checklist · scenario quiz</div>
+
+  <div class="options-row">
+
+    <!-- OPTION A -->
+    <div class="option">
+      <div class="option-label">Option A <span>Accordion dimensions · inline checklist · quiz modal</span></div>
+      <div class="option-body">
+
+        <div class="wf-nav mb8">
+          <div class="wf-nav-logo"></div>
+          <div class="wf-nav-links">
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link active"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+          </div>
+        </div>
+
+        <div class="wf-box dark full-w mb8" style="height:70px; flex-direction:column; gap:6px;">
+          <div style="width:50%; height:14px; background:#aaa;"></div>
+          <div style="width:65%; height:9px; background:#999;"></div>
+        </div>
+
+        <!-- 5 Ethics accordion -->
+        <div class="wf-label mb4">5 Ethics Dimensions — Accordion</div>
+        <div class="col mb4">
+          <div style="background:#d0d0d0; border:1px solid #aaa; padding:8px 12px; display:flex; justify-content:space-between; align-items:center;">
+            <div style="width:120px; height:10px; background:#999;"></div>
+            <div style="width:10px; height:10px; background:#888;">▼</div>
+          </div>
+          <!-- Expanded item -->
+          <div style="border:1px solid #aaa; border-top:none; background:#ececec; padding:8px 12px;">
+            <div class="wf-text-block" style="margin-bottom:4px;">Description of this ethics dimension. Lorem ipsum placeholder text explaining the bias and discrimination dimension with key examples.</div>
+            <div style="font-size:9px; color:#777; border-left:2px solid #aaa; padding-left:6px;">Example: Amazon hiring tool penalized women's resumes.</div>
+          </div>
+          <div style="background:#d0d0d0; border:1px solid #aaa; padding:8px 12px; display:flex; justify-content:space-between; align-items:center;">
+            <div style="width:100px; height:10px; background:#999;"></div>
+            <div style="width:10px; height:10px; background:#888;">▶</div>
+          </div>
+          <div style="background:#d0d0d0; border:1px solid #aaa; padding:8px 12px; display:flex; justify-content:space-between; align-items:center; opacity:0.7;">
+            <div style="width:110px; height:10px; background:#999;"></div>
+            <div style="width:10px; height:10px; background:#888;">▶</div>
+          </div>
+          <div style="background:#d0d0d0; border:1px solid #aaa; padding:8px 12px; display:flex; justify-content:space-between; align-items:center; opacity:0.5;">
+            <div style="width:90px; height:10px; background:#999;"></div>
+            <div style="width:10px; height:10px; background:#888;">▶</div>
+          </div>
+          <div style="background:#d0d0d0; border:1px solid #aaa; padding:8px 12px; display:flex; justify-content:space-between; align-items:center; opacity:0.5;">
+            <div style="width:130px; height:10px; background:#999;"></div>
+            <div style="width:10px; height:10px; background:#888;">▶</div>
+          </div>
+        </div>
+        <div class="annotation">One dimension expanded at a time — clean, focused reading</div>
+
+        <div class="section-spacer"></div>
+
+        <!-- Builder checklist -->
+        <div class="wf-label mb4">Builder Ethics Checklist — Interactive</div>
+        <div class="wf-box light full-w mb4" style="height:100px; flex-direction:column; gap:6px; padding:10px; align-items:flex-start; border:1px dashed #999;">
+          <div style="display:flex; align-items:center; gap:6px;"><div style="width:12px; height:12px; border:1px solid #888; background:#d0d0d0;"></div><div style="width:160px; height:8px; background:#ccc;"></div></div>
+          <div style="display:flex; align-items:center; gap:6px;"><div style="width:12px; height:12px; border:1px solid #888; background:#555;"></div><div style="width:140px; height:8px; background:#ccc;"></div></div>
+          <div style="display:flex; align-items:center; gap:6px;"><div style="width:12px; height:12px; border:1px solid #888; background:#d0d0d0;"></div><div style="width:180px; height:8px; background:#ccc;"></div></div>
+          <div style="display:flex; align-items:center; gap:6px;"><div style="width:12px; height:12px; border:1px solid #888; background:#d0d0d0;"></div><div style="width:120px; height:8px; background:#ccc;"></div></div>
+          <div style="display:flex; align-items:center; gap:6px;"><div style="width:12px; height:12px; border:1px solid #888; background:#d0d0d0;"></div><div style="width:150px; height:8px; background:#ccc;"></div></div>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <div class="wf-btn filled">Download PDF</div>
+          <div class="wf-btn">Reset</div>
+        </div>
+
+        <div class="section-spacer"></div>
+
+        <!-- Scenario quiz CTA -->
+        <div class="wf-label mb4">Scenario Quiz — Launch Button</div>
+        <div class="wf-box medium full-w mb4" style="height:60px; gap:12px;">
+          <div class="wf-btn filled">Start Scenario Quiz →</div>
+          <div style="font-size:9px; color:#666;">6 real-world dilemmas · branching decisions</div>
+        </div>
+        <div class="annotation">Quiz launches as modal/overlay — keeps page context visible underneath</div>
+
+        <div class="wf-footer">Footer</div>
+      </div>
+    </div>
+
+    <!-- OPTION B -->
+    <div class="option">
+      <div class="option-label">Option B <span>Cards grid · integrated quiz flow · sticky sidebar</span></div>
+      <div class="option-body">
+
+        <div class="wf-nav mb8">
+          <div class="wf-nav-logo"></div>
+          <div class="wf-nav-links">
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link active"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+          </div>
+        </div>
+
+        <div class="wf-box dark full-w mb8" style="height:70px; flex-direction:column; gap:6px;">
+          <div style="width:50%; height:14px; background:#aaa;"></div>
+          <div style="width:65%; height:9px; background:#999;"></div>
+        </div>
+
+        <!-- 5 ethics as cards -->
+        <div class="wf-label mb4">5 Ethics Dimensions — Card Grid</div>
+        <div class="g2 mb4">
+          <div class="wf-box light" style="height:80px; flex-direction:column; gap:4px; padding:8px; align-items:flex-start; border-left:3px solid #888;">
+            <div style="width:80%; height:10px; background:#bbb;"></div>
+            <div style="width:100%; height:7px; background:#d0d0d0;"></div>
+            <div style="width:90%; height:7px; background:#d0d0d0;"></div>
+            <div style="font-size:9px; color:#888; margin-top:auto;">Bias & Discrimination →</div>
+          </div>
+          <div class="wf-box light" style="height:80px; flex-direction:column; gap:4px; padding:8px; align-items:flex-start; border-left:3px solid #888;">
+            <div style="width:80%; height:10px; background:#bbb;"></div>
+            <div style="width:100%; height:7px; background:#d0d0d0;"></div>
+            <div style="width:90%; height:7px; background:#d0d0d0;"></div>
+            <div style="font-size:9px; color:#888; margin-top:auto;">Privacy →</div>
+          </div>
+          <div class="wf-box light" style="height:80px; flex-direction:column; gap:4px; padding:8px; align-items:flex-start; border-left:3px solid #888;">
+            <div style="width:80%; height:10px; background:#bbb;"></div>
+            <div style="width:100%; height:7px; background:#d0d0d0;"></div>
+            <div style="width:90%; height:7px; background:#d0d0d0;"></div>
+            <div style="font-size:9px; color:#888; margin-top:auto;">Misinformation →</div>
+          </div>
+          <div class="wf-box light" style="height:80px; flex-direction:column; gap:4px; padding:8px; align-items:flex-start; border-left:3px solid #888;">
+            <div style="width:80%; height:10px; background:#bbb;"></div>
+            <div style="width:100%; height:7px; background:#d0d0d0;"></div>
+            <div style="width:90%; height:7px; background:#d0d0d0;"></div>
+            <div style="font-size:9px; color:#888; margin-top:auto;">Autonomy →</div>
+          </div>
+        </div>
+        <div class="wf-box light full-w mb4" style="height:80px; flex-direction:column; gap:4px; padding:8px; align-items:flex-start; border-left:3px solid #888;">
+          <div style="width:50%; height:10px; background:#bbb;"></div>
+          <div style="width:80%; height:7px; background:#d0d0d0;"></div>
+          <div style="font-size:9px; color:#888; margin-top:auto;">Harassment & Harm →</div>
+        </div>
+        <div class="annotation">Cards link to detail sub-sections; each card clickable → expands or navigates</div>
+
+        <div class="section-spacer"></div>
+
+        <!-- Integrated scenario quiz -->
+        <div class="wf-label mb4">Scenario Quiz — Inline Flow</div>
+        <div class="wf-box medium full-w mb4" style="height:120px; flex-direction:column; gap:8px; padding:12px; align-items:flex-start; border:2px solid #888;">
+          <div style="font-size:10px; font-weight:700; color:#555;">Scenario 1 of 6: The Hiring Tool</div>
+          <div style="width:90%; height:8px; background:#aaa;"></div>
+          <div style="width:80%; height:8px; background:#bbb;"></div>
+          <div style="display:flex; gap:6px; margin-top:4px;">
+            <div class="wf-btn" style="font-size:9px;">Choice A</div>
+            <div class="wf-btn" style="font-size:9px;">Choice B</div>
+            <div class="wf-btn" style="font-size:9px;">Choice C</div>
+          </div>
+          <div style="width:100%; height:4px; background:#d0d0d0; margin-top:4px; position:relative;">
+            <div style="width:16%; height:100%; background:#555;"></div>
+          </div>
+        </div>
+        <div class="annotation">Quiz is embedded in the page, not modal — with progress bar, 3 choices per scenario</div>
+
+        <div class="section-spacer"></div>
+
+        <!-- Checklist in sidebar-style -->
+        <div class="wf-label mb4">Builder Checklist — Compact Side Panel</div>
+        <div class="g-40-60 mb4">
+          <div class="wf-box light" style="height:100px; flex-direction:column; gap:5px; padding:8px; align-items:flex-start; border:1px dashed #999;">
+            <div style="font-size:10px; font-weight:700; color:#555; margin-bottom:2px;">Builder Checklist</div>
+            <div style="display:flex; gap:4px; align-items:center;"><div style="width:8px; height:8px; background:#888;"></div><div style="width:100px; height:7px; background:#ccc;"></div></div>
+            <div style="display:flex; gap:4px; align-items:center;"><div style="width:8px; height:8px; border:1px solid #888;"></div><div style="width:80px; height:7px; background:#ccc;"></div></div>
+            <div style="display:flex; gap:4px; align-items:center;"><div style="width:8px; height:8px; border:1px solid #888;"></div><div style="width:110px; height:7px; background:#ccc;"></div></div>
+            <div style="display:flex; gap:4px; align-items:center;"><div style="width:8px; height:8px; border:1px solid #888;"></div><div style="width:90px; height:7px; background:#ccc;"></div></div>
+            <div style="display:flex; gap:4px; align-items:center;"><div style="width:8px; height:8px; border:1px solid #888;"></div><div style="width:95px; height:7px; background:#ccc;"></div></div>
+          </div>
+          <div class="wf-text-block" style="height:100px;">Supporting text about why these questions matter for builders. Responsibility and accountability context. Links to further reading on ethics frameworks.</div>
+        </div>
+
+        <div class="wf-footer">Footer</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     4. AI & THE LAW
+══════════════════════════════════════════ -->
+<section class="page-section" id="law">
+  <div class="page-title">4 — AI & The Law</div>
+  <div class="page-subtitle">8 global frameworks · regulatory timeline · implications</div>
+
+  <div class="options-row">
+
+    <!-- OPTION A -->
+    <div class="option">
+      <div class="option-label">Option A <span>Vertical timeline · left-right alternating cards</span></div>
+      <div class="option-body">
+
+        <div class="wf-nav mb8">
+          <div class="wf-nav-logo"></div>
+          <div class="wf-nav-links">
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link active"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+          </div>
+        </div>
+
+        <div class="wf-box dark full-w mb8" style="height:70px; flex-direction:column; gap:6px;">
+          <div style="width:55%; height:14px; background:#aaa;"></div>
+          <div style="width:70%; height:9px; background:#999;"></div>
+        </div>
+
+        <!-- World map placeholder -->
+        <div class="wf-label mb4">World Map — Regulation Coverage</div>
+        <div class="wf-box medium full-w mb4" style="height:80px;">[ World map: countries with AI regulation highlighted ]</div>
+        <div class="annotation">Interactive or static world map — sets global scope before timeline</div>
+
+        <div class="section-spacer"></div>
+
+        <!-- Vertical timeline -->
+        <div class="wf-label mb4">Regulatory Timeline — Vertical</div>
+        <div style="position:relative; padding-left:24px; border-left:2px solid #888; margin-bottom:8px;">
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <div style="position:relative;">
+              <div style="position:absolute; left:-30px; top:4px; width:12px; height:12px; background:#555; border-radius:50%;"></div>
+              <div class="wf-box light" style="height:48px; flex-direction:column; gap:3px; padding:6px; align-items:flex-start;">
+                <div style="font-size:9px; font-weight:700; color:#666;">2021 — UNESCO</div>
+                <div style="width:80%; height:7px; background:#ccc;"></div>
+                <div style="width:65%; height:7px; background:#d8d8d8;"></div>
+              </div>
+            </div>
+            <div style="position:relative;">
+              <div style="position:absolute; left:-30px; top:4px; width:12px; height:12px; background:#555; border-radius:50%;"></div>
+              <div class="wf-box light" style="height:48px; flex-direction:column; gap:3px; padding:6px; align-items:flex-start;">
+                <div style="font-size:9px; font-weight:700; color:#666;">2023 — EU AI Act + US EO + China</div>
+                <div style="width:80%; height:7px; background:#ccc;"></div>
+                <div style="width:65%; height:7px; background:#d8d8d8;"></div>
+              </div>
+            </div>
+            <div style="position:relative;">
+              <div style="position:absolute; left:-30px; top:4px; width:12px; height:12px; background:#555; border-radius:50%;"></div>
+              <div class="wf-box light" style="height:48px; flex-direction:column; gap:3px; padding:6px; align-items:flex-start;">
+                <div style="font-size:9px; font-weight:700; color:#666;">2024 — Council of Europe + UN + OECD</div>
+                <div style="width:80%; height:7px; background:#ccc;"></div>
+                <div style="width:65%; height:7px; background:#d8d8d8;"></div>
+              </div>
+            </div>
+            <div style="position:relative; opacity:0.6;">
+              <div style="position:absolute; left:-30px; top:4px; width:12px; height:12px; background:#888; border-radius:50%; border:2px dashed #666;"></div>
+              <div class="wf-box light" style="height:36px; flex-direction:column; gap:3px; padding:6px; align-items:flex-start; border-style:dashed;">
+                <div style="font-size:9px; font-weight:700; color:#888;">Upcoming — Israel + more</div>
+                <div style="width:60%; height:7px; background:#d8d8d8;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="annotation">Chronological timeline with hover/click → full regulation summary overlay</div>
+
+        <div class="section-spacer"></div>
+
+        <!-- Implications callout -->
+        <div class="wf-label mb4">What This Means For You — 2-column</div>
+        <div class="g2 mb8">
+          <div class="wf-box light" style="height:70px; flex-direction:column; gap:4px; padding:8px; align-items:flex-start;">
+            <div style="font-size:10px; font-weight:700; color:#666;">For Users</div>
+            <div style="width:90%; height:7px; background:#ccc;"></div>
+            <div style="width:80%; height:7px; background:#d0d0d0;"></div>
+          </div>
+          <div class="wf-box light" style="height:70px; flex-direction:column; gap:4px; padding:8px; align-items:flex-start;">
+            <div style="font-size:10px; font-weight:700; color:#666;">For Builders</div>
+            <div style="width:90%; height:7px; background:#ccc;"></div>
+            <div style="width:80%; height:7px; background:#d0d0d0;"></div>
+          </div>
+        </div>
+
+        <div class="wf-footer">Footer</div>
+      </div>
+    </div>
+
+    <!-- OPTION B -->
+    <div class="option">
+      <div class="option-label">Option B <span>Horizontal timeline · filterable cards by region</span></div>
+      <div class="option-body">
+
+        <div class="wf-nav mb8">
+          <div class="wf-nav-logo"></div>
+          <div class="wf-nav-links">
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link active"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+          </div>
+        </div>
+
+        <div class="wf-box dark full-w mb8" style="height:70px; flex-direction:column; gap:6px;">
+          <div style="width:55%; height:14px; background:#aaa;"></div>
+          <div style="width:70%; height:9px; background:#999;"></div>
+        </div>
+
+        <!-- Region filter -->
+        <div class="wf-label mb4">Filter by Region</div>
+        <div style="display:flex; gap:6px; margin-bottom:8px; flex-wrap:wrap;">
+          <div style="padding:4px 10px; background:#555; color:#fff; font-size:9px; border:1px solid #555;">All</div>
+          <div style="padding:4px 10px; background:#d0d0d0; color:#666; font-size:9px; border:1px solid #aaa;">Europe</div>
+          <div style="padding:4px 10px; background:#d0d0d0; color:#666; font-size:9px; border:1px solid #aaa;">Americas</div>
+          <div style="padding:4px 10px; background:#d0d0d0; color:#666; font-size:9px; border:1px solid #aaa;">Asia</div>
+          <div style="padding:4px 10px; background:#d0d0d0; color:#666; font-size:9px; border:1px solid #aaa;">International</div>
+          <div style="padding:4px 10px; background:#d0d0d0; color:#666; font-size:9px; border:1px solid #aaa;">Israel</div>
+        </div>
+        <div class="annotation">Filter pills narrow the regulation cards shown below</div>
+
+        <!-- Horizontal scrolling timeline bar -->
+        <div class="wf-label mb4">Horizontal Timeline Bar</div>
+        <div style="border:1px solid #aaa; padding:8px; background:#e8e8e8; margin-bottom:4px; overflow:hidden;">
+          <div style="display:flex; align-items:center; gap:0; position:relative; height:30px;">
+            <div style="flex:1; height:2px; background:#888; position:absolute; top:14px; left:0; right:0;"></div>
+            <div style="display:flex; width:100%; justify-content:space-between; position:relative;">
+              <div style="display:flex; flex-direction:column; align-items:center; gap:2px;">
+                <div style="width:10px; height:10px; background:#555; border-radius:50%;"></div>
+                <div style="font-size:8px; color:#555;">2021</div>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:2px;">
+                <div style="width:10px; height:10px; background:#555; border-radius:50%;"></div>
+                <div style="font-size:8px; color:#555;">2023</div>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:2px;">
+                <div style="width:10px; height:10px; background:#555; border-radius:50%;"></div>
+                <div style="font-size:8px; color:#555;">2024</div>
+              </div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:2px;">
+                <div style="width:10px; height:10px; background:#888; border-radius:50%; border:1px dashed #666;"></div>
+                <div style="font-size:8px; color:#888;">2025+</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="annotation">Click dot → jumps to that year's card group below</div>
+
+        <div class="section-spacer"></div>
+
+        <!-- Regulation cards grid -->
+        <div class="wf-label mb4">Regulation Cards — Grid (3×3)</div>
+        <div class="g3 mb4">
+          <div class="wf-box light" style="height:70px; flex-direction:column; gap:3px; padding:6px; align-items:flex-start;">
+            <div style="font-size:8px; background:#888; color:#fff; padding:1px 4px;">EU 2024</div>
+            <div style="width:80%; height:9px; background:#bbb;"></div>
+            <div style="width:100%; height:7px; background:#d0d0d0;"></div>
+            <div style="width:85%; height:7px; background:#d8d8d8;"></div>
+          </div>
+          <div class="wf-box light" style="height:70px; flex-direction:column; gap:3px; padding:6px; align-items:flex-start;">
+            <div style="font-size:8px; background:#888; color:#fff; padding:1px 4px;">UNESCO 2021</div>
+            <div style="width:80%; height:9px; background:#bbb;"></div>
+            <div style="width:100%; height:7px; background:#d0d0d0;"></div>
+            <div style="width:85%; height:7px; background:#d8d8d8;"></div>
+          </div>
+          <div class="wf-box light" style="height:70px; flex-direction:column; gap:3px; padding:6px; align-items:flex-start;">
+            <div style="font-size:8px; background:#888; color:#fff; padding:1px 4px;">US EO 2023</div>
+            <div style="width:80%; height:9px; background:#bbb;"></div>
+            <div style="width:100%; height:7px; background:#d0d0d0;"></div>
+            <div style="width:85%; height:7px; background:#d8d8d8;"></div>
+          </div>
+          <div class="wf-box light" style="height:70px; flex-direction:column; gap:3px; padding:6px; align-items:flex-start;">
+            <div style="font-size:8px; background:#888; color:#fff; padding:1px 4px;">China 2023</div>
+            <div style="width:80%; height:9px; background:#bbb;"></div>
+            <div style="width:100%; height:7px; background:#d0d0d0;"></div>
+            <div style="width:85%; height:7px; background:#d8d8d8;"></div>
+          </div>
+          <div class="wf-box light" style="height:70px; flex-direction:column; gap:3px; padding:6px; align-items:flex-start;">
+            <div style="font-size:8px; background:#888; color:#fff; padding:1px 4px;">CoE 2024</div>
+            <div style="width:80%; height:9px; background:#bbb;"></div>
+            <div style="width:100%; height:7px; background:#d0d0d0;"></div>
+            <div style="width:85%; height:7px; background:#d8d8d8;"></div>
+          </div>
+          <div class="wf-box light" style="height:70px; flex-direction:column; gap:3px; padding:6px; align-items:flex-start;">
+            <div style="font-size:8px; background:#888; color:#fff; padding:1px 4px;">OECD 2024</div>
+            <div style="width:80%; height:9px; background:#bbb;"></div>
+            <div style="width:100%; height:7px; background:#d0d0d0;"></div>
+            <div style="width:85%; height:7px; background:#d8d8d8;"></div>
+          </div>
+          <div class="wf-box light" style="height:70px; flex-direction:column; gap:3px; padding:6px; align-items:flex-start;">
+            <div style="font-size:8px; background:#888; color:#fff; padding:1px 4px;">UN 2024</div>
+            <div style="width:80%; height:9px; background:#bbb;"></div>
+            <div style="width:100%; height:7px; background:#d0d0d0;"></div>
+            <div style="width:85%; height:7px; background:#d8d8d8;"></div>
+          </div>
+          <div class="wf-box light" style="height:70px; flex-direction:column; gap:3px; padding:6px; align-items:flex-start;">
+            <div style="font-size:8px; background:#888; color:#fff; padding:1px 4px;">Israel</div>
+            <div style="width:80%; height:9px; background:#bbb;"></div>
+            <div style="width:100%; height:7px; background:#d0d0d0;"></div>
+            <div style="width:85%; height:7px; background:#d8d8d8;"></div>
+          </div>
+          <div class="wf-box light" style="height:70px; flex-direction:column; gap:3px; padding:6px; align-items:center; justify-content:center; border-style:dashed; opacity:0.6;">
+            <div style="font-size:9px; color:#aaa;">+ More coming</div>
+          </div>
+        </div>
+
+        <div class="wf-footer">Footer</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     5. TAKE ACTION
+══════════════════════════════════════════ -->
+<section class="page-section" id="action">
+  <div class="page-title">5 — Take Action</div>
+  <div class="page-subtitle">6 habits · downloadable checklist · share prompts</div>
+
+  <div class="options-row">
+
+    <!-- OPTION A -->
+    <div class="option">
+      <div class="option-label">Option A <span>Step-by-step checklist · share strip · download CTA</span></div>
+      <div class="option-body">
+
+        <div class="wf-nav mb8">
+          <div class="wf-nav-logo"></div>
+          <div class="wf-nav-links">
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link active"></div>
+            <div class="wf-nav-link"></div>
+          </div>
+        </div>
+
+        <div class="wf-box dark full-w mb8" style="height:70px; flex-direction:column; gap:6px;">
+          <div style="width:55%; height:14px; background:#aaa;"></div>
+          <div style="width:68%; height:9px; background:#999;"></div>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="wf-label mb4">Your Progress</div>
+        <div style="background:#d0d0d0; height:12px; border-radius:6px; margin-bottom:4px; overflow:hidden;">
+          <div style="width:33%; height:100%; background:#555;"></div>
+        </div>
+        <div style="font-size:9px; color:#888; margin-bottom:12px;">2 of 6 habits started</div>
+
+        <!-- 6 habits interactive checklist -->
+        <div class="wf-label mb4">6 Habits — Interactive Checklist</div>
+        <div class="col mb4">
+          <div class="wf-box" style="height:48px; gap:10px; padding:0 12px; justify-content:flex-start; background:#c8e8c8;">
+            <div style="width:18px; height:18px; background:#555; border-radius:3px; flex-shrink:0;"></div>
+            <div class="col" style="gap:2px; align-items:flex-start;">
+              <div style="width:140px; height:9px; background:#888;"></div>
+              <div style="width:190px; height:7px; background:#aaa;"></div>
+            </div>
+            <div style="margin-left:auto; font-size:9px; color:#555;">✓ Done</div>
+          </div>
+          <div class="wf-box light" style="height:48px; gap:10px; padding:0 12px; justify-content:flex-start;">
+            <div style="width:18px; height:18px; border:1px solid #aaa; border-radius:3px; flex-shrink:0;"></div>
+            <div class="col" style="gap:2px; align-items:flex-start;">
+              <div style="width:120px; height:9px; background:#bbb;"></div>
+              <div style="width:180px; height:7px; background:#d0d0d0;"></div>
+            </div>
+          </div>
+          <div class="wf-box light" style="height:48px; gap:10px; padding:0 12px; justify-content:flex-start;">
+            <div style="width:18px; height:18px; border:1px solid #aaa; border-radius:3px; flex-shrink:0;"></div>
+            <div class="col" style="gap:2px; align-items:flex-start;">
+              <div style="width:150px; height:9px; background:#bbb;"></div>
+              <div style="width:160px; height:7px; background:#d0d0d0;"></div>
+            </div>
+          </div>
+          <div style="font-size:9px; color:#aaa; padding-left:12px;">+ 3 more habits...</div>
+        </div>
+        <div class="annotation">Checked habits turn green; progress bar fills; encourages completion</div>
+
+        <div class="section-spacer"></div>
+
+        <!-- Download CTA -->
+        <div class="wf-label mb4">Download Checklist</div>
+        <div class="wf-box medium full-w mb4" style="height:60px; gap:12px;">
+          <div class="wf-btn filled">↓ Download PDF Checklist</div>
+          <div style="font-size:9px; color:#666;">Free · printable · 1 page</div>
+        </div>
+
+        <div class="section-spacer"></div>
+
+        <!-- Share strip -->
+        <div class="wf-label mb4">Share This Page</div>
+        <div class="wf-box light full-w mb8" style="height:44px; gap:8px; padding:0 12px;">
+          <div style="font-size:9px; color:#666;">Share on:</div>
+          <div class="wf-btn" style="font-size:9px;">LinkedIn</div>
+          <div class="wf-btn" style="font-size:9px;">Twitter/X</div>
+          <div class="wf-btn" style="font-size:9px;">Instagram</div>
+          <div class="wf-btn" style="font-size:9px;">Copy link</div>
+        </div>
+
+        <div class="wf-footer">Footer</div>
+      </div>
+    </div>
+
+    <!-- OPTION B -->
+    <div class="option">
+      <div class="option-label">Option B <span>Commitment pledge · animated stat · social proof</span></div>
+      <div class="option-body">
+
+        <div class="wf-nav mb8">
+          <div class="wf-nav-logo"></div>
+          <div class="wf-nav-links">
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link"></div>
+            <div class="wf-nav-link active"></div>
+            <div class="wf-nav-link"></div>
+          </div>
+        </div>
+
+        <div class="wf-box dark full-w mb8" style="height:70px; flex-direction:column; gap:6px;">
+          <div style="width:55%; height:14px; background:#aaa;"></div>
+          <div style="width:68%; height:9px; background:#999;"></div>
+        </div>
+
+        <!-- Pledge block -->
+        <div class="wf-label mb4">Commitment Pledge</div>
+        <div class="wf-box medium full-w mb4" style="height:80px; flex-direction:column; gap:8px; padding:12px; align-items:center; border:2px solid #666;">
+          <div style="width:75%; height:10px; background:#999; text-align:center;"></div>
+          <div style="width:60%; height:9px; background:#bbb;"></div>
+          <div class="wf-btn filled">I commit to using AI responsibly</div>
+        </div>
+        <div class="annotation">Single CTA pledge button — simple, emotional, shareable</div>
+
+        <div class="section-spacer"></div>
+
+        <!-- Social proof counter -->
+        <div class="wf-label mb4">Social Proof — Counter</div>
+        <div class="wf-box dark full-w mb4" style="height:50px; gap:16px;">
+          <div style="text-align:center;">
+            <div style="font-size:20px; font-weight:700; color:#ddd;">1,247</div>
+            <div style="font-size:8px; color:#aaa;">people pledged</div>
+          </div>
+          <div style="width:1px; height:30px; background:#666;"></div>
+          <div style="text-align:center;">
+            <div style="font-size:20px; font-weight:700; color:#ddd;">43</div>
+            <div style="font-size:8px; color:#aaa;">countries</div>
+          </div>
+        </div>
+        <div class="annotation">Animated counter: builds social momentum and credibility</div>
+
+        <div class="section-spacer"></div>
+
+        <!-- 6 habits as flip cards -->
+        <div class="wf-label mb4">6 Habits — Flip Cards</div>
+        <div class="g3 mb4">
+          <div style="position:relative;">
+            <div class="wf-box medium" style="height:60px; flex-direction:column; gap:3px; padding:6px;">
+              <div style="width:70%; height:9px; background:#999;"></div>
+              <div style="font-size:8px; color:#666;">hover to see tip →</div>
+            </div>
+          </div>
+          <div style="position:relative;">
+            <div class="wf-box light" style="height:60px; flex-direction:column; gap:3px; padding:6px; border:1px dashed #bbb;">
+              <div style="font-size:8px; color:#888; font-style:italic;">[ Tip revealed on hover/tap ]</div>
+            </div>
+          </div>
+          <div class="wf-box medium" style="height:60px; flex-direction:column; gap:3px; padding:6px;">
+            <div style="width:70%; height:9px; background:#999;"></div>
+            <div style="font-size:8px; color:#666;">hover to see tip →</div>
+          </div>
+          <div class="wf-box medium" style="height:60px; flex-direction:column; gap:3px; padding:6px;">
+            <div style="width:70%; height:9px; background:#999;"></div>
+            <div style="font-size:8px; color:#666;">hover to see tip →</div>
+          </div>
+          <div class="wf-box medium" style="height:60px; flex-direction:column; gap:3px; padding:6px;">
+            <div style="width:70%; height:9px; background:#999;"></div>
+            <div style="font-size:8px; color:#666;">hover to see tip →</div>
+          </div>
+          <div class="wf-box medium" style="height:60px; flex-direction:column; gap:3px; padding:6px;">
+            <div style="width:70%; height:9px; background:#999;"></div>
+            <div style="font-size:8px; color:#666;">hover to see tip →</div>
+          </div>
+        </div>
+        <div class="annotation">Habit cards: front shows habit name, flip reveals practical tip</div>
+
+        <div class="section-spacer"></div>
+
+        <!-- Share with custom message -->
+        <div class="wf-label mb4">Share — Pre-written Social Posts</div>
+        <div class="col mb8">
+          <div class="wf-box light full-w" style="height:50px; flex-direction:column; gap:4px; padding:8px; align-items:flex-start;">
+            <div style="font-size:9px; font-weight:700; color:#666;">LinkedIn</div>
+            <div style="width:90%; height:7px; background:#d0d0d0;"></div>
+            <div style="width:80%; height:7px; background:#d8d8d8;"></div>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <div class="wf-btn">Edit text</div>
+            <div class="wf-btn filled">Share on LinkedIn</div>
+          </div>
+        </div>
+        <div class="annotation">Pre-filled share text that users can customize before posting</div>
+
+        <!-- Download -->
+        <div class="wf-box light full-w mb8" style="height:44px; gap:12px;">
+          <div class="wf-btn filled">↓ Download PDF Checklist</div>
+        </div>
+
+        <div class="wf-footer">Footer</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════
+     LEGEND
+══════════════════════════════════════════ -->
+<section style="background:#222; color:#ccc; padding:32px;">
+  <div style="font-size:14px; font-weight:700; color:#fff; margin-bottom:16px; text-transform:uppercase; letter-spacing:2px;">Legend</div>
+  <div style="display:grid; grid-template-columns: repeat(4, 1fr); gap:16px; font-size:11px;">
+    <div style="display:flex; align-items:center; gap:8px;">
+      <div style="width:30px; height:18px; background:#888; border:1px solid #666; flex-shrink:0;"></div>
+      <span>Dark box — hero / nav / important section</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <div style="width:30px; height:18px; background:#b8b8b8; border:1px solid #999; flex-shrink:0;"></div>
+      <span>Medium box — supporting visual / infographic</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <div style="width:30px; height:18px; background:#e8e8e8; border:1px solid #ccc; flex-shrink:0;"></div>
+      <span>Light box — card / content area</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <div style="width:30px; height:18px; background:#ececec; border:1px dashed #bbb; flex-shrink:0;"></div>
+      <span>Dashed border — interactive / input element</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <div style="width:30px; height:10px; background:#e05500; flex-shrink:0;"></div>
+      <span style="color:#e05500;">Orange italic text — design annotation</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <div style="width:30px; height:2px; background:#888; flex-shrink:0;"></div>
+      <span>Gray lines — placeholder text / content</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <div style="width:30px; height:18px; background:#555; flex-shrink:0;"></div>
+      <span>Dark filled element — active / selected state</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <span style="color:#aaa;">Opacity faded elements = secondary / overflow content</span>
+    </div>
+  </div>
+  <div style="margin-top:16px; font-size:11px; color:#888; border-top:1px solid #444; padding-top:12px;">
+    Responsible AI Website — Wireframe Options v1.0 · March 2026 · 5 pages × 2 layouts = 10 wireframes
+  </div>
+</section>
+
+</body>
+</html>
