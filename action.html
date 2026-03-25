@@ -110,6 +110,51 @@
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
+    /* ── Habit check bounce ── */
+    .habit-item.checking {
+      animation: habitBounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes habitBounce {
+      0%   { transform: translateX(0); }
+      30%  { transform: translateX(8px); }
+      70%  { transform: translateX(-3px); }
+      100% { transform: translateX(4px); }
+    }
+
+    /* ── Pledge button ripple ── */
+    .btn-pledge { position: relative; overflow: hidden; }
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      transform: scale(0);
+      animation: rippleAnim 0.6s linear;
+      pointer-events: none;
+    }
+    @keyframes rippleAnim {
+      to { transform: scale(4); opacity: 0; }
+    }
+
+    /* ── Pledge counter ── */
+    .pledge-counter-num {
+      font-family: var(--font-heading);
+      font-size: 48px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.9);
+      font-variant-numeric: tabular-nums;
+      display: block;
+      margin-bottom: var(--space-2);
+    }
+
+    /* ── Confetti canvas ── */
+    #confettiCanvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 999;
+    }
+
     @media (max-width: 768px) {
       .nav__links { display: none; }
       .nav__hamburger { display: flex; }
@@ -263,6 +308,8 @@
       <div class="pledge reveal">
         <h2>Use AI responsibly. Starting now.</h2>
         <p>One decision changes nothing. One habit changes everything. Take the pledge to use AI with intention — and share it with someone who should too.</p>
+        <span class="pledge-counter-num" id="pledgeCounterNum" aria-live="polite">2,847</span>
+        <p style="font-size:14px; color:rgba(255,255,255,0.5); margin-bottom: var(--space-7); margin-top: 0;">people have made this pledge</p>
         <button class="btn-pledge" id="pledgeBtn">I pledge to use AI responsibly</button>
         <p class="pledge-count" id="pledgeCount">Join others who've made this commitment.</p>
       </div>
@@ -296,25 +343,88 @@
 </footer>
 
 <script>
-  const hamburger = document.querySelector('.nav__hamburger');
-  const mobileNav = document.querySelector('.nav__mobile');
-  hamburger.addEventListener('click', () => {
-    const open = hamburger.classList.toggle('open');
-    mobileNav.classList.toggle('open', open);
-    hamburger.setAttribute('aria-expanded', open);
-  });
+  // ── Confetti system ──
+  const canvas = document.createElement('canvas');
+  canvas.id = 'confettiCanvas';
+  document.body.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let confettiRunning = false;
 
-  document.querySelectorAll('.reveal').forEach(el => {
-    new IntersectionObserver((e) => {
-      e.forEach(en => { if (en.isIntersecting) en.target.classList.add('visible'); });
-    }, { threshold: 0.08 }).observe(el);
-  });
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
 
-  // Habit checklist with progress
+  const CONFETTI_COLORS = ['#6B9E5E', '#C4623A', '#014D44', '#5B9994', '#EDE8DE', '#F7F5F0'];
+
+  function createParticle(x, y) {
+    return {
+      x, y,
+      vx: (Math.random() - 0.5) * 12,
+      vy: -(Math.random() * 10 + 5),
+      gravity: 0.3,
+      color: CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)],
+      size: Math.random() * 8 + 4,
+      rotation: Math.random() * Math.PI * 2,
+      rotationSpeed: (Math.random() - 0.5) * 0.2,
+      opacity: 1,
+      shape: Math.random() > 0.5 ? 'rect' : 'circle'
+    };
+  }
+
+  function launchConfetti() {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight * 0.4;
+    for (let i = 0; i < 120; i++) {
+      const offsetX = (Math.random() - 0.5) * 200;
+      particles.push(createParticle(centerX + offsetX, centerY));
+    }
+    confettiRunning = true;
+    animateConfetti();
+  }
+
+  function animateConfetti() {
+    if (!confettiRunning) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles = particles.filter(p => p.opacity > 0.02);
+    if (particles.length === 0) { confettiRunning = false; return; }
+
+    particles.forEach(p => {
+      p.x  += p.vx;
+      p.y  += p.vy;
+      p.vy += p.gravity;
+      p.vx *= 0.99;
+      p.rotation += p.rotationSpeed;
+      if (p.y > canvas.height * 0.6) p.opacity -= 0.02;
+      else if (p.vy > 0) p.opacity -= 0.004;
+
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation);
+      ctx.globalAlpha = p.opacity;
+      ctx.fillStyle = p.color;
+      if (p.shape === 'rect') {
+        ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+      } else {
+        ctx.beginPath();
+        ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    });
+    requestAnimationFrame(animateConfetti);
+  }
+
+  // ── Habit checklist with progress + bounce ──
   const items = document.querySelectorAll('.habit-item');
   const fill  = document.getElementById('progressFill');
   const label = document.getElementById('progressLabel');
   const bar   = document.getElementById('progressBar');
+  let allDone = false;
 
   function updateProgress() {
     const checked = document.querySelectorAll('.habit-item.checked').length;
@@ -322,19 +432,32 @@
     fill.style.width = pct + '%';
     bar.setAttribute('aria-valuenow', checked);
     label.textContent = checked + ' of ' + items.length + ' habits committed to';
+
+    if (checked === items.length && !allDone) {
+      allDone = true;
+      setTimeout(launchConfetti, 400);
+    }
+    if (checked < items.length) allDone = false;
   }
 
   items.forEach(item => {
     const toggle = () => {
       const checked = item.classList.toggle('checked');
       item.setAttribute('aria-checked', checked);
+      // Bounce animation
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        item.classList.remove('checking');
+        void item.offsetWidth;
+        item.classList.add('checking');
+        item.addEventListener('animationend', () => item.classList.remove('checking'), { once: true });
+      }
       updateProgress();
     };
     item.addEventListener('click', toggle);
     item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
   });
 
-  // Copy share text
+  // ── Copy share text ──
   function copyText(id) {
     const el = document.getElementById(id);
     navigator.clipboard.writeText(el.value).then(() => {
@@ -345,16 +468,51 @@
     });
   }
 
-  // Pledge button
+  // ── Pledge button with ripple + counter ──
   const pledgeBtn   = document.getElementById('pledgeBtn');
   const pledgeCount = document.getElementById('pledgeCount');
-  pledgeBtn.addEventListener('click', () => {
+  const counterNum  = document.getElementById('pledgeCounterNum');
+  let pledgeCountValue = 2847;
+
+  // Ripple effect
+  pledgeBtn.addEventListener('click', function(e) {
+    const rect = pledgeBtn.getBoundingClientRect();
+    const ripple = document.createElement('span');
+    ripple.className = 'ripple';
+    const size = Math.max(rect.width, rect.height);
+    ripple.style.width = ripple.style.height = size + 'px';
+    ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+    ripple.style.top  = (e.clientY - rect.top  - size / 2) + 'px';
+    pledgeBtn.appendChild(ripple);
+    ripple.addEventListener('animationend', () => ripple.remove());
+
     if (!pledgeBtn.classList.contains('pledged')) {
       pledgeBtn.classList.add('pledged');
       pledgeBtn.textContent = '✓ Pledged — thank you';
-      pledgeCount.textContent = 'You\'ve joined the movement. Share this page and bring someone with you.';
+      pledgeCount.textContent = "You've joined the movement. Share this page and bring someone with you.";
+      // Animate counter
+      pledgeCountValue++;
+      animateCounterTo(counterNum, pledgeCountValue - 1, pledgeCountValue, 800);
     }
   });
+
+  function animateCounterTo(el, from, to, duration) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      el.textContent = to.toLocaleString();
+      return;
+    }
+    const start = Date.now();
+    function tick() {
+      const elapsed = Date.now() - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(from + (to - from) * ease);
+      el.textContent = current.toLocaleString();
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+    tick();
+  }
 </script>
+<script src="scripts.js"></script>
 </body>
 </html>

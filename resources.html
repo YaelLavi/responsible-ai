@@ -298,20 +298,6 @@
   </div>
 </footer>
 
-<script>
-  const hamburger = document.querySelector('.nav__hamburger');
-  const mobileNav = document.querySelector('.nav__mobile');
-  hamburger.addEventListener('click', () => {
-    const open = hamburger.classList.toggle('open');
-    mobileNav.classList.toggle('open', open);
-    hamburger.setAttribute('aria-expanded', open);
-  });
-
-  document.querySelectorAll('.reveal').forEach(el => {
-    new IntersectionObserver((e) => {
-      e.forEach(en => { if (en.isIntersecting) en.target.classList.add('visible'); });
-    }, { threshold: 0.08 }).observe(el);
-  });
-</script>
+<script src="scripts.js"></script>
 </body>
 </html>

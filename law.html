@@ -95,6 +95,121 @@
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
+    /* ── Horizontal Timeline ── */
+    .timeline-section { background: var(--color-primary); padding: var(--space-9) var(--container-gutter); overflow: hidden; }
+    .timeline-section__inner { max-width: var(--container-max); margin-inline: auto; }
+    .timeline-section h2 { font-family: var(--font-heading); font-size: clamp(18px, 2vw, 26px); font-weight: 400; color: rgba(255,255,255,0.8); margin-bottom: var(--space-8); letter-spacing: -0.01em; }
+    .timeline { position: relative; padding: 40px 0 20px; overflow-x: auto; scrollbar-width: none; }
+    .timeline::-webkit-scrollbar { display: none; }
+    .timeline__track { position: relative; min-width: 800px; }
+    .timeline__line {
+      position: absolute;
+      top: 12px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: rgba(255,255,255,0.15);
+    }
+    .timeline__line-fill {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, var(--color-secondary), var(--color-accent));
+      transition: width 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .timeline__events { display: flex; justify-content: space-between; position: relative; }
+    .timeline__event {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      cursor: pointer;
+    }
+    .timeline__dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+      border: 2px solid rgba(255,255,255,0.5);
+      position: relative;
+      transition: background 0.3s ease, transform 0.3s ease;
+      flex-shrink: 0;
+    }
+    .timeline__dot.pulsing::after {
+      content: '';
+      position: absolute;
+      inset: -5px;
+      border-radius: 50%;
+      border: 2px solid rgba(107,158,94,0.5);
+      animation: tlPulse 2s ease-out infinite;
+    }
+    @keyframes tlPulse {
+      0%   { transform: scale(1); opacity: 1; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+    .timeline__event:hover .timeline__dot,
+    .timeline__dot.active {
+      background: var(--color-secondary);
+      border-color: var(--color-secondary);
+      transform: scale(1.3);
+    }
+    .timeline__label {
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.5);
+      text-align: center;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color 0.3s ease;
+      max-width: 80px;
+    }
+    .timeline__event:hover .timeline__label { color: rgba(255,255,255,0.9); }
+    .timeline__year {
+      font-family: var(--font-heading);
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.35);
+      margin-top: 4px;
+    }
+    @media (max-width: 768px) { .timeline-section { display: none; } }
+
+    /* ── Regulation card expand ── */
+    .reg-card { cursor: pointer; }
+    .reg-card__expand {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
+      opacity: 0;
+    }
+    .reg-card.expanded .reg-card__expand {
+      max-height: 200px;
+      opacity: 1;
+    }
+    .reg-card__toggle {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-secondary);
+      margin-top: var(--space-3);
+      cursor: pointer;
+    }
+    .reg-card__toggle-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1.5px solid var(--color-secondary);
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+    }
+    .reg-card.expanded .reg-card__toggle-icon {
+      transform: rotate(180deg);
+    }
+
     @media (max-width: 768px) {
       .nav__links { display: none; }
       .nav__hamburger { display: flex; }
@@ -141,6 +256,62 @@
       <span class="eyebrow">Regulation &amp; Policy</span>
       <h1>The law is catching up to AI. Here's where things stand.</h1>
       <p class="hero__sub">Eight major frameworks. Dozens of countries. One clear direction: accountability is no longer optional.</p>
+    </div>
+  </section>
+
+  <!-- VISUAL TIMELINE -->
+  <section class="timeline-section" aria-label="Regulatory timeline">
+    <div class="timeline-section__inner">
+      <h2>A global regulatory timeline, 2021 → 2024</h2>
+      <div class="timeline" id="regulatoryTimeline">
+        <div class="timeline__track">
+          <div class="timeline__line">
+            <div class="timeline__line-fill" id="timelineFill"></div>
+          </div>
+          <div class="timeline__events">
+            <div class="timeline__event" aria-label="UNESCO 2021">
+              <div class="timeline__dot pulsing" id="tldot0"></div>
+              <div class="timeline__label">UNESCO Recommendation</div>
+              <div class="timeline__year">2021</div>
+            </div>
+            <div class="timeline__event" aria-label="OECD 2023">
+              <div class="timeline__dot" id="tldot1"></div>
+              <div class="timeline__label">OECD AI Principles</div>
+              <div class="timeline__year">2023</div>
+            </div>
+            <div class="timeline__event" aria-label="China 2023">
+              <div class="timeline__dot" id="tldot2"></div>
+              <div class="timeline__label">China Gen-AI Rules</div>
+              <div class="timeline__year">2023</div>
+            </div>
+            <div class="timeline__event" aria-label="US Executive Order 2023">
+              <div class="timeline__dot" id="tldot3"></div>
+              <div class="timeline__label">US Executive Order</div>
+              <div class="timeline__year">Oct 2023</div>
+            </div>
+            <div class="timeline__event" aria-label="EU AI Act 2024">
+              <div class="timeline__dot" id="tldot4"></div>
+              <div class="timeline__label">EU AI Act</div>
+              <div class="timeline__year">2024</div>
+            </div>
+            <div class="timeline__event" aria-label="UN Resolution 2024">
+              <div class="timeline__dot" id="tldot5"></div>
+              <div class="timeline__label">UN Resolution</div>
+              <div class="timeline__year">2024</div>
+            </div>
+            <div class="timeline__event" aria-label="Council of Europe 2024">
+              <div class="timeline__dot" id="tldot6"></div>
+              <div class="timeline__label">Council of Europe Treaty</div>
+              <div class="timeline__year">2024</div>
+            </div>
+            <div class="timeline__event" aria-label="Israel AI Framework 2024">
+              <div class="timeline__dot" id="tldot7"></div>
+              <div class="timeline__label">Israel AI Framework</div>
+              <div class="timeline__year">2024</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -304,20 +475,6 @@
 </footer>
 
 <script>
-  const hamburger = document.querySelector('.nav__hamburger');
-  const mobileNav = document.querySelector('.nav__mobile');
-  hamburger.addEventListener('click', () => {
-    const open = hamburger.classList.toggle('open');
-    mobileNav.classList.toggle('open', open);
-    hamburger.setAttribute('aria-expanded', open);
-  });
-
-  document.querySelectorAll('.reveal').forEach(el => {
-    new IntersectionObserver((e) => {
-      e.forEach(en => { if (en.isIntersecting) en.target.classList.add('visible'); });
-    }, { threshold: 0.08 }).observe(el);
-  });
-
   // Filter pills
   document.querySelectorAll('.filter-pill').forEach(pill => {
     pill.addEventListener('click', () => {
@@ -329,6 +486,46 @@
       });
     });
   });
+
+  // ── Regulation card expand on click ──
+  document.querySelectorAll('.reg-card').forEach(card => {
+    // Add toggle button inside each card
+    const toggle = document.createElement('button');
+    toggle.className = 'reg-card__toggle';
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.innerHTML = '<span>Learn more</span><span class="reg-card__toggle-icon"><svg width="10" height="10" viewBox="0 0 10 10" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round"><polyline points="2,3 5,7 8,3"/></svg></span>';
+    card.appendChild(toggle);
+
+    toggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isExpanded = card.classList.toggle('expanded');
+      toggle.setAttribute('aria-expanded', isExpanded);
+      toggle.querySelector('span').textContent = isExpanded ? 'Show less' : 'Learn more';
+    });
+  });
+
+  // ── Timeline animation ──
+  const timeline = document.getElementById('regulatoryTimeline');
+  const timelineFill = document.getElementById('timelineFill');
+  if (timeline && timelineFill) {
+    const tlObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          timelineFill.style.width = '100%';
+          // Stagger dots becoming active
+          const dots = document.querySelectorAll('.timeline__dot');
+          dots.forEach((dot, i) => {
+            setTimeout(() => {
+              dot.classList.add('active');
+            }, 200 + i * 180);
+          });
+          tlObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    tlObserver.observe(timeline);
+  }
 </script>
+<script src="scripts.js"></script>
 </body>
 </html>

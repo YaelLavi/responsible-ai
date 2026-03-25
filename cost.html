@@ -52,22 +52,57 @@
     .section__header h2 { font-family: var(--font-heading); font-size: clamp(24px, 3vw, 38px); font-weight: 400; color: var(--color-text); line-height: 1.2; margin-top: var(--space-3); letter-spacing: -0.01em; }
     .section__header p { font-size: 17px; color: var(--color-text-muted); line-height: 1.75; margin-top: var(--space-4); max-width: 680px; }
 
-    /* COMPARISON TABLE */
-    .compare-table { width: 100%; border-collapse: collapse; margin-top: var(--space-6); }
-    .compare-table th { font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-text-muted); padding: var(--space-3) var(--space-5); text-align: left; border-bottom: 2px solid var(--color-border); }
-    .compare-table td { padding: var(--space-4) var(--space-5); border-bottom: 1px solid var(--color-border); font-size: 15px; color: var(--color-text); vertical-align: middle; }
-    .compare-table tr:last-child td { border-bottom: none; }
-    .compare-table .label { font-weight: 600; }
-    .compare-table .value { font-family: var(--font-heading); font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
-    .compare-table .accent { color: var(--color-accent); }
-    .compare-table .primary { color: var(--color-primary); }
-    .compare-table .note { font-size: 13px; color: var(--color-text-muted); }
+    /* ANIMATED BAR CHART */
+    .bar-chart { margin-top: var(--space-6); display: flex; flex-direction: column; gap: var(--space-4); }
+    .bar-row { display: grid; grid-template-columns: 180px 1fr auto; align-items: center; gap: var(--space-4); }
+    .bar-label { font-size: 14px; font-weight: 600; color: var(--color-text); text-align: right; }
+    .bar-track { height: 36px; background: var(--color-surface); border-radius: var(--radius-md); overflow: hidden; position: relative; }
+    .bar-fill { height: 100%; width: 0; border-radius: var(--radius-md); transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1); display: flex; align-items: center; padding-left: var(--space-3); position: relative; }
+    .bar-fill--baseline { background: var(--color-primary); }
+    .bar-fill--accent { background: var(--color-accent); }
+    .bar-fill .bar-inner-label { font-family: var(--font-heading); font-size: 14px; font-weight: 700; color: #fff; white-space: nowrap; opacity: 0; transition: opacity 0.3s ease 0.8s; }
+    .bar-fill.animated .bar-inner-label { opacity: 1; }
+    .bar-value { font-family: var(--font-heading); font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; min-width: 80px; }
+    .bar-value--baseline { color: var(--color-primary); }
+    .bar-value--accent { color: var(--color-accent); }
+    .bar-note { grid-column: 2 / -1; font-size: 12px; color: var(--color-text-muted); margin-top: -8px; padding-left: 0; }
     .table-note { font-size: 12px; color: var(--color-text-muted); font-style: italic; margin-top: var(--space-4); }
+    @media (max-width: 600px) {
+      .bar-row { grid-template-columns: 1fr; gap: var(--space-2); }
+      .bar-label { text-align: left; }
+      .bar-value { font-size: 16px; }
+    }
 
     /* WATER CALLOUT */
     .callout-accent { border-left: 4px solid var(--color-accent); background: rgba(196,98,58,0.06); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; padding: 20px 24px; margin-top: var(--space-6); }
     .callout-accent p { font-size: 16px; line-height: 1.7; color: var(--color-text); }
     .callout-accent strong { color: var(--color-accent); }
+
+    /* WATER DROP ANIMATION */
+    .water-visual { display: flex; align-items: center; gap: var(--space-7); margin-top: var(--space-6); flex-wrap: wrap; }
+    .water-drops { display: flex; gap: 6px; align-items: flex-end; flex-wrap: wrap; width: 200px; }
+    .water-drop {
+      width: 16px; height: 22px;
+      background: var(--color-primary);
+      border-radius: 50% 50% 50% 50% / 30% 30% 70% 70%;
+      opacity: 0;
+      transform: translateY(-30px);
+      animation: dropFall 0.6s ease-out forwards;
+    }
+    .water-drop.fallen { opacity: 0.7; transform: translateY(0); }
+    @keyframes dropFall {
+      0%   { opacity: 0; transform: translateY(-30px) scaleX(0.8); }
+      60%  { opacity: 0.9; transform: translateY(4px) scaleX(1.1); }
+      80%  { transform: translateY(-2px) scaleX(0.95); }
+      100% { opacity: 0.7; transform: translateY(0) scaleX(1); }
+    }
+    .water-stats { flex: 1; min-width: 200px; }
+    .water-stat-big { font-family: var(--font-heading); font-size: clamp(36px, 5vw, 56px); font-weight: 700; color: var(--color-accent); font-variant-numeric: tabular-nums; line-height: 1; }
+    .water-stat-label { font-size: 15px; color: var(--color-text); margin-top: var(--space-2); line-height: 1.5; }
+
+    /* HABIT CARD WITH ICON */
+    .habit-card__icon { width: 40px; height: 40px; border-radius: 10px; background: var(--color-overlay); display: flex; align-items: center; justify-content: center; margin-bottom: var(--space-3); }
+    .habit-card__icon svg { width: 20px; height: 20px; stroke: var(--color-primary); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 
     /* PROMPT STEPS */
     .steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-4); margin-top: var(--space-6); }
@@ -195,43 +230,57 @@
         <p style="margin-top: var(--space-3); font-size:16px; color: var(--color-text-muted);">How does AI stack up against the tools you already use? The gap is bigger than most people expect.</p>
       </div>
 
-      <div class="reveal">
-        <table class="compare-table" aria-label="AI energy usage comparison">
-          <thead>
-            <tr>
-              <th>Task</th>
-              <th>Energy used</th>
-              <th>Equivalent to</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="label">Google search</td>
-              <td><span class="value primary">0.03 Wh</span></td>
-              <td class="note">Baseline</td>
-            </tr>
-            <tr>
-              <td class="label">AI text prompt</td>
-              <td><span class="value accent">0.34 Wh</span></td>
-              <td class="note">10× more than a Google search</td>
-            </tr>
-            <tr>
-              <td class="label">AI image generation</td>
-              <td><span class="value accent">2.9 Wh</span></td>
-              <td class="note">≈ fully charging your smartphone</td>
-            </tr>
-            <tr>
-              <td class="label">5-second AI video</td>
-              <td><span class="value accent">944 Wh</span></td>
-              <td class="note">≈ running a microwave for over an hour</td>
-            </tr>
-            <tr>
-              <td class="label">20 image iterations</td>
-              <td><span class="value accent">~58 Wh</span></td>
-              <td class="note">≈ leaving a refrigerator running for several hours</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="bar-chart reveal" id="energyChart" role="img" aria-label="Energy usage comparison chart">
+        <!-- Baseline: Google search 0.03 Wh — max bar = 944 Wh -->
+        <div class="bar-row">
+          <div class="bar-label">Google search</div>
+          <div class="bar-track">
+            <div class="bar-fill bar-fill--baseline" data-pct="0.4" aria-label="0.03 Wh">
+              <span class="bar-inner-label">baseline</span>
+            </div>
+          </div>
+          <div class="bar-value bar-value--baseline">0.03 Wh</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">AI text prompt</div>
+          <div class="bar-track">
+            <div class="bar-fill bar-fill--accent" data-pct="1.5" aria-label="0.34 Wh">
+              <span class="bar-inner-label">0.34 Wh</span>
+            </div>
+          </div>
+          <div class="bar-value bar-value--accent">0.34 Wh</div>
+          <div class="bar-note">10× more than a Google search</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">AI image generation</div>
+          <div class="bar-track">
+            <div class="bar-fill bar-fill--accent" data-pct="5" aria-label="2.9 Wh">
+              <span class="bar-inner-label">2.9 Wh</span>
+            </div>
+          </div>
+          <div class="bar-value bar-value--accent">2.9 Wh</div>
+          <div class="bar-note">≈ fully charging your smartphone</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">20 image iterations</div>
+          <div class="bar-track">
+            <div class="bar-fill bar-fill--accent" data-pct="10" aria-label="~58 Wh">
+              <span class="bar-inner-label">~58 Wh</span>
+            </div>
+          </div>
+          <div class="bar-value bar-value--accent">~58 Wh</div>
+          <div class="bar-note">≈ fridge running for several hours</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label">5-second AI video</div>
+          <div class="bar-track">
+            <div class="bar-fill bar-fill--accent" data-pct="100" aria-label="944 Wh">
+              <span class="bar-inner-label">944 Wh</span>
+            </div>
+          </div>
+          <div class="bar-value bar-value--accent">944 Wh</div>
+          <div class="bar-note">≈ microwave running for over an hour</div>
+        </div>
         <p class="table-note">Numbers are approximate and model-dependent. Sources: Goldman Sachs Research, MIT Technology Review, University of Massachusetts Amherst.</p>
       </div>
     </div>
@@ -248,6 +297,15 @@
       <div class="callout-accent reveal">
         <p>That's not a rounding error. That's a river. Most of this water is drawn from municipal sources — the same water supply used by local communities. Unlike electricity, it's rarely measured, rarely disclosed, and almost never mentioned in AI product specifications.</p>
         <p style="margin-top:12px; font-size: 13px; color: var(--color-text-muted); font-style: italic;">Source: University of California, Riverside.</p>
+      </div>
+      <div class="water-visual reveal" id="waterVisual" aria-label="Water usage visualization">
+        <div class="water-drops" id="waterDrops" aria-hidden="true">
+          <!-- 25 drops representing 25ml max per prompt — rendered by JS -->
+        </div>
+        <div class="water-stats">
+          <div class="water-stat-big" id="waterCounter">0</div>
+          <div class="water-stat-label">millilitres of water used<br>per 100-word prompt (estimated)</div>
+        </div>
       </div>
     </div>
   </section>
@@ -302,31 +360,55 @@
       </div>
       <div class="habits-grid">
         <div class="habit-card reveal">
+          <div class="habit-card__icon" aria-hidden="true">
+            <!-- Pencil/plan icon -->
+            <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </div>
           <div class="habit-card__num">01</div>
           <h3>Prompt before you generate</h3>
           <p>Spend 60 seconds planning your prompt before you hit generate. It saves energy, time, and frustration.</p>
         </div>
         <div class="habit-card reveal reveal-delay-1">
+          <div class="habit-card__icon" aria-hidden="true">
+            <!-- Stack/layers icon -->
+            <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          </div>
           <div class="habit-card__num">02</div>
           <h3>Batch your requests</h3>
           <p>Group related tasks into one session instead of returning repeatedly — each session has a startup cost.</p>
         </div>
         <div class="habit-card reveal reveal-delay-2">
+          <div class="habit-card__icon" aria-hidden="true">
+            <!-- Refresh with purpose icon -->
+            <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>
+          </div>
           <div class="habit-card__num">03</div>
           <h3>Regenerate with a reason</h3>
           <p>Before you click "try again," change something specific. Random regeneration wastes energy without improving results.</p>
         </div>
         <div class="habit-card reveal">
+          <div class="habit-card__icon" aria-hidden="true">
+            <!-- Wrench/tools icon -->
+            <svg viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          </div>
           <div class="habit-card__num">04</div>
           <h3>Choose the right tool</h3>
           <p>If a Google search or a template will do the job, use it. AI isn't always the best tool for every task.</p>
         </div>
         <div class="habit-card reveal reveal-delay-1">
+          <div class="habit-card__icon" aria-hidden="true">
+            <!-- Check/accept icon -->
+            <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+          </div>
           <div class="habit-card__num">05</div>
           <h3>Know when good enough is good enough</h3>
           <p>Iteration has diminishing returns. The fifth version is rarely worth the energy of the fifteenth.</p>
         </div>
         <div class="habit-card reveal reveal-delay-2">
+          <div class="habit-card__icon" aria-hidden="true">
+            <!-- Video camera icon -->
+            <svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+          </div>
           <div class="habit-card__num">06</div>
           <h3>Treat AI video as premium</h3>
           <p>AI video is orders of magnitude more expensive than text or images. Use it intentionally, not casually.</p>
@@ -404,21 +486,60 @@
 </footer>
 
 <script>
-  // Nav hamburger
-  const hamburger = document.querySelector('.nav__hamburger');
-  const mobileNav = document.querySelector('.nav__mobile');
-  hamburger.addEventListener('click', () => {
-    const open = hamburger.classList.toggle('open');
-    mobileNav.classList.toggle('open', open);
-    hamburger.setAttribute('aria-expanded', open);
-  });
+  // ── Animated bar chart ──
+  const chartEl = document.getElementById('energyChart');
+  const barObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.bar-fill[data-pct]').forEach((bar, i) => {
+          setTimeout(() => {
+            bar.style.width = bar.dataset.pct + '%';
+            bar.classList.add('animated');
+          }, i * 150);
+        });
+        barObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+  if (chartEl) barObserver.observe(chartEl);
 
-  // Scroll reveal
-  document.querySelectorAll('.reveal').forEach(el => {
-    new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
-    }, { threshold: 0.1 }).observe(el);
-  });
+  // ── Water drop animation ──
+  const waterVisual = document.getElementById('waterVisual');
+  const waterDropsEl = document.getElementById('waterDrops');
+  const waterCounter = document.getElementById('waterCounter');
+
+  if (waterVisual && waterDropsEl) {
+    // Create 25 drops
+    for (let i = 0; i < 25; i++) {
+      const drop = document.createElement('div');
+      drop.className = 'water-drop';
+      waterDropsEl.appendChild(drop);
+    }
+
+    const waterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const drops = waterDropsEl.querySelectorAll('.water-drop');
+          drops.forEach((drop, i) => {
+            drop.style.animationDelay = (i * 0.06) + 's';
+            drop.style.animation = 'none';
+            // Trigger reflow
+            drop.offsetHeight;
+            drop.style.animation = `dropFall 0.6s ease-out ${(i * 0.06).toFixed(2)}s forwards`;
+          });
+          // Count up to 25
+          let count = 0;
+          const countInterval = setInterval(() => {
+            count++;
+            if (waterCounter) waterCounter.textContent = count;
+            if (count >= 25) clearInterval(countInterval);
+          }, 50);
+          waterObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    waterObserver.observe(waterVisual);
+  }
 
   // Calculator
   document.getElementById('calcBtn').addEventListener('click', () => {
@@ -435,5 +556,6 @@
     result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   });
 </script>
+<script src="scripts.js"></script>
 </body>
 </html>

@@ -24,6 +24,44 @@
       to { opacity: 1; }
     }
 
+    /* ── Stat counter animation ── */
+    .stat-card__value {
+      transition: transform 0.3s ease;
+    }
+    .stat-card__value.counting {
+      animation: countPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes countPop {
+      0%   { transform: scale(0.8); opacity: 0.5; }
+      60%  { transform: scale(1.08); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* ── Pillar card stagger ── */
+    .pillars__grid .pillar-card {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.55s ease, transform 0.55s ease, box-shadow 0.2s ease;
+    }
+    .pillars__grid .pillar-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .pillars__grid .pillar-card:nth-child(2) { transition-delay: 0.12s; }
+    .pillars__grid .pillar-card:nth-child(3) { transition-delay: 0.24s; }
+
+    /* ── Quote word reveal ── */
+    .quote-word {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .quote-word.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     /* ════════════════════════════════════
        NAVIGATION
     ════════════════════════════════════ */
@@ -1148,27 +1186,6 @@
 
 
 <script>
-  // ── Hamburger menu ──
-  const hamburger = document.querySelector('.nav__hamburger');
-  const mobileNav = document.querySelector('.nav__mobile');
-  hamburger.addEventListener('click', () => {
-    const open = hamburger.classList.toggle('open');
-    mobileNav.classList.toggle('open', open);
-    hamburger.setAttribute('aria-expanded', open);
-  });
-
-  // ── Scroll reveal ──
-  const revealEls = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        observer.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.12 });
-  revealEls.forEach(el => observer.observe(el));
-
   // ── Rotating stat cards ──
   const cards = Array.from(document.querySelectorAll('.rotator__card'));
   const dotsContainer = document.getElementById('rotatorDots');
@@ -1238,7 +1255,87 @@
   }, { passive: true });
 
   resetTimer();
-</script>
 
+  // ── Stat counter animation ──
+  function animateCounter(el, targetText, duration) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // Parse numeric value
+    const match = targetText.match(/[\d.]+/);
+    if (!match) return;
+    const target = parseFloat(match[0]);
+    const prefix = targetText.slice(0, targetText.indexOf(match[0]));
+    const suffix = targetText.slice(targetText.indexOf(match[0]) + match[0].length);
+    const isFloat = match[0].includes('.');
+    const start = Date.now();
+    el.classList.add('counting');
+    setTimeout(() => el.classList.remove('counting'), 400);
+    function tick() {
+      const elapsed = Date.now() - start;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease out
+      const ease = 1 - Math.pow(1 - progress, 3);
+      const current = target * ease;
+      el.textContent = prefix + (isFloat ? current.toFixed(1) : Math.round(current)) + suffix;
+      if (progress < 1) requestAnimationFrame(tick);
+      else el.textContent = targetText;
+    }
+    tick();
+  }
+
+  // Observe stat cards and trigger counter when visible
+  const statValues = document.querySelectorAll('.stat-card__value');
+  const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        animateCounter(el, el.textContent.trim(), 1200);
+        counterObserver.unobserve(el);
+      }
+    });
+  }, { threshold: 0.5 });
+  statValues.forEach(el => counterObserver.observe(el));
+
+  // ── Pillar card stagger on scroll ──
+  const pillarCards = document.querySelectorAll('.pillars__grid .pillar-card');
+  const pillarObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        pillarObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  pillarCards.forEach(card => pillarObserver.observe(card));
+
+  // ── Quote word-by-word reveal ──
+  const blockquote = document.querySelector('.quote-banner blockquote');
+  if (blockquote) {
+    const rawHTML = blockquote.innerHTML;
+    // Split text nodes into words but preserve <br> tags
+    const parts = rawHTML.split(/(<br\s*\/?>)/i);
+    let newHTML = '';
+    parts.forEach(part => {
+      if (/^<br/i.test(part)) {
+        newHTML += part;
+      } else {
+        newHTML += part.replace(/"([^"]*)"/g, (m, inner) => {
+          const words = inner.split(/\s+/).filter(Boolean);
+          return '"' + words.map((w, i) => `<span class="quote-word" style="transition-delay:${(i * 0.06).toFixed(2)}s">${w}</span>`).join(' ') + '"';
+        });
+      }
+    });
+    blockquote.innerHTML = newHTML;
+    const quoteObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.querySelectorAll('.quote-word').forEach(w => w.classList.add('visible'));
+          quoteObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    quoteObserver.observe(blockquote);
+  }
+</script>
+<script src="scripts.js"></script>
 </body>
 </html>

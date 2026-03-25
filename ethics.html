@@ -110,6 +110,82 @@
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
     .reveal.visible { opacity: 1; transform: translateY(0); }
 
+    /* ── Scroll progress indicator (left side) ── */
+    .ethics-progress {
+      position: fixed;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 50;
+    }
+    .ethics-progress__dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-border);
+      transition: background 0.3s ease, transform 0.3s ease;
+      position: relative;
+    }
+    .ethics-progress__dot.active {
+      background: var(--color-accent);
+      transform: scale(1.4);
+    }
+    .ethics-progress__dot.passed {
+      background: var(--color-secondary);
+    }
+    .ethics-progress__dot:after {
+      content: attr(data-label);
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      white-space: nowrap;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+    }
+    .ethics-progress__dot.active:after { opacity: 1; }
+    @media (max-width: 1100px) { .ethics-progress { display: none; } }
+
+    /* ── Dimension animated border ── */
+    .dimension {
+      border-left: 4px solid transparent;
+      transition: border-color 0.4s ease;
+    }
+    .dimension.border-animated { border-left-color: var(--color-accent); }
+
+    /* ── Checklist bounce animation ── */
+    .checklist-item.checking {
+      animation: checkBounce 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes checkBounce {
+      0%   { transform: scale(1); }
+      35%  { transform: scale(0.96); }
+      65%  { transform: scale(1.03); }
+      100% { transform: scale(1); }
+    }
+    .checklist-box {
+      transition: background 0.2s ease, border-color 0.2s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .checklist-item.checked .checklist-box {
+      transform: scale(1.15);
+      transition-delay: 0.05s;
+    }
+    .checklist-item.checked .checklist-box svg {
+      animation: checkmark 0.3s ease-out forwards;
+    }
+    @keyframes checkmark {
+      0%   { stroke-dashoffset: 20; opacity: 0; }
+      60%  { stroke-dashoffset: 0; opacity: 1; }
+      100% { stroke-dashoffset: 0; opacity: 1; }
+    }
+
     /* RESPONSIVE */
     @media (max-width: 768px) {
       .nav__links { display: none; }
@@ -127,6 +203,15 @@
   </style>
 </head>
 <body>
+
+<!-- Ethics dimension scroll progress -->
+<nav class="ethics-progress" aria-label="Page sections" id="ethicsProgress">
+  <div class="ethics-progress__dot" data-label="Bias" data-index="0"></div>
+  <div class="ethics-progress__dot" data-label="Privacy" data-index="1"></div>
+  <div class="ethics-progress__dot" data-label="Misinformation" data-index="2"></div>
+  <div class="ethics-progress__dot" data-label="Autonomy" data-index="3"></div>
+  <div class="ethics-progress__dot" data-label="Harassment" data-index="4"></div>
+</nav>
 
 <header>
   <nav class="nav" aria-label="Main navigation">
@@ -338,23 +423,17 @@
 </footer>
 
 <script>
-  const hamburger = document.querySelector('.nav__hamburger');
-  const mobileNav = document.querySelector('.nav__mobile');
-  hamburger.addEventListener('click', () => {
-    const open = hamburger.classList.toggle('open');
-    mobileNav.classList.toggle('open', open);
-    hamburger.setAttribute('aria-expanded', open);
-  });
-
-  document.querySelectorAll('.reveal').forEach(el => {
-    new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
-    }, { threshold: 0.1 }).observe(el);
-  });
-
-  // Checklist interaction
+  // Checklist with bounce animation
   document.querySelectorAll('.checklist-item').forEach(item => {
-    const toggle = () => item.classList.toggle('checked');
+    const toggle = () => {
+      item.classList.toggle('checked');
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        item.classList.remove('checking');
+        void item.offsetWidth; // reflow
+        item.classList.add('checking');
+        item.addEventListener('animationend', () => item.classList.remove('checking'), { once: true });
+      }
+    };
     item.addEventListener('click', toggle);
     item.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
   });
@@ -366,6 +445,59 @@
   document.getElementById('downloadBtn').addEventListener('click', () => {
     alert('PDF checklist coming soon. Check back after the full site launch.');
   });
+
+  // ── Ethics dimension scroll progress ──
+  const dimensions = document.querySelectorAll('.dimension');
+  const progressDots = document.querySelectorAll('.ethics-progress__dot');
+
+  if (dimensions.length && progressDots.length) {
+    const dimObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const idx = Array.from(dimensions).indexOf(entry.target);
+        if (idx < 0) return;
+        // Animate border in
+        if (entry.isIntersecting) {
+          entry.target.classList.add('border-animated');
+        }
+        // Update progress dots
+        dimensions.forEach((dim, i) => {
+          const rect = dim.getBoundingClientRect();
+          const dot = progressDots[i];
+          if (!dot) return;
+          if (rect.top <= window.innerHeight * 0.5 && rect.bottom >= window.innerHeight * 0.5) {
+            dot.classList.add('active');
+            dot.classList.remove('passed');
+          } else if (rect.bottom < window.innerHeight * 0.5) {
+            dot.classList.remove('active');
+            dot.classList.add('passed');
+          } else {
+            dot.classList.remove('active', 'passed');
+          }
+        });
+      });
+    }, { threshold: [0, 0.3, 0.7, 1], rootMargin: '-10% 0px -10% 0px' });
+
+    dimensions.forEach(d => dimObserver.observe(d));
+
+    // Update dots on scroll too
+    window.addEventListener('scroll', () => {
+      dimensions.forEach((dim, i) => {
+        const rect = dim.getBoundingClientRect();
+        const dot = progressDots[i];
+        if (!dot) return;
+        if (rect.top <= window.innerHeight * 0.55 && rect.bottom >= window.innerHeight * 0.45) {
+          dot.classList.add('active');
+          dot.classList.remove('passed');
+        } else if (rect.bottom < window.innerHeight * 0.45) {
+          dot.classList.remove('active');
+          dot.classList.add('passed');
+        } else {
+          dot.classList.remove('active', 'passed');
+        }
+      });
+    }, { passive: true });
+  }
 </script>
+<script src="scripts.js"></script>
 </body>
 </html>
