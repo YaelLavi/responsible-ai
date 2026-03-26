@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Option A — Editorial / Data-Forward</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --color-primary:    #014D44;
+      --color-secondary:  #6B9E5E;
+      --color-bg:         #F7F5F0;
+      --color-surface:    #EDE8DE;
+      --color-text:       #0F2420;
+      --color-text-muted: #5E7872;
+      --color-accent:     #C4623A;
+      --color-success:    #5B9994;
+      --font-heading:     'Fraunces', Georgia, serif;
+      --font-body:        'Nunito Sans', system-ui, sans-serif;
+    }
+
+    body {
+      background: #D8D3C9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 40px 20px;
+      font-family: var(--font-body);
+    }
+
+    /* ── Infographic canvas: 1080×1080 (social square) ── */
+    .infographic {
+      width: 1080px;
+      height: 1080px;
+      background: var(--color-bg);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transform-origin: top left;
+      transform: scale(0.7);
+      margin: -162px -162px;
+    }
+
+    /* ── Teal header band ── */
+    .header {
+      background: var(--color-primary);
+      padding: 52px 64px 44px;
+      flex-shrink: 0;
+    }
+
+    .header__eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      margin-bottom: 16px;
+    }
+
+    .header__title {
+      font-family: var(--font-heading);
+      font-size: 58px;
+      font-weight: 700;
+      line-height: 1.08;
+      color: #fff;
+      max-width: 720px;
+    }
+
+    .header__title em {
+      font-style: italic;
+      color: #8EC9BC;
+    }
+
+    .header__sub {
+      margin-top: 18px;
+      font-size: 18px;
+      color: rgba(255,255,255,0.70);
+      line-height: 1.5;
+      max-width: 640px;
+    }
+
+    /* ── Body ── */
+    .body {
+      flex: 1;
+      padding: 48px 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    /* ── Stat row ── */
+    .stat-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .stat-card {
+      background: var(--color-surface);
+      border-radius: 16px;
+      padding: 28px 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .stat-card__label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+
+    .stat-card__number {
+      font-family: var(--font-heading);
+      font-size: 52px;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--color-accent);
+    }
+
+    .stat-card__unit {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+    }
+
+    .stat-card__desc {
+      font-size: 14px;
+      color: var(--color-text);
+      line-height: 1.45;
+    }
+
+    .stat-card--primary .stat-card__number { color: var(--color-primary); }
+    .stat-card--success .stat-card__number { color: var(--color-success); }
+
+    /* ── Comparison table ── */
+    .table-section {}
+
+    .table-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 14px;
+    }
+
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .compare-table tr {
+      border-bottom: 1px solid rgba(1,77,68,0.09);
+    }
+
+    .compare-table tr:last-child { border-bottom: none; }
+
+    .compare-table td {
+      padding: 14px 0;
+      font-size: 15px;
+      color: var(--color-text);
+      vertical-align: middle;
+    }
+
+    .compare-table td:first-child {
+      width: 40%;
+      font-weight: 600;
+    }
+
+    .compare-table td:nth-child(2) {
+      width: 30%;
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--color-accent);
+    }
+
+    .compare-table td:last-child {
+      color: var(--color-text-muted);
+      font-size: 14px;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      padding: 0 64px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .footer__tag {
+      background: var(--color-primary);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 8px 18px;
+      border-radius: 9999px;
+    }
+
+    .footer__note {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      max-width: 480px;
+      line-height: 1.5;
+    }
+
+    /* ── Decorative accent bar ── */
+    .accent-bar {
+      height: 5px;
+      background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-secondary) 60%, transparent 100%);
+    }
+  </style>
+</head>
+<body>
+
+<div class="infographic">
+
+  <div class="header">
+    <div class="header__eyebrow">Responsible AI · The Invisible Cost · Vol. 1</div>
+    <h1 class="header__title">Every Prompt<br>is a <em>Sip of Water.</em></h1>
+    <p class="header__sub">AI runs on electricity and water — even when you can't see it. Here's what your requests actually cost.</p>
+  </div>
+
+  <div class="accent-bar"></div>
+
+  <div class="body">
+
+    <div class="stat-row">
+      <div class="stat-card">
+        <div class="stat-card__label">Water · 50 AI prompts</div>
+        <div class="stat-card__number">500<span class="stat-card__unit"> ml</span></div>
+        <div class="stat-card__desc">About one full plastic bottle of fresh water — just to cool the servers.</div>
+      </div>
+      <div class="stat-card stat-card--primary">
+        <div class="stat-card__label">Energy · vs. Google Search</div>
+        <div class="stat-card__number">10<span class="stat-card__unit">×</span></div>
+        <div class="stat-card__desc">A generative AI query uses 10× more energy than a standard web search.</div>
+      </div>
+      <div class="stat-card stat-card--success">
+        <div class="stat-card__label">Savings · Better prompt</div>
+        <div class="stat-card__number">80<span class="stat-card__unit">%</span></div>
+        <div class="stat-card__desc">One precise prompt can cut a session's energy use by up to 80–90%.</div>
+      </div>
+    </div>
+
+    <div class="table-section">
+      <div class="table-label">What one action actually costs</div>
+      <table class="compare-table">
+        <tr>
+          <td>One AI text prompt</td>
+          <td>0.34 Wh</td>
+          <td>≈ 10× a Google search</td>
+        </tr>
+        <tr>
+          <td>One AI image (standard)</td>
+          <td>2.91 Wh</td>
+          <td>≈ Fully charging your phone</td>
+        </tr>
+        <tr>
+          <td>20 AI images (a session)</td>
+          <td>58 Wh</td>
+          <td>≈ Leaving your fridge on for hours</td>
+        </tr>
+        <tr>
+          <td>5-second AI video clip</td>
+          <td>944 Wh</td>
+          <td>≈ Microwave running 1+ hour</td>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="footer__tag">#ResponsibleAI</div>
+    <div class="footer__note">Sources: MIT Technology Review (2025), Futurism, Univ. of California. Numbers are order-of-magnitude estimates; exact costs vary by model and provider.</div>
+  </div>
+
+</div>
+
+<!-- Styling label for review -->
+<div style="position:fixed;top:16px;left:50%;transform:translateX(-50%);background:#014D44;color:#fff;font-family:'Nunito Sans',sans-serif;font-size:14px;font-weight:700;letter-spacing:0.06em;padding:10px 24px;border-radius:9999px;z-index:100;">
+  OPTION A — Editorial / Data-Forward
+</div>
+
+</body>
+</html>

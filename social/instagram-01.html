@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instagram 01 — AI is "free." Except it's not.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400;1,9..144,600;1,9..144,700&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary:  #014D44; --secondary: #6B9E5E; --bg: #F7F5F0;
+      --surface:  #EDE8DE; --text: #0F2420; --muted: #5E7872;
+      --accent:   #C4623A; --success: #5B9994;
+      --font-h:   'Fraunces', Georgia, serif;
+      --font-b:   'Nunito Sans', system-ui, sans-serif;
+    }
+    body {
+      background: #C8C3B8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 60px 20px;
+      font-family: var(--font-b);
+    }
+    .scale-wrap {
+      transform-origin: top center;
+      transform: scale(0.72);
+      margin-bottom: -300px;
+    }
+
+    /* ── Canvas: 1080×1080 ── */
+    .card {
+      width: 1080px;
+      height: 1080px;
+      background: var(--primary);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Background decoration ── */
+    .bg-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,0.05);
+      pointer-events: none;
+    }
+
+    /* ── Top bar ── */
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 36px 56px 0;
+      position: relative;
+      z-index: 2;
+      flex-shrink: 0;
+    }
+
+    .top-bar__eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+    }
+
+    .top-bar__badge {
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.18);
+      color: rgba(255,255,255,0.60);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 9999px;
+    }
+
+    /* ── Main content ── */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 32px 72px 32px 72px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ── The price tag illustration sits left of title ── */
+    .headline-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 40px;
+      width: 100%;
+    }
+
+    .headline-block {
+      flex: 1;
+    }
+
+    .title-line1 {
+      font-family: var(--font-h);
+      font-size: 96px;
+      font-weight: 700;
+      line-height: 1;
+      color: #fff;
+      letter-spacing: -0.02em;
+      position: relative;
+      display: inline-block;
+    }
+
+    /* strikethrough on FREE */
+    .free-word {
+      position: relative;
+      color: rgba(255,255,255,0.90);
+    }
+
+    .free-word::after {
+      content: '';
+      position: absolute;
+      left: -4px;
+      right: -4px;
+      top: 50%;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 3px;
+      transform: rotate(-4deg);
+    }
+
+    .title-line2 {
+      font-family: var(--font-h);
+      font-size: 72px;
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.1;
+      color: #8EC9BC;
+      margin-top: 4px;
+    }
+
+    .title-line3 {
+      font-family: var(--font-h);
+      font-size: 96px;
+      font-weight: 700;
+      line-height: 1;
+      color: #fff;
+      letter-spacing: -0.02em;
+    }
+
+    /* ── Divider ── */
+    .rule {
+      width: 64px;
+      height: 4px;
+      background: var(--accent);
+      border-radius: 2px;
+      margin: 32px 0;
+    }
+
+    /* ── Stats row ── */
+    .stats-row {
+      display: flex;
+      gap: 0;
+      width: 100%;
+      border: 1.5px solid rgba(255,255,255,0.10);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 36px;
+    }
+
+    .stat-cell {
+      flex: 1;
+      padding: 22px 24px;
+      border-right: 1.5px solid rgba(255,255,255,0.08);
+    }
+
+    .stat-cell:last-child { border-right: none; }
+
+    .stat-cell__label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      margin-bottom: 8px;
+    }
+
+    .stat-cell__num {
+      font-family: var(--font-h);
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1;
+      color: #fff;
+    }
+
+    .stat-cell__num.accent { color: #E8A082; }
+    .stat-cell__num.success { color: #8EC9BC; }
+
+    .stat-cell__desc {
+      font-size: 12px;
+      color: rgba(255,255,255,0.45);
+      line-height: 1.4;
+      margin-top: 6px;
+    }
+
+    /* ── CTA line ── */
+    .cta {
+      font-family: var(--font-h);
+      font-size: 28px;
+      font-weight: 400;
+      font-style: italic;
+      color: rgba(255,255,255,0.50);
+      line-height: 1.4;
+      max-width: 720px;
+    }
+
+    .cta strong {
+      font-weight: 700;
+      font-style: normal;
+      color: rgba(255,255,255,0.85);
+    }
+
+    /* ── Footer ── */
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 72px 44px;
+      position: relative;
+      z-index: 2;
+      flex-shrink: 0;
+    }
+
+    .footer__tag {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.10em;
+      color: rgba(255,255,255,0.35);
+    }
+
+    .footer__logo {
+      font-family: var(--font-h);
+      font-size: 16px;
+      font-style: italic;
+      color: rgba(255,255,255,0.30);
+    }
+  </style>
+</head>
+<body>
+<div class="scale-wrap">
+<div class="card">
+
+  <!-- Background rings -->
+  <div class="bg-ring" style="width:900px;height:900px;top:-300px;right:-300px;"></div>
+  <div class="bg-ring" style="width:560px;height:560px;top:-100px;right:-100px;"></div>
+  <div class="bg-ring" style="width:700px;height:700px;bottom:-400px;left:-200px;"></div>
+
+  <!-- Watermark number -->
+  <div style="position:absolute;bottom:-40px;right:40px;font-family:var(--font-h);font-size:400px;font-weight:700;color:rgba(255,255,255,0.025);line-height:1;pointer-events:none;user-select:none;z-index:0;">01</div>
+
+  <!-- TOP BAR -->
+  <div class="top-bar">
+    <div class="top-bar__eyebrow">Responsible AI · The Invisible Cost</div>
+    <div class="top-bar__badge">#ResponsibleAI</div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <div class="headline-row">
+      <!-- HAND-DRAWN PRICE TAG + ILLUSTRATION -->
+      <svg width="260" height="380" viewBox="0 0 260 380" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;position:relative;z-index:2;">
+        <defs>
+          <filter id="sk" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.036" numOctaves="3" seed="4"/>
+            <feDisplacementMap in="SourceGraphic" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+        </defs>
+
+        <!-- Price tag shape -->
+        <path d="M130 18 L200 18 Q220 18 220 38 L220 180 Q220 198 206 206 L136 244 Q124 250 114 244 L44 206 Q30 198 30 180 L30 38 Q30 18 50 18 Z"
+              fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.35)" stroke-width="2.5" filter="url(#sk)"/>
+
+        <!-- Hole in tag -->
+        <circle cx="130" cy="34" r="10" stroke="rgba(255,255,255,0.40)" stroke-width="2" fill="rgba(255,255,255,0.06)" filter="url(#sk)"/>
+
+        <!-- String from hole -->
+        <path d="M126 28 Q110 14 92 8" stroke="rgba(255,255,255,0.25)" stroke-width="1.8" stroke-linecap="round" fill="none" filter="url(#sk)"/>
+
+        <!-- FREE label on tag (crossed out) -->
+        <text x="130" y="100" text-anchor="middle"
+              font-family="Fraunces, Georgia, serif" font-size="52" font-weight="700"
+              fill="rgba(255,255,255,0.75)" filter="url(#sk)">FREE</text>
+        <!-- Strikethrough -->
+        <line x1="52" y1="84" x2="208" y2="100" stroke="#E8A082" stroke-width="5" stroke-linecap="round" filter="url(#sk)"/>
+
+        <!-- Real cost items on tag -->
+        <g filter="url(#sk)">
+          <!-- water drop -->
+          <path d="M72 130 Q72 118 80 112 Q88 106 88 118 Q88 130 80 136 Q72 130 72 130 Z"
+                stroke="rgba(91,153,148,0.80)" stroke-width="1.8" fill="rgba(91,153,148,0.20)"/>
+          <text x="96" y="128" font-family="Nunito Sans,sans-serif" font-size="12" font-weight="700" fill="rgba(255,255,255,0.55)">500 ml water</text>
+
+          <!-- lightning bolt -->
+          <path d="M74 152 L70 164 L76 162 L72 176" stroke="#E8A082" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <text x="84" y="162" font-family="Nunito Sans,sans-serif" font-size="12" font-weight="700" fill="rgba(255,255,255,0.55)">944 Wh video</text>
+
+          <!-- leaf / CO2 -->
+          <path d="M72 185 Q76 178 84 182 Q82 192 72 185 Z" stroke="rgba(107,158,94,0.70)" stroke-width="1.8" fill="rgba(107,158,94,0.20)"/>
+          <path d="M72 185 L78 193" stroke="rgba(107,158,94,0.60)" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="90" y="194" font-family="Nunito Sans,sans-serif" font-size="12" font-weight="700" fill="rgba(255,255,255,0.55)">CO₂ emitted</text>
+
+          <!-- globe / planet -->
+          <circle cx="80" cy="218" r="8" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" fill="none"/>
+          <path d="M72 218 Q80 214 88 218" stroke="rgba(255,255,255,0.25)" stroke-width="1" fill="none"/>
+          <path d="M72 218 Q80 222 88 218" stroke="rgba(255,255,255,0.25)" stroke-width="1" fill="none"/>
+          <line x1="80" y1="210" x2="80" y2="226" stroke="rgba(255,255,255,0.20)" stroke-width="1"/>
+          <text x="96" y="222" font-family="Nunito Sans,sans-serif" font-size="12" font-weight="700" fill="rgba(255,255,255,0.55)">real planet</text>
+        </g>
+
+        <!-- Bottom of tag — decorative serrations -->
+        <path d="M114 244 Q118 258 122 244 Q126 258 130 244 Q134 258 138 244 Q142 258 146 244"
+              stroke="rgba(255,255,255,0.20)" stroke-width="1.5" fill="none" stroke-linecap="round" filter="url(#sk)"/>
+
+        <!-- Ground shadow -->
+        <ellipse cx="130" cy="372" rx="80" ry="8" fill="rgba(0,0,0,0.20)" filter="url(#sk)"/>
+      </svg>
+
+      <!-- HEADLINE TEXT -->
+      <div class="headline-block">
+        <div class="title-line1">AI is</div>
+        <div class="title-line1">"<span class="free-word">free.</span>"</div>
+        <div class="title-line2">Except</div>
+        <div class="title-line3">it's not.</div>
+      </div>
+    </div>
+
+    <div class="rule"></div>
+
+    <!-- STATS ROW -->
+    <div class="stats-row">
+      <div class="stat-cell">
+        <div class="stat-cell__label">Per 50 prompts</div>
+        <div class="stat-cell__num accent">500 ml</div>
+        <div class="stat-cell__desc">water to cool servers</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-cell__label">vs. a Google search</div>
+        <div class="stat-cell__num">10×</div>
+        <div class="stat-cell__desc">more energy per query</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-cell__label">5-sec AI video</div>
+        <div class="stat-cell__num accent">944 Wh</div>
+        <div class="stat-cell__desc">= microwave · 1 hour</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-cell__label">Global AI · 2025</div>
+        <div class="stat-cell__num success">450 TWh</div>
+        <div class="stat-cell__desc">≈ 2% of all electricity</div>
+      </div>
+    </div>
+
+    <div class="cta">The cost is invisible.<br><strong>The impact isn't.</strong></div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer__tag">#ResponsibleAI &nbsp;·&nbsp; #AIAwareness &nbsp;·&nbsp; #Sustainability</div>
+    <div class="footer__logo">Use AI wisely.</div>
+  </div>
+
+</div>
+</div>
+<p style="font-family:'Nunito Sans',sans-serif;font-size:11px;color:rgba(0,0,0,0.35);text-align:center;margin-top:20px;letter-spacing:0.05em;">
+  Instagram · 1080 × 1080 · Sources: MIT Technology Review (2025) · Futurism · UC Riverside
+</p>
+</body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Option B — Analogy-Driven / Illustrative</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --color-primary:    #014D44;
+      --color-secondary:  #6B9E5E;
+      --color-bg:         #F7F5F0;
+      --color-surface:    #EDE8DE;
+      --color-text:       #0F2420;
+      --color-text-muted: #5E7872;
+      --color-accent:     #C4623A;
+      --color-success:    #5B9994;
+      --font-heading:     'Fraunces', Georgia, serif;
+      --font-body:        'Nunito Sans', system-ui, sans-serif;
+    }
+
+    body {
+      background: #D8D3C9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 40px 20px;
+      font-family: var(--font-body);
+    }
+
+    .infographic {
+      width: 1080px;
+      height: 1080px;
+      background: var(--color-surface);
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      transform-origin: top left;
+      transform: scale(0.7);
+      margin: -162px -162px;
+    }
+
+    /* ── Top strip ── */
+    .top-strip {
+      background: var(--color-bg);
+      padding: 32px 64px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid rgba(1,77,68,0.09);
+    }
+
+    .top-strip__eyebrow {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+
+    .top-strip__badge {
+      background: var(--color-secondary);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 9999px;
+    }
+
+    /* ── Hero section ── */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      position: relative;
+    }
+
+    .hero__text {
+      padding: 52px 48px 40px 64px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .hero__title {
+      font-family: var(--font-heading);
+      font-size: 50px;
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--color-primary);
+    }
+
+    .hero__title em {
+      font-style: italic;
+      color: var(--color-accent);
+    }
+
+    .hero__lead {
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--color-text);
+      max-width: 380px;
+    }
+
+    /* ── Visual panel ── */
+    .hero__visual {
+      background: var(--color-primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      padding: 48px 40px;
+      position: relative;
+    }
+
+    .water-bottle {
+      width: 120px;
+      position: relative;
+    }
+
+    .bottle-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.7);
+      text-align: center;
+      margin-top: 16px;
+      letter-spacing: 0.04em;
+    }
+
+    .equals-sign {
+      font-family: var(--font-heading);
+      font-size: 64px;
+      color: rgba(255,255,255,0.25);
+      line-height: 1;
+      margin: 16px 0;
+    }
+
+    .prompt-bubble {
+      background: rgba(255,255,255,0.10);
+      border: 1.5px solid rgba(255,255,255,0.20);
+      border-radius: 14px;
+      padding: 16px 20px;
+      width: 100%;
+      max-width: 260px;
+    }
+
+    .prompt-bubble__label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 8px;
+    }
+
+    .prompt-bubble__text {
+      font-size: 14px;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.4;
+    }
+
+    .prompt-counter {
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .prompt-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.3);
+    }
+
+    .prompt-dot.active { background: var(--color-secondary); }
+    .prompt-counter-label {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      margin-left: 4px;
+    }
+
+    /* ── Analogy cards ── */
+    .analogies {
+      padding: 28px 64px 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      background: var(--color-bg);
+      border-top: 2px solid rgba(1,77,68,0.09);
+    }
+
+    .analogy-card {
+      background: var(--color-surface);
+      border-radius: 14px;
+      padding: 22px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .analogy-card__icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(1,77,68,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .analogy-card__action {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-text-muted);
+    }
+
+    .analogy-card__analogy {
+      font-family: var(--font-heading);
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--color-text);
+      line-height: 1.3;
+    }
+
+    /* ── Footer ── */
+    .footer {
+      background: var(--color-bg);
+      padding: 20px 64px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 2px solid rgba(1,77,68,0.09);
+    }
+
+    .footer__cta {
+      font-family: var(--font-heading);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--color-primary);
+      font-style: italic;
+    }
+
+    .footer__note {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      max-width: 360px;
+      line-height: 1.5;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+
+<div class="infographic">
+
+  <div class="top-strip">
+    <div class="top-strip__eyebrow">Responsible AI · The Invisible Cost · Vol. 1 of 5</div>
+    <div class="top-strip__badge">#ResponsibleAI</div>
+  </div>
+
+  <div class="hero">
+    <div class="hero__text">
+      <h1 class="hero__title">Every prompt<br>is a<br><em>sip of water.</em></h1>
+      <p class="hero__lead">You don't see it. But somewhere, a massive building full of servers is working hard to answer you — using real electricity and real water.</p>
+
+      <div style="margin-top: 8px; display:flex; flex-direction:column; gap:10px;">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:42px;height:42px;border-radius:10px;background:rgba(196,98,58,0.12);display:flex;align-items:center;justify-content:center;font-size:20px;">💧</div>
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);">50 AI prompts</div>
+            <div style="font-size:15px;font-weight:600;color:var(--color-text);">≈ One bottle of water</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:42px;height:42px;border-radius:10px;background:rgba(1,77,68,0.08);display:flex;align-items:center;justify-content:center;font-size:20px;">⚡</div>
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);">vs. web search</div>
+            <div style="font-size:15px;font-weight:600;color:var(--color-text);">10× more energy per query</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <div style="width:42px;height:42px;border-radius:10px;background:rgba(107,158,94,0.12);display:flex;align-items:center;justify-content:center;font-size:20px;">🌿</div>
+          <div>
+            <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-text-muted);">better prompts</div>
+            <div style="font-size:15px;font-weight:600;color:var(--color-text);">Save up to 80% energy</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero__visual">
+      <div class="prompt-bubble">
+        <div class="prompt-bubble__label">You type...</div>
+        <div class="prompt-bubble__text">"make me a logo" × 50 attempts</div>
+        <div class="prompt-counter">
+          <div class="prompt-dot active"></div><div class="prompt-dot active"></div><div class="prompt-dot active"></div>
+          <div class="prompt-dot"></div><div class="prompt-dot"></div>
+          <div class="prompt-counter-label">attempt 3 of 50</div>
+        </div>
+      </div>
+
+      <div class="equals-sign">=</div>
+
+      <!-- SVG water bottle illustration -->
+      <svg width="90" height="160" viewBox="0 0 90 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- cap -->
+        <rect x="30" y="0" width="30" height="18" rx="5" fill="rgba(255,255,255,0.3)"/>
+        <!-- neck -->
+        <rect x="34" y="18" width="22" height="14" fill="rgba(255,255,255,0.18)"/>
+        <!-- body outline -->
+        <rect x="12" y="32" width="66" height="118" rx="12" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.30)" stroke-width="2"/>
+        <!-- water fill -->
+        <clipPath id="bottle-clip">
+          <rect x="12" y="32" width="66" height="118" rx="12"/>
+        </clipPath>
+        <rect x="12" y="80" width="66" height="70" fill="rgba(91,153,148,0.55)" clip-path="url(#bottle-clip)"/>
+        <!-- label band -->
+        <rect x="12" y="88" width="66" height="28" fill="rgba(255,255,255,0.12)" clip-path="url(#bottle-clip)"/>
+        <text x="45" y="108" text-anchor="middle" font-family="Nunito Sans, sans-serif" font-size="10" font-weight="700" fill="rgba(255,255,255,0.55)" letter-spacing="1">500 ml</text>
+      </svg>
+
+      <div class="bottle-label">One bottle of water<br><span style="opacity:0.5;font-size:11px;">used to cool the servers</span></div>
+    </div>
+  </div>
+
+  <div class="analogies">
+    <div class="analogy-card">
+      <div class="analogy-card__icon">📱</div>
+      <div class="analogy-card__action">1 AI image</div>
+      <div class="analogy-card__analogy">= Charging your phone fully</div>
+    </div>
+    <div class="analogy-card">
+      <div class="analogy-card__icon">🧊</div>
+      <div class="analogy-card__action">20 AI images</div>
+      <div class="analogy-card__analogy">= Fridge running for hours</div>
+    </div>
+    <div class="analogy-card">
+      <div class="analogy-card__icon">📡</div>
+      <div class="analogy-card__action">5-sec AI video</div>
+      <div class="analogy-card__analogy">= Microwave on 1+ hour</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer__cta">"Prompt first. Generate second."</div>
+    <div class="footer__note">Sources: MIT Technology Review, Futurism, UC Riverside. Estimates vary by model and provider.</div>
+  </div>
+
+</div>
+
+<div style="position:fixed;top:16px;left:50%;transform:translateX(-50%);background:#C4623A;color:#fff;font-family:'Nunito Sans',sans-serif;font-size:14px;font-weight:700;letter-spacing:0.06em;padding:10px 24px;border-radius:9999px;z-index:100;">
+  OPTION B — Analogy-Driven / Illustrative
+</div>
+
+</body>
+</html>

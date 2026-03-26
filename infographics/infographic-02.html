@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Infographic 02 — Is That Image Worth It?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400;1,9..144,600;1,9..144,700&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary:  #014D44; --secondary: #6B9E5E; --bg: #F7F5F0;
+      --surface:  #EDE8DE; --text: #0F2420; --muted: #5E7872;
+      --accent:   #C4623A; --success: #5B9994; --white: #ffffff;
+      --font-h:   'Fraunces', Georgia, serif;
+      --font-b:   'Nunito Sans', system-ui, sans-serif;
+    }
+    body { background:#C8C3B8; display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:100vh; padding:60px 20px; font-family:var(--font-b); }
+    .scale-wrap { transform-origin:top center; transform:scale(0.72); margin-bottom:-300px; }
+    .card { width:1080px; height:1080px; background:var(--bg); overflow:hidden; display:grid; grid-template-rows:54px 1fr 298px; position:relative; }
+
+    .top-strip { background:var(--bg); border-bottom:1.5px solid rgba(1,77,68,0.10); display:flex; align-items:center; justify-content:space-between; padding:0 56px; }
+    .eyebrow { font-size:10.5px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); }
+    .badge { background:var(--accent); color:var(--white); font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; padding:5px 14px; border-radius:9999px; }
+
+    .hero { display:grid; grid-template-columns:1fr 420px; overflow:hidden; }
+
+    .hero-text { padding:48px 40px 40px 56px; display:flex; flex-direction:column; justify-content:space-between; }
+    .title { font-family:var(--font-h); font-size:58px; font-weight:700; line-height:1.06; color:var(--text); }
+    .title em { font-style:italic; color:var(--accent); }
+    .lead { font-size:16px; line-height:1.65; color:var(--muted); max-width:420px; margin-top:20px; }
+
+    .stats-inline { margin-top:26px; display:flex; flex-direction:column; gap:12px; }
+    .stat-row-item { display:flex; align-items:center; gap:14px; }
+    .stat-pill { background:var(--surface); border-radius:9999px; padding:6px 18px; font-family:var(--font-h); font-size:22px; font-weight:700; min-width:96px; text-align:center; line-height:1; flex-shrink:0; }
+    .stat-pill--accent  { color:var(--accent); }
+    .stat-pill--primary { color:var(--primary); }
+    .stat-pill--success { color:var(--success); }
+    .stat-row-desc { font-size:14px; color:var(--text); line-height:1.4; }
+
+    .tagline { margin-top:28px; padding:16px 20px; border-left:3.5px solid var(--accent); background:rgba(196,98,58,0.07); border-radius:0 10px 10px 0; }
+    .tagline p { font-family:var(--font-h); font-size:18px; font-style:italic; color:var(--accent); line-height:1.4; }
+
+    .hero-visual { background:var(--primary); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:18px; padding:32px 28px; position:relative; overflow:hidden; }
+    .hero-visual::before { content:''; position:absolute; width:600px; height:600px; border-radius:50%; border:1px solid rgba(255,255,255,0.05); top:-160px; right:-160px; }
+    .vis-label { font-size:10.5px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:rgba(255,255,255,0.35); text-align:center; position:relative; z-index:1; }
+    .vis-caption { font-size:13px; color:rgba(255,255,255,0.50); text-align:center; line-height:1.4; position:relative; z-index:1; }
+
+    .analogies { display:grid; grid-template-columns:repeat(3,1fr); border-top:1.5px solid rgba(1,77,68,0.10); }
+    .analogy-card { padding:28px 28px 24px; border-right:1.5px solid rgba(1,77,68,0.10); display:flex; flex-direction:column; gap:14px; background:var(--bg); }
+    .analogy-card:last-child { border-right:none; }
+    .analogy-card__action { font-size:10.5px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--muted); }
+    .analogy-card__stat { font-family:var(--font-h); font-size:30px; font-weight:700; color:var(--accent); line-height:1; }
+    .analogy-card__equals { font-size:13px; color:var(--muted); font-weight:600; margin-top:2px; }
+    .analogy-card__desc { font-family:var(--font-h); font-size:19px; font-weight:600; color:var(--text); line-height:1.25; }
+    .analogy-card__sub { font-size:13px; color:var(--muted); line-height:1.4; margin-top:4px; }
+  </style>
+</head>
+<body>
+<div class="scale-wrap">
+<div class="card">
+
+  <div class="top-strip">
+    <div class="eyebrow">Responsible AI · The Invisible Cost · 02 of 05</div>
+    <div class="badge">#AIAwareness</div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-text">
+      <div>
+        <h1 class="title">Is that<br><em>AI image</em><br>worth it?</h1>
+        <p class="lead">Generating one AI image uses as much energy as charging your phone. Run 20 iterations to get it "just right" and you've left a fridge running for hours. Every attempt has a cost.</p>
+        <div class="stats-inline">
+          <div class="stat-row-item">
+            <div class="stat-pill stat-pill--accent">2.91 Wh</div>
+            <div class="stat-row-desc">per single AI-generated image — about 10× more than a text prompt</div>
+          </div>
+          <div class="stat-row-item">
+            <div class="stat-pill stat-pill--primary">58 Wh</div>
+            <div class="stat-row-desc">for a typical 20-image creative session — fridge-hours of energy</div>
+          </div>
+          <div class="stat-row-item">
+            <div class="stat-pill stat-pill--success">−90%</div>
+            <div class="stat-row-desc">energy saved by drafting the perfect prompt before generating</div>
+          </div>
+        </div>
+      </div>
+      <div class="tagline">
+        <p>"The best output isn't<br>the 15th one. It's the<br>one you planned for."</p>
+      </div>
+    </div>
+
+    <!-- VISUAL: stacked image iterations with energy cost -->
+    <div class="hero-visual">
+      <div class="vis-label">A typical image session</div>
+
+      <svg width="310" height="360" viewBox="0 0 310 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="sk" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" seed="5"/>
+            <feDisplacementMap in="SourceGraphic" scale="1.4" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
+        </defs>
+
+        <!-- Stack of failed attempts (back) -->
+        <g filter="url(#sk)" opacity="0.4">
+          <rect x="30" y="24" width="160" height="110" rx="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.20)" stroke-width="1.5" transform="rotate(-6,110,79)"/>
+          <rect x="34" y="22" width="160" height="110" rx="8" fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.20)" stroke-width="1.5" transform="rotate(4,114,77)"/>
+        </g>
+
+        <!-- Attempt 3 (middle) -->
+        <g filter="url(#sk)" opacity="0.65">
+          <rect x="28" y="30" width="162" height="112" rx="8" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.28)" stroke-width="1.8" transform="rotate(-2,109,86)"/>
+          <text x="55" y="98" font-family="Fraunces,serif" font-size="13" fill="rgba(255,255,255,0.35)" transform="rotate(-2,109,86)">attempt #3</text>
+          <!-- X mark -->
+          <line x1="158" y1="48" x2="172" y2="60" stroke="rgba(196,98,58,0.70)" stroke-width="2.5" stroke-linecap="round" transform="rotate(-2,109,86)"/>
+          <line x1="172" y1="48" x2="158" y2="60" stroke="rgba(196,98,58,0.70)" stroke-width="2.5" stroke-linecap="round" transform="rotate(-2,109,86)"/>
+        </g>
+
+        <!-- Main "current" attempt frame -->
+        <rect x="22" y="38" width="166" height="114" rx="9" fill="rgba(255,255,255,0.10)" stroke="rgba(255,255,255,0.45)" stroke-width="2" filter="url(#sk)"/>
+        <!-- content sketch inside frame -->
+        <g filter="url(#sk)" opacity="0.5">
+          <rect x="30" y="46" width="60" height="40" rx="4" fill="rgba(91,153,148,0.30)"/>
+          <rect x="98" y="46" width="82" height="40" rx="4" fill="rgba(107,158,94,0.20)"/>
+          <rect x="30" y="94" width="150" height="16" rx="3" fill="rgba(255,255,255,0.08)"/>
+          <rect x="30" y="116" width="100" height="10" rx="2" fill="rgba(255,255,255,0.06)"/>
+        </g>
+        <!-- blurry hand annotation -->
+        <g filter="url(#sk)" stroke="rgba(196,98,58,0.80)" stroke-width="2" stroke-linecap="round" fill="none">
+          <path d="M155 48 Q162 42 170 48 Q174 56 168 62 Q160 66 154 60 Z"/>
+          <path d="M163 62 Q164 72 162 80"/>
+          <circle cx="162" cy="84" r="3" fill="rgba(196,98,58,0.50)"/>
+        </g>
+        <text x="178" y="70" font-family="Nunito Sans,sans-serif" font-size="10" fill="rgba(196,98,58,0.80)">"blurry hand"</text>
+
+        <!-- Attempt counter badge -->
+        <rect x="22" y="38" width="62" height="20" rx="0" fill="none"/>
+        <rect x="22" y="38" width="62" height="20" rx="4" fill="rgba(196,98,58,0.70)" filter="url(#sk)"/>
+        <text x="53" y="52" text-anchor="middle" font-family="Nunito Sans,sans-serif" font-size="10" font-weight="700" fill="white">attempt #12</text>
+
+        <!-- Energy cost label -->
+        <rect x="22" y="148" width="166" height="24" rx="6" fill="rgba(196,98,58,0.15)" filter="url(#sk)"/>
+        <text x="105" y="164" text-anchor="middle" font-family="Nunito Sans,sans-serif" font-size="11" font-weight="700" fill="rgba(255,255,255,0.65)" letter-spacing="0.5">⚡ 34.92 Wh used so far</text>
+
+        <!-- Arrow down to good prompt -->
+        <path d="M155 178 L155 210" stroke="rgba(107,158,94,0.50)" stroke-width="2" stroke-dasharray="4 4" stroke-linecap="round"/>
+        <path d="M148 205 L155 214 L162 205" stroke="rgba(107,158,94,0.70)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+
+        <!-- The ONE good result -->
+        <rect x="22" y="218" width="166" height="114" rx="9" fill="rgba(107,158,94,0.12)" stroke="rgba(107,158,94,0.60)" stroke-width="2.5" filter="url(#sk)"/>
+        <!-- content inside - looks clean -->
+        <g filter="url(#sk)" opacity="0.7">
+          <rect x="30" y="228" width="150" height="70" rx="5" fill="rgba(91,153,148,0.25)"/>
+          <!-- simple clean image sketch -->
+          <ellipse cx="80" cy="263" rx="28" ry="28" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" fill="none"/>
+          <path d="M68 263 L76 271 L92 255" stroke="rgba(107,158,94,0.90)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+        <!-- check badge -->
+        <rect x="22" y="218" width="72" height="20" rx="4" fill="rgba(107,158,94,0.80)" filter="url(#sk)"/>
+        <text x="58" y="232" text-anchor="middle" font-family="Nunito Sans,sans-serif" font-size="10" font-weight="700" fill="white">✓ attempt #1</text>
+        <!-- prompt chip -->
+        <rect x="22" y="298" width="166" height="30" rx="6" fill="rgba(255,255,255,0.08)" filter="url(#sk)"/>
+        <text x="105" y="318" text-anchor="middle" font-family="Nunito Sans,sans-serif" font-size="10" fill="rgba(255,255,255,0.55)">"modern teal logo, flat, geometric..."</text>
+        <!-- energy label -->
+        <rect x="22" y="334" width="166" height="22" rx="5" fill="rgba(107,158,94,0.15)" filter="url(#sk)"/>
+        <text x="105" y="349" text-anchor="middle" font-family="Nunito Sans,sans-serif" font-size="10.5" font-weight="700" fill="rgba(107,158,94,0.80)" letter-spacing="0.5">⚡ 2.91 Wh · saved 92%</text>
+      </svg>
+
+      <div class="vis-caption">12 vague attempts vs. 1 precise prompt<br><span style="opacity:0.5;font-size:11px;">Same result. 90% less energy.</span></div>
+    </div>
+  </div>
+
+  <!-- BOTTOM CARDS: 3 best practices -->
+  <div class="analogies">
+    <div class="analogy-card">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs><filter id="sk2"><feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="3"/><feDisplacementMap in="SourceGraphic" scale="1.2" xChannelSelector="R" yChannelSelector="G"/></filter></defs>
+        <!-- magnifying glass -->
+        <circle cx="32" cy="32" r="20" stroke="#014D44" stroke-width="2.5" fill="rgba(237,232,222,0.8)" filter="url(#sk2)"/>
+        <circle cx="32" cy="32" r="13" stroke="#014D44" stroke-width="1.5" fill="rgba(91,153,148,0.10)" filter="url(#sk2)"/>
+        <line x1="47" y1="47" x2="66" y2="66" stroke="#014D44" stroke-width="3" stroke-linecap="round" filter="url(#sk2)"/>
+        <!-- question mark inside lens -->
+        <text x="32" y="38" text-anchor="middle" font-family="Fraunces,serif" font-size="18" font-weight="700" fill="#014D44">?</text>
+      </svg>
+      <div class="analogy-card__action">Best Practice 1</div>
+      <div class="analogy-card__desc">The "Think Twice" filter</div>
+      <div class="analogy-card__sub">Ask yourself: do I actually need this image, or is it just digital slop?</div>
+    </div>
+
+    <div class="analogy-card">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs><filter id="sk3"><feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="8"/><feDisplacementMap in="SourceGraphic" scale="1.2" xChannelSelector="R" yChannelSelector="G"/></filter></defs>
+        <!-- notepad -->
+        <rect x="12" y="8" width="46" height="58" rx="5" stroke="#014D44" stroke-width="2.5" fill="#EDE8DE" filter="url(#sk3)"/>
+        <!-- lines on notepad -->
+        <line x1="20" y1="24" x2="50" y2="24" stroke="#014D44" stroke-width="1.5" stroke-linecap="round" filter="url(#sk3)"/>
+        <line x1="20" y1="34" x2="50" y2="34" stroke="#014D44" stroke-width="1.5" stroke-linecap="round" filter="url(#sk3)"/>
+        <line x1="20" y1="44" x2="42" y2="44" stroke="#014D44" stroke-width="1.5" stroke-linecap="round" filter="url(#sk3)"/>
+        <!-- spiral binding -->
+        <path d="M10 16 Q14 14 14 18 Q14 22 10 22" stroke="#014D44" stroke-width="1.5" fill="none" stroke-linecap="round" filter="url(#sk3)"/>
+        <path d="M10 30 Q14 28 14 32 Q14 36 10 36" stroke="#014D44" stroke-width="1.5" fill="none" stroke-linecap="round" filter="url(#sk3)"/>
+        <path d="M10 44 Q14 42 14 46 Q14 50 10 50" stroke="#014D44" stroke-width="1.5" fill="none" stroke-linecap="round" filter="url(#sk3)"/>
+        <!-- pencil -->
+        <rect x="52" y="44" width="10" height="32" rx="3" stroke="#014D44" stroke-width="2" fill="#EDE8DE" transform="rotate(-30,57,60)" filter="url(#sk3)"/>
+        <path d="M44 68 L50 76 L56 66" stroke="#014D44" stroke-width="1.5" fill="#C4623A" stroke-linecap="round" stroke-linejoin="round" transform="rotate(-30,50,71)" filter="url(#sk3)"/>
+      </svg>
+      <div class="analogy-card__action">Best Practice 2</div>
+      <div class="analogy-card__desc">Draft before<br>you craft</div>
+      <div class="analogy-card__sub">Ask a text AI to write the perfect image prompt first. Text costs 10× less than images.</div>
+    </div>
+
+    <div class="analogy-card">
+      <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs><filter id="sk4"><feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" seed="14"/><feDisplacementMap in="SourceGraphic" scale="1.2" xChannelSelector="R" yChannelSelector="G"/></filter></defs>
+        <!-- no-entry circle for things to exclude -->
+        <circle cx="40" cy="38" r="26" stroke="#014D44" stroke-width="2.5" fill="rgba(237,232,222,0.6)" filter="url(#sk4)"/>
+        <!-- minus sign (negative prompt symbol) -->
+        <line x1="26" y1="38" x2="54" y2="38" stroke="#C4623A" stroke-width="3.5" stroke-linecap="round" filter="url(#sk4)"/>
+        <!-- small images/items being excluded -->
+        <g opacity="0.5" filter="url(#sk4)">
+          <text x="27" y="34" font-size="10" fill="#014D44">✋</text>
+          <text x="43" y="34" font-size="10" fill="#014D44">💬</text>
+          <text x="35" y="50" font-size="10" fill="#014D44">🌫</text>
+        </g>
+        <!-- label -->
+        <text x="40" y="75" text-anchor="middle" font-family="Nunito Sans,sans-serif" font-size="9" font-weight="700" fill="#5E7872" letter-spacing="1">NEGATIVE</text>
+      </svg>
+      <div class="analogy-card__action">Best Practice 3</div>
+      <div class="analogy-card__desc">Use negative<br>prompts</div>
+      <div class="analogy-card__sub">Tell the AI what NOT to include — blurry hands, extra text, wrong colors. Get it right in v1.</div>
+    </div>
+  </div>
+
+</div>
+</div>
+<p style="font-family:'Nunito Sans',sans-serif;font-size:11px;color:rgba(0,0,0,0.35);text-align:center;margin-top:20px;letter-spacing:0.05em;">
+  Sources: MIT Technology Review (2025) · Futurism · Numbers are order-of-magnitude estimates; vary by model &amp; provider.
+</p>
+</body>
+</html>

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LinkedIn Post 01 Preview</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary:  #014D44; --secondary: #6B9E5E; --bg: #F7F5F0;
+      --surface:  #EDE8DE; --text: #0F2420; --muted: #5E7872;
+      --accent:   #C4623A; --success: #5B9994;
+      --font-h:   'Fraunces', Georgia, serif;
+      --font-b:   'Nunito Sans', system-ui, sans-serif;
+    }
+    body {
+      background: #E8E4DC;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 48px 24px;
+      font-family: var(--font-b);
+    }
+
+    .page-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(0,0,0,0.30);
+      margin-bottom: 24px;
+    }
+
+    /* LinkedIn feed simulation */
+    .feed-frame {
+      width: 680px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+      overflow: hidden;
+    }
+
+    /* Post header */
+    .post-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid rgba(0,0,0,0.06);
+    }
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .avatar svg { width: 24px; height: 24px; }
+
+    .post-meta { flex: 1; }
+    .post-meta__name { font-size: 14px; font-weight: 700; color: #000; }
+    .post-meta__title { font-size: 12px; color: #666; margin-top: 1px; }
+    .post-meta__time { font-size: 11px; color: #999; margin-top: 2px; }
+
+    .follow-btn {
+      font-size: 13px;
+      font-weight: 700;
+      color: #0a66c2;
+      border: 1.5px solid #0a66c2;
+      background: none;
+      padding: 5px 16px;
+      border-radius: 9999px;
+      cursor: pointer;
+    }
+
+    /* Post image (the Instagram asset used as LinkedIn header image) */
+    .post-image {
+      width: 100%;
+      background: var(--primary);
+      height: 340px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+    }
+
+    .post-image__bg-ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,0.06);
+    }
+
+    .post-image__headline {
+      font-family: var(--font-h);
+      font-size: 52px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.0;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      letter-spacing: -0.01em;
+    }
+
+    .post-image__headline .strikethrough {
+      position: relative;
+      display: inline-block;
+    }
+    .post-image__headline .strikethrough::after {
+      content: '';
+      position: absolute;
+      left: -2px; right: -2px;
+      top: 52%;
+      height: 5px;
+      background: #E8A082;
+      border-radius: 3px;
+      transform: rotate(-3deg);
+    }
+
+    .post-image__sub {
+      font-family: var(--font-h);
+      font-size: 30px;
+      font-weight: 400;
+      font-style: italic;
+      color: #8EC9BC;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      margin-top: 6px;
+    }
+
+    .post-image__stats {
+      display: flex;
+      gap: 20px;
+      margin-top: 24px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .img-stat {
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 10px;
+      padding: 10px 16px;
+      text-align: center;
+    }
+
+    .img-stat__num {
+      font-family: var(--font-h);
+      font-size: 22px;
+      font-weight: 700;
+      color: #E8A082;
+      line-height: 1;
+    }
+
+    .img-stat__label {
+      font-size: 10px;
+      color: rgba(255,255,255,0.45);
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+
+    .post-image__tag {
+      position: absolute;
+      bottom: 14px;
+      right: 16px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.30);
+    }
+
+    /* Post body text */
+    .post-body {
+      padding: 16px 16px 0;
+    }
+
+    .post-body p {
+      font-size: 14px;
+      line-height: 1.65;
+      color: #1a1a1a;
+      white-space: pre-line;
+    }
+
+    .post-body .hook {
+      font-weight: 700;
+      font-size: 15px;
+      color: #000;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .see-more {
+      font-size: 13px;
+      color: #666;
+      cursor: pointer;
+      margin-top: 4px;
+      display: inline-block;
+    }
+
+    .see-more span { color: #0a66c2; font-weight: 600; }
+
+    /* Hashtags */
+    .hashtags {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #0a66c2;
+    }
+
+    /* Reactions bar */
+    .reactions-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      margin-top: 10px;
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .reactions-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #666;
+    }
+
+    .reaction-emojis { font-size: 14px; }
+
+    .reactions-right {
+      font-size: 12px;
+      color: #666;
+    }
+
+    /* Action buttons -->*/
+    .action-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid rgba(0,0,0,0.08);
+    }
+
+    .action-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #666;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .action-btn:hover { background: rgba(0,0,0,0.04); }
+    .action-btn svg { width: 18px; height: 18px; stroke: #666; fill: none; }
+
+    /* Copy-ready post text panel */
+    .copy-panel {
+      width: 680px;
+      margin-top: 24px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .copy-panel__header {
+      background: var(--primary);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .copy-panel__header span {
+      background: rgba(255,255,255,0.15);
+      padding: 4px 12px;
+      border-radius: 9999px;
+      cursor: pointer;
+      font-size: 10px;
+    }
+
+    .copy-panel__body {
+      padding: 24px;
+      font-size: 14px;
+      line-height: 1.75;
+      color: var(--text);
+      white-space: pre-line;
+    }
+
+    .copy-panel__body strong { font-weight: 700; }
+    .copy-panel__body em { font-style: italic; }
+  </style>
+</head>
+<body>
+
+<div class="page-label">LinkedIn Post 01 — Preview &amp; Copy-Ready Text</div>
+
+<!-- LinkedIn Feed Preview -->
+<div class="feed-frame">
+
+  <!-- Header -->
+  <div class="post-header">
+    <div class="avatar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.80)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+    </div>
+    <div class="post-meta">
+      <div class="post-meta__name">Your Name</div>
+      <div class="post-meta__title">Responsible AI Awareness · Sustainability Advocate</div>
+      <div class="post-meta__time">Just now · 🌍</div>
+    </div>
+    <button class="follow-btn">+ Follow</button>
+  </div>
+
+  <!-- Post image (header visual) -->
+  <div class="post-image">
+    <div class="post-image__bg-ring" style="width:600px;height:600px;top:-200px;right:-200px;"></div>
+    <div class="post-image__bg-ring" style="width:360px;height:360px;top:-60px;right:-60px;"></div>
+
+    <div class="post-image__headline">
+      AI is "<span class="strikethrough">free.</span>"
+    </div>
+    <div class="post-image__sub">Except it's not.</div>
+
+    <div class="post-image__stats">
+      <div class="img-stat">
+        <div class="img-stat__num">500 ml</div>
+        <div class="img-stat__label">water / 50 prompts</div>
+      </div>
+      <div class="img-stat">
+        <div class="img-stat__num">10×</div>
+        <div class="img-stat__label">vs. search</div>
+      </div>
+      <div class="img-stat">
+        <div class="img-stat__num">944 Wh</div>
+        <div class="img-stat__label">5-sec video</div>
+      </div>
+    </div>
+
+    <div class="post-image__tag">#ResponsibleAI</div>
+  </div>
+
+  <!-- Post body -->
+  <div class="post-body">
+    <span class="hook">AI is "free." Except it's not.</span>
+    <p>Every prompt you send. Every image you generate. Every chatbot conversation.
+It costs energy. It costs water. It costs the planet.
+
+Most people don't know this — and that's exactly why I'm here.
+
+I'm not telling you to stop using AI. I believe AI can do real good in the right hands.
+But <strong>free</strong> is a word we need to rethink.</p>
+    <div class="see-more">…see more <span>↓</span></div>
+    <div class="hashtags">#ResponsibleAI #AIAwareness #Sustainability #DigitalMindfulness</div>
+  </div>
+
+  <!-- Reactions -->
+  <div class="reactions-bar">
+    <div class="reactions-left">
+      <span class="reaction-emojis">👍❤️💡</span>
+      <span>247</span>
+    </div>
+    <div class="reactions-right">38 comments · 64 reposts</div>
+  </div>
+
+  <!-- Action bar -->
+  <div class="action-bar">
+    <div class="action-btn">
+      <svg viewBox="0 0 24 24"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+      Like
+    </div>
+    <div class="action-btn">
+      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      Comment
+    </div>
+    <div class="action-btn">
+      <svg viewBox="0 0 24 24"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+      Repost
+    </div>
+    <div class="action-btn">
+      <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+      Send
+    </div>
+  </div>
+
+</div>
+
+<!-- Copy-ready post text -->
+<div class="copy-panel">
+  <div class="copy-panel__header">
+    Copy-ready post text
+    <span onclick="navigator.clipboard.writeText(document.getElementById('post-text').innerText)">📋 Copy</span>
+  </div>
+  <div class="copy-panel__body" id="post-text"><strong>AI is "free." Except it's not.</strong>
+
+Every prompt you send. Every image you generate. Every chatbot conversation.
+It costs energy. It costs water. It costs the planet.
+
+Most people don't know this — and that's exactly why I'm here.
+
+I'm not telling you to stop using AI. I believe AI can do real good in the right hands.
+But <em>free</em> is a word we need to rethink.
+
+The data centers running these models consume enormous amounts of electricity and water to stay cool.
+The exact numbers change as the technology evolves — but whether it's 1 liter or 0.75ml per session, the direction is the same:
+<strong>we spend natural resources every time we click "generate."</strong>
+
+And natural resources are not expandable.
+
+I care about this because I want my grandchildren to grow up with green gardens and clean air.
+That future doesn't happen by accident — it starts with awareness.
+
+So let's talk about it. Honestly. Out loud.
+
+<strong>Use AI. Use it wisely.</strong>
+
+—
+<em>What's one thing you didn't know about AI's environmental cost? Drop it in the comments.</em>
+
+#ResponsibleAI #AIAwareness #Sustainability #DigitalMindfulness</div>
+</div>
+
+</body>
+</html>
